@@ -1,18 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import UserEntry from './UserEntry.jsx';
 
-class Users extends React.Component {
+class Messages extends React.Component {
   constructor(props) {
     super(props);
   }
 
+
   render() {
     return (
       <div>
+        {this.props.message}
       </div>
     );
   }
 }
 
-export default Users;
+export default Messages;
