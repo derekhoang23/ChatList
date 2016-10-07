@@ -3,8 +3,13 @@ var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
 var router = require('./routes.js');
-
-
+require('dotenv').config();
+var api = require('instagram-node').instagram();
+app.use(bodyParser.urlencoded({ extended: true }));
+api.use({
+  client_id: process.env.Instagram_ClientId,
+  client_secret: process.env.Instagram_ClientSecret
+});
 app.use(express.static(path.join(__dirname, '../client/dist')));
 app.use(bodyParser.json());
 
