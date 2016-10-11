@@ -1,4 +1,4 @@
-import react from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import FriendsEntry from './FriendsEntry.jsx';
 
@@ -6,7 +6,7 @@ class Friendslist extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      friends: []
+      friends: ['Kimberley Duong', 'Barry Thach', 'Chris Trinh']
     };
   }
 
@@ -15,7 +15,7 @@ class Friendslist extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className='friends'>
         {this.state.friends.map((friend) =>
           <FriendsEntry friend={friend} />
         )}
@@ -23,3 +23,5 @@ class Friendslist extends React.Component {
     );
   }
 }
+
+export default Friendslist;

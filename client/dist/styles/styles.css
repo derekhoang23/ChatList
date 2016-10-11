@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+.friends {
+  width: 200px;
+  position: fixed;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border: 1px solid;
+}
+.friend {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 4px;
+}
+.message {
+  position: absolute;
+  bottom: 0;
+  height: 60px;
+}

@@ -1,15 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Users from './Users.jsx';
 import Input from './Input.jsx';
 import Messages from './Messages.jsx';
+import Friendslist from './Friendslist.jsx';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      users: [],
-      messages: []
+      users: []
     };
   }
 
@@ -28,12 +27,7 @@ class App extends React.Component {
     return (
       <div>
         <div>
-          {this.state.messages.map((message, i) =>
-            <Messages key={i} message={message}/>
-          )}
-        </div>
-        <div>
-          <Input enter={this.enterMessage.bind(this)}/>
+          <Friendslist />
         </div>
       </div>
     );
