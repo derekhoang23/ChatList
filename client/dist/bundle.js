@@ -103,6 +103,14 @@
 	  _createClass(App, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      fetch('http://localhost:3000', {
+	        method: 'get'
+	      }).then(function (res) {
+	        console.log('res', res);
+	      }).catch(function (err) {
+	        console.log('err auth');
+	      });
+
 	      var name = prompt('What is your username?');
 	      this.setState({
 	        users: this.state.users.concat([name])

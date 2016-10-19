@@ -42,12 +42,16 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
+    "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
+    "express-session": "^1.14.1",
     "instagram-node": "^0.5.8",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "request": "^2.75.0",
     "webpack": "^1.13.2",
     "whatwg-fetch": "^1.0.0"
   }
