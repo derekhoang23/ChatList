@@ -106,14 +106,11 @@
 	      fetch('http://localhost:3000', {
 	        method: 'get'
 	      }).then(function (res) {
-	        console.log('res', res);
+	        return res.json();
+	      }).then(function (data) {
+	        console.log('data', data);
 	      }).catch(function (err) {
 	        console.log('err auth');
-	      });
-
-	      var name = prompt('What is your username?');
-	      this.setState({
-	        users: this.state.users.concat([name])
 	      });
 	    }
 	  }, {

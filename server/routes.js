@@ -4,7 +4,7 @@ var igAuth = require('./auth/instagramAuth.js');
 
 
 // Authorization routes
-router.get('/authhandle', igAuth.verifyUser);
+router.get('/handleauth', igAuth.verifyUser);
 router.get('/', igAuth.auth);
 // Instagram routes
 

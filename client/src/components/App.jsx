@@ -15,16 +15,17 @@ class App extends React.Component {
   componentDidMount() {
     fetch('http://localhost:3000', {
       method: 'get'
-    }).then(res => {
-      console.log('res', res);
-    }).catch(err => {
+    }).then((res) =>
+      res.json()
+    )
+    .then((data) => {
+      console.log('data', data);
+    })
+    .catch(err => {
       console.log('err auth');
     });
 
-    var name = prompt('What is your username?');
-    this.setState({
-      users: this.state.users.concat([name])
-    });
+
   }
 
   enterMessage(value) {
