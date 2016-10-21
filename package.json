@@ -51,10 +51,13 @@
     "instagram-node": "^0.5.8",
     "mongoose": "^4.6.4",
     "passport": "^0.3.2",
+    "passport-http-bearer": "^1.0.1",
+    "passport-instagram": "^1.0.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "request": "^2.75.0",
     "request-promise": "^4.1.1",
+    "simple-oauth2": "^1.0.0",
     "webpack": "^1.13.2",
     "whatwg-fetch": "^1.0.0"
   }

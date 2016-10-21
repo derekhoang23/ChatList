@@ -4,13 +4,22 @@ var path = require('path');
 var request = require('request');
 var bodyParser = require('body-parser');
 var router = require('./routes.js');
-var passport = require('passport');
-app.use(express.static(path.join(__dirname, '../client/dist')));
+var session = require('express-session');
+// var api = require('instagram-node').instagram();
+// app.use(express.static(path.join(__dirname, '../client/dist')));
 require('dotenv').config();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: true
+    }
+}))
 app.all('/*', function(req, res, next) {
   // access control allow origin has to be chrome:extension/chromeID
   res.header('Access-Control-Allow-Origin', '*');
@@ -22,15 +31,9 @@ app.all('/*', function(req, res, next) {
 
 
 app.use('/', router);
-app.get('/login',
-  passport.authenticate('oauth2'));
 
-app.get('/auth/example/callback',
-  passport.authenticate('oauth2', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  });
+
+
 app.listen(3000, function() {
   console.log('Listening to port 3000!');
 });

@@ -1,13 +1,10 @@
-var mongoose = require('mongoose');
+var mongoose = require('../db.js');
 var Schema = mongoose.Schema;
-
 var userSchema = new Schema({
-  name: String,
-  username: { type: String, required: true, unique: true},
-  access_token: { type: String, require: true},
-  created_at: Date
+  instagramId: String,
+  accesstoken: String,
+  instagramName: String
 });
 
 var User = mongoose.model('User', userSchema);
-
 module.exports = User;
