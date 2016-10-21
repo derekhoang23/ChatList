@@ -5,21 +5,20 @@ var request = require('request');
 var bodyParser = require('body-parser');
 var router = require('./routes.js');
 var session = require('express-session');
-// var api = require('instagram-node').instagram();
-// app.use(express.static(path.join(__dirname, '../client/dist')));
 require('dotenv').config();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 app.use(session({
-    secret: 'keyboard cat',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        secure: true
-    }
-}))
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: false
+  }
+}));
+app.use(express.static(path.join(__dirname, '../client/dist/')));
+
 app.all('/*', function(req, res, next) {
   // access control allow origin has to be chrome:extension/chromeID
   res.header('Access-Control-Allow-Origin', '*');
@@ -28,7 +27,6 @@ app.all('/*', function(req, res, next) {
   if (req.method.toLowerCase() !== 'options') { return next(); }
   return res.sendStatus(204);
 });
-
 
 app.use('/', router);
 

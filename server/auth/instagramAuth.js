@@ -2,8 +2,7 @@ var rp = require('request-promise');
 require('dotenv').config();
 var path = require('path');
 var User = require('../db/models/users.js');
-var Promise = require('bluebird');
-var request = Promise.promisifyAll(require('request'));
+var request = require('request-promise');
 // var Promise = require('bluebird');
 // Promise.promisfy(User);
 var redirect_uri = 'http://localhost:3000/handleauth';
@@ -25,6 +24,7 @@ var authUser = function(req, res) {
   if (req.session.token === undefined) {
     res.redirect(instalink);
   } else {
+    console.log('here')
     res.sendFile(path.join(__dirname + '../../client/dist/index.html'));
   }
   // res.redirect(api.get_authorization_url(redirect_uri, {scope: ['likes'], state: 'a state'}));
@@ -62,13 +62,21 @@ var handleauth = function(req, res) {
       if (err) {
         console.log('error in saving', err);
       } else {
-        console.log('saved', user);
+        console.log('saved to db');
+        return user;
       }
     })
     .catch(err => {
       console.log('err', err);
     })
-  });
+  })
+  .then(user => {
+    req.session.token = user.access_token;
+    res.redirect('/');
+  })
+  .catch(err => {
+    console.log('error', err);
+  })
 };
 
 module.exports = {
