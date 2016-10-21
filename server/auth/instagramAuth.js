@@ -1,16 +1,16 @@
 var rp = require('request-promise');
 require('dotenv').config();
 var path = require('path');
-
+// var passport = require('passport');
 
 var redirect_uri = 'http://localhost:3000/handleauth';
-var instalink = `https://api.instagram.com/oauth/authorize/?client_id=${process.env.Instagram_ClientId}&redirect_uri=${redirect_uri}&response_type=code`
-console.log(instalink);
+var instalink = `https://api.instagram.com/oauth/authorize/?client_id=${process.env.Instagram_ClientId}&redirect_uri=${redirect_uri}&response_type=code`;
+
 var verifyUser = function(req, res) {
       //handle token retrieval here
       //do a get request as per the instagram documentation using the code sent back
   var code = req.query.code;
-
+  console.log('code', code);
   var url = 'https://api.instagram.com/oauth/access_token';
   var options = {
     method: 'POST',
@@ -21,21 +21,20 @@ var verifyUser = function(req, res) {
       redirect_uri: redirect_uri,
       code: code
     },
-    json: true,
     url: url
   };
 
   rp(options)
     .then((body) => {
-      console.log('body', body);
-      res.send({access_token: body.access_token, user: body.user.username})
-    })
-    .then(() => {
       res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
+      // res.send({token: body.access_token})
+      // console.log('body', body);
     })
+    // .then(() => {
+    // })
     .catch(err => {
       console.log('error', err);
-      res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
+      // res.sendFile(path.join(__dirname, '../../client/dist/index.html'));
 
     });
           //body should look something like this
@@ -56,8 +55,7 @@ var auth = function(req, res) {
   console.log('Visted Index');
   res.redirect(instalink);
 };
-
 module.exports = {
   auth,
   verifyUser
-}
+};

@@ -100,20 +100,29 @@
 	    return _this;
 	  }
 
+	  // componentDidMount() {
+	  //   fetch('http://localhost:3000/auth', {
+	  //     method: 'GET',
+	  //     mode: 'cors',
+	  //     headers: {
+	  //       'Content-Type': 'application/json'
+	  //     }
+	  //   }).then((res) =>
+	  //     res.json()
+	  //   )
+	  //   .then((data) => {
+	  //     console.log('data', data);
+	  //   })
+	  //   .catch(err => {
+	  //     console.log('err auth');
+	  //   });
+
+
+	  // }
+	  //
+
+
 	  _createClass(App, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      fetch('http://localhost:3000', {
-	        method: 'get'
-	      }).then(function (res) {
-	        return res.json();
-	      }).then(function (data) {
-	        console.log('data', data);
-	      }).catch(function (err) {
-	        console.log('err auth');
-	      });
-	    }
-	  }, {
 	    key: 'enterMessage',
 	    value: function enterMessage(value) {
 	      this.setState({ messages: this.state.messages.concat([value]) });

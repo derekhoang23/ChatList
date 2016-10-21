@@ -4,10 +4,11 @@ var path = require('path');
 var request = require('request');
 var bodyParser = require('body-parser');
 var router = require('./routes.js');
-require('dotenv').config();
-var api = require('instagram-node').instagram();
-app.use(bodyParser.urlencoded({ extended: true }));
+var passport = require('passport');
 app.use(express.static(path.join(__dirname, '../client/dist')));
+require('dotenv').config();
+
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.all('/*', function(req, res, next) {
@@ -21,6 +22,15 @@ app.all('/*', function(req, res, next) {
 
 
 app.use('/', router);
+app.get('/login',
+  passport.authenticate('oauth2'));
+
+app.get('/auth/example/callback',
+  passport.authenticate('oauth2', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  });
 app.listen(3000, function() {
   console.log('Listening to port 3000!');
 });
