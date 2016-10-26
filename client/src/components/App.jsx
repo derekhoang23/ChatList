@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import Input from './Input.jsx';
 import Messages from './Messages.jsx';
 import Friendslist from './Friendslist.jsx';
+import Logout from './Logout.jsx'
 
 
 class App extends React.Component {
@@ -12,9 +13,9 @@ class App extends React.Component {
       users: []
     };
   }
-
+  //
   // componentDidMount() {
-  //   fetch('http://localhost:3000/auth', {
+  //   fetch('http://localhost:3000/handleauth', {
   //     method: 'GET',
   //     mode: 'cors',
   //     headers: {
@@ -29,9 +30,7 @@ class App extends React.Component {
   //   .catch(err => {
   //     console.log('err auth');
   //   });
-
-
-
+  //
   // }
   //
   enterMessage(value) {
@@ -43,6 +42,9 @@ class App extends React.Component {
       <div>
         <div>
           <Friendslist />
+        </div>
+        <div>
+          <Logout />
         </div>
       </div>
     );

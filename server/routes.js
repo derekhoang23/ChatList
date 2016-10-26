@@ -1,9 +1,10 @@
 var path = require('path');
 var router = require('express').Router();
-var igAuth = require('./auth/instagramAuth.js');
+var igAuth = require('./controller/authController.js');
 var passport = require('passport');
 var express = require('express');
 var app = require('./server.js');
+var util = require('./util/utility.js');
 // Authorization routes
 router.get('/handleauth', igAuth.handleauth);
 router.get('/redirect', igAuth.authUser);
@@ -11,15 +12,8 @@ router.get('/redirect', igAuth.authUser);
 // Instagram routes
 
 // User routes
-router.get('/', function(req, res) {
-  console.log('ses', req.session);
-  if (req.session.token) {
-    console.log('esist');
-    res.sendFile(path.join(__dirname, '../client/index.html'));
-  } else {
-    res.redirect('/redirect');
-  }
-});
+router.get('/', util.checkUser, igAuth.directHome);
+router.get('/logout', igAuth.logout);
 
 
 module.exports = router;

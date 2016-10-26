@@ -1,10 +1,10 @@
 var express = require('express');
-var app = express();
 var path = require('path');
 var request = require('request');
 var bodyParser = require('body-parser');
 var router = require('./routes.js');
 var session = require('express-session');
+var app = express();
 require('dotenv').config();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -14,7 +14,8 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
-    secure: false
+    secure: false,
+    maxAge: 60000
   }
 }));
 app.use(express.static(path.join(__dirname, '../client/dist/')));
