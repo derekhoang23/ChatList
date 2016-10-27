@@ -6,11 +6,31 @@ class Friendslist extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      friends: ['Kimberley Duong', 'Barry Thach', 'Chris Trinh']
+      friends: []
     };
   }
 
   // on load pull all friends data
+  componentDidMount() {
+    fetch('http://localhost:3000/userList', {
+      method: 'GET',
+      credentials: 'include',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res =>
+      res.json())
+      .then(data => {
+        this.setState({
+          friends: this.state.friends.concat([data.name])
+        });
+      })
+      .catch(err => {
+        console.log('error in getting instagram feedback', err);
+      });
+  }
 
 
   render() {

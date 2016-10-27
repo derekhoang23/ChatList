@@ -9,28 +9,8 @@ import Logout from './Logout.jsx'
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      users: []
-    };
   }
 
-  componentDidMount() {
-    fetch('http://localhost:3000/userList', {
-      method: 'GET',
-      mode: 'same-orgin',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(res =>
-      res.json())
-      .then(data => {
-        console.log('data', data);
-      })
-      .catch(err => {
-        console.log('error in getting instagram feedback', err);
-      });
-  }
 
   enterMessage(value) {
     this.setState({messages: this.state.messages.concat([value])});

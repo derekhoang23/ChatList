@@ -17,7 +17,6 @@ var logout = function(req, res) {
 
 var authUser = function(req, res) {
   console.log('redirecting to auth ig');
-  console.log('ueirfhrufhr')
     res.redirect(instalink);
 };
 
@@ -46,9 +45,9 @@ var handleauth = function(req, res) {
             console.log('new user', body);
             return new User({ instagramName: body.user.username, accesstoken: body.access_token, instagramId: body.user.id})
             .saveAsync()
-              .spread(user => {
+              .then(user => {
                 console.log('saved user to db', user)
-                util.createSession(req, res, user.accesstoken)
+                util.createSession(req, res, user.accesstoken);
                 // res.sendFile(path.join(__dirname, '../../client/index.html'));
               })
               .catch(() => {
@@ -70,8 +69,7 @@ var handleauth = function(req, res) {
 };
 
 var directHome = function(req, res) {
-    console.log('req', req.session);
-    res.sendFile(path.join(__dirname, '../../client/index.html'));
+      res.sendFile(path.join(__dirname, '../../client/index.html'));
 };
 
 module.exports = {

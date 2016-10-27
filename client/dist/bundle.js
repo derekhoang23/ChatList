@@ -96,32 +96,10 @@
 	  function App(props) {
 	    _classCallCheck(this, App);
 
-	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-
-	    _this.state = {
-	      users: []
-	    };
-	    return _this;
+	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	  }
 
 	  _createClass(App, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      fetch('http://localhost:3000/userList', {
-	        method: 'GET',
-	        mode: 'same-orgin',
-	        headers: {
-	          'Content-Type': 'application/json'
-	        }
-	      }).then(function (res) {
-	        return res.json();
-	      }).then(function (data) {
-	        console.log('data', data);
-	      }).catch(function (err) {
-	        console.log('error in getting instagram feedback', err);
-	      });
-	    }
-	  }, {
 	    key: 'enterMessage',
 	    value: function enterMessage(value) {
 	      this.setState({ messages: this.state.messages.concat([value]) });
@@ -21697,7 +21675,7 @@
 	    var _this = _possibleConstructorReturn(this, (Friendslist.__proto__ || Object.getPrototypeOf(Friendslist)).call(this, props));
 
 	    _this.state = {
-	      friends: ['Kimberley Duong', 'Barry Thach', 'Chris Trinh']
+	      friends: []
 	    };
 	    return _this;
 	  }
@@ -21706,6 +21684,28 @@
 
 
 	  _createClass(Friendslist, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      fetch('http://localhost:3000/userList', {
+	        method: 'GET',
+	        credentials: 'include',
+	        mode: 'no-cors',
+	        headers: {
+	          'Content-Type': 'application/json'
+	        }
+	      }).then(function (res) {
+	        return res.json();
+	      }).then(function (data) {
+	        _this2.setState({
+	          friends: _this2.state.friends.concat([data.name])
+	        });
+	      }).catch(function (err) {
+	        console.log('error in getting instagram feedback', err);
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
