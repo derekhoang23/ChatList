@@ -13,26 +13,25 @@ class App extends React.Component {
       users: []
     };
   }
-  //
-  // componentDidMount() {
-  //   fetch('http://localhost:3000/handleauth', {
-  //     method: 'GET',
-  //     mode: 'cors',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     }
-  //   }).then((res) =>
-  //     res.json()
-  //   )
-  //   .then((data) => {
-  //     console.log('data', data);
-  //   })
-  //   .catch(err => {
-  //     console.log('err auth');
-  //   });
-  //
-  // }
-  //
+
+  componentDidMount() {
+    fetch('http://localhost:3000/userList', {
+      method: 'GET',
+      mode: 'same-orgin',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res =>
+      res.json())
+      .then(data => {
+        console.log('data', data);
+      })
+      .catch(err => {
+        console.log('error in getting instagram feedback', err);
+      });
+  }
+
   enterMessage(value) {
     this.setState({messages: this.state.messages.concat([value])});
   }

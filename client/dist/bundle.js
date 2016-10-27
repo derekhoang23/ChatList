@@ -103,29 +103,25 @@
 	    };
 	    return _this;
 	  }
-	  //
-	  // componentDidMount() {
-	  //   fetch('http://localhost:3000/handleauth', {
-	  //     method: 'GET',
-	  //     mode: 'cors',
-	  //     headers: {
-	  //       'Content-Type': 'application/json'
-	  //     }
-	  //   }).then((res) =>
-	  //     res.json()
-	  //   )
-	  //   .then((data) => {
-	  //     console.log('data', data);
-	  //   })
-	  //   .catch(err => {
-	  //     console.log('err auth');
-	  //   });
-	  //
-	  // }
-	  //
-
 
 	  _createClass(App, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      fetch('http://localhost:3000/userList', {
+	        method: 'GET',
+	        mode: 'same-orgin',
+	        headers: {
+	          'Content-Type': 'application/json'
+	        }
+	      }).then(function (res) {
+	        return res.json();
+	      }).then(function (data) {
+	        console.log('data', data);
+	      }).catch(function (err) {
+	        console.log('error in getting instagram feedback', err);
+	      });
+	    }
+	  }, {
 	    key: 'enterMessage',
 	    value: function enterMessage(value) {
 	      this.setState({ messages: this.state.messages.concat([value]) });
@@ -22299,6 +22295,9 @@
 	      }).then(function (res) {
 	        console.log('res', res);
 	        return res.json();
+	      }).then(function (data) {
+	        console.log('data', data);
+	        window.location.assign(data.url);
 	      }).catch(function (err) {
 	        console.log('error', err);
 	      });

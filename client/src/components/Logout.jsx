@@ -18,6 +18,10 @@ class Logout extends React.Component {
         console.log('res', res)
         return res.json();
       })
+      .then(data => {
+        console.log('data', data);
+        window.location.assign(data.url)
+      })
       .catch(err => {
         console.log('error', err);
       })

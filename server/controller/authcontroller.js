@@ -8,12 +8,11 @@ var redirect_uri = 'http://localhost:3000/handleauth';
 var instalink = `https://api.instagram.com/oauth/authorize/?client_id=${process.env.Instagram_ClientId}&redirect_uri=${redirect_uri}&response_type=code`;
 
 var logout = function(req, res) {
-  console.log('session before de', req.session);
-  req.session.destroy();
-  console.log('sessoin after de', req.session);
-  res.redirect(201, '/redirect');
-}
-
+  req.session.destroy(function() {
+    console.log(instalink);
+    res.status(201).send({url: instalink});
+  })
+};
 
 
 var authUser = function(req, res) {
