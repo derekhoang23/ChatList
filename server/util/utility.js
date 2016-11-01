@@ -14,8 +14,9 @@ var checkUser = function(req, res, next) {
   }
 };
 
-var createSession = function(req, res, newToken) {
-    req.session.token = newToken;
+var createSession = function(req, res, body) {
+    req.session.token = body.accesstoken;
+    req.session.username = body.instagramName ;
     return req.session.save(err => {
       if (err) {
         console.log('did not save sess', err);

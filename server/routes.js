@@ -11,7 +11,8 @@ router.get('/handleauth', igAuth.handleauth);
 router.get('/redirect', igAuth.authUser);
 // router.get('/', igAuth.verify);
 // Instagram routes
-router.get('/userList', util.checkUser, igFeed);
+router.get('/getPics', util.checkUser, igFeed.getPics);
+router.get('/userList', util.checkUser, igFeed.retrieveUsers);
 
 // User routes
 router.get('/', util.checkUser, igAuth.directHome);

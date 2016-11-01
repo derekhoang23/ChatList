@@ -47,15 +47,15 @@ var handleauth = function(req, res) {
             .saveAsync()
               .then(user => {
                 console.log('saved user to db', user)
-                util.createSession(req, res, user.accesstoken);
+                util.createSession(req, res, user);
                 // res.sendFile(path.join(__dirname, '../../client/index.html'));
               })
               .catch(() => {
                 console.log('did not save user to db');
               })
           } else {
-            console.log('user already in db');
-            util.createSession(req, res, user.accesstoken);
+            console.log('user already in db', user);
+            util.createSession(req, res, user);
             // res.sendFile(path.join(__dirname, '../../client/index.html'));
           }
         })
