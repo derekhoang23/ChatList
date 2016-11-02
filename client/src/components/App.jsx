@@ -10,7 +10,7 @@ import IgFeed from './IgFeed.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    
+
   }
 
 
@@ -22,15 +22,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <div>
           <Friendslist />
-        </div>
-        <div>
-          <IgFeed />
-        </div>
-        <div>
           <Logout />
-        </div>
       </div>
     );
   }

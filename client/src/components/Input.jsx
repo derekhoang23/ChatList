@@ -21,13 +21,16 @@ class Input extends React.Component {
 
   render() {
     return (
-      <form className='message' onSubmit={this.handleSubmit.bind(this)} >
-        <input
-        type='text'
-        value= {this.state.messages}
-        onChange={this.handleChange.bind(this)}
-        />
-      </form>
+      <div className='flex-outer'>
+        <button className='option'>
+          <span className='igpic'></span>
+        </button>
+        <input className='input' type='text'
+        value={this.state.messages}
+        onChange={this.handleChange.bind(this)}/>
+      </div>
+
+
     );
   }
 }

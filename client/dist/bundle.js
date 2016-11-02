@@ -114,21 +114,8 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(_Friendslist2.default, null)
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(_IgFeed2.default, null)
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(_Logout2.default, null)
-	        )
+	        _react2.default.createElement(_Friendslist2.default, null),
+	        _react2.default.createElement(_Logout2.default, null)
 	      );
 	    }
 	  }]);
@@ -21566,13 +21553,16 @@
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        'form',
-	        { className: 'message', onSubmit: this.handleSubmit.bind(this) },
-	        _react2.default.createElement('input', {
-	          type: 'text',
+	        'div',
+	        { className: 'flex-outer' },
+	        _react2.default.createElement(
+	          'button',
+	          { className: 'option' },
+	          _react2.default.createElement('span', { className: 'igpic' })
+	        ),
+	        _react2.default.createElement('input', { className: 'input', type: 'text',
 	          value: this.state.messages,
-	          onChange: this.handleChange.bind(this)
-	        })
+	          onChange: this.handleChange.bind(this) })
 	      );
 	    }
 	  }]);
@@ -21667,6 +21657,10 @@
 
 	var _FriendsEntry2 = _interopRequireDefault(_FriendsEntry);
 
+	var _Input = __webpack_require__(173);
+
+	var _Input2 = _interopRequireDefault(_Input);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21684,7 +21678,9 @@
 	    var _this = _possibleConstructorReturn(this, (Friendslist.__proto__ || Object.getPrototypeOf(Friendslist)).call(this, props));
 
 	    _this.state = {
-	      friends: []
+	      friends: [],
+	      show: false
+
 	    };
 	    return _this;
 	  }
@@ -21715,14 +21711,25 @@
 	      });
 	    }
 	  }, {
+	    key: 'showText',
+	    value: function showText() {
+	      this.setState({
+	        show: !this.state.show
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this3 = this;
+
+	      var displayText = _react2.default.createElement(_Input2.default, null);
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'friends' },
 	        this.state.friends.map(function (friend) {
-	          return _react2.default.createElement(_FriendsEntry2.default, { friend: friend });
-	        })
+	          return _react2.default.createElement(_FriendsEntry2.default, { click: _this3.showText.bind(_this3), friend: friend });
+	        }),
+	        this.state.show ? displayText : null
 	      );
 	    }
 	  }]);
@@ -21783,28 +21790,15 @@
 	  }
 
 	  _createClass(FriendsEntry, [{
-	    key: 'showText',
-	    value: function showText() {
-	      this.setState({
-	        show: !this.state.show
-	      });
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var displayText = _react2.default.createElement(_Input2.default, null);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'friend', onClick: this.showText.bind(this) },
+	          { className: 'friend', onClick: this.props.click },
 	          this.props.friend
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          this.state.show ? displayText : null
 	        )
 	      );
 	    }
@@ -21931,7 +21925,8 @@
 	    var _this = _possibleConstructorReturn(this, (IgFeed.__proto__ || Object.getPrototypeOf(IgFeed)).call(this, props));
 
 	    _this.state = {
-	      images: []
+	      images: [],
+	      showIg: false
 	    };
 	    return _this;
 	  }
@@ -21960,12 +21955,17 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(
+	      var showIgFeed = _react2.default.createElement(
 	        'div',
 	        null,
 	        this.state.images.map(function (image) {
 	          return _react2.default.createElement(_IgFeedEntry2.default, { images: image });
 	        })
+	      );
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        this.state.showIg ? showIgFeed : null
 	      );
 	    }
 	  }]);

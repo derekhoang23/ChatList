@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import FriendsEntry from './FriendsEntry.jsx';
+import Input from './Input.jsx';
 
 class Friendslist extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      friends: []
+      friends: [],
+      show: false
+
     };
   }
 
@@ -32,13 +35,21 @@ class Friendslist extends React.Component {
       });
   }
 
+  showText() {
+    this.setState({
+      show: !this.state.show
+    });
+  }
+
 
   render() {
+    var displayText = <Input />;
     return (
       <div className='friends'>
         {this.state.friends.map((friend) =>
-          <FriendsEntry friend={friend} />
+          <FriendsEntry click={this.showText.bind(this)} friend={friend} />
         )}
+        {this.state.show ? displayText : null}
       </div>
     );
   }

@@ -5,7 +5,8 @@ class IgFeed extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      images: []
+      images: [],
+      showIg: false
     };
   }
 
@@ -32,11 +33,14 @@ class IgFeed extends React.Component {
   }
 
   render() {
-    return (
-      <div>
+    var showIgFeed =  <div>
       {this.state.images.map(image =>
         <IgFeedEntry images={image} />
       )}
+      </div>;
+    return (
+      <div>
+      { this.state.showIg ? showIgFeed : null }
       </div>
     )
   }

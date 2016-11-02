@@ -9,23 +9,14 @@ class FriendsEntry extends React.Component {
     };
   }
 
-  showText() {
-    this.setState({
-      show: !this.state.show
-    })
-  }
 
 
 
   render() {
-    var displayText = <Input />;
     return (
       <div>
-        <div className='friend' onClick={this.showText.bind(this)}>
+        <div className='friend' onClick={this.props.click}>
           {this.props.friend}
-        </div>
-        <div>
-          {this.state.show ? displayText : null}
         </div>
       </div>
     );

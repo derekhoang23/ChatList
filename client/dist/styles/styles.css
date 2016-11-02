@@ -18,11 +18,33 @@ body {
   padding-right: 10px;
   margin-bottom: 4px;
 }
-.message {
-  position: absolute;
-  bottom: 0;
-  height: 60px;
-}
 .button {
   margin-left: 400px;
+}
+
+.flex-outer {
+  display: flex;
+  align-items: center;
+}
+.input {
+  flex: 1;
+  border-radius: 2px 0 0 2px;
+  border-left: 0;
+  border: 1px solid hsla(31,15%,50%,.25);
+}
+.options {
+  border-radius: 2px 0 0 2px;
+  border: 1px solid hsla(31,15%,50%,.25);
+  padding: .5em .75em;
+  background-color: hsla(31,15%,50%,.1);
+  color: #666;
+  font: inherit;
+}
+.igpic {
+  display: inline;
+  width: auto;
+  height: auto;
+  line-height: normal;
+  vertical-align: baseline;
+  background-image: none;
 }

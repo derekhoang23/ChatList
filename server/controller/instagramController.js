@@ -11,8 +11,7 @@ var getPics = function(req, res) {
     var feed = JSON.parse(result);
     _.map(feed.data, image => {
       urls.push(image.images.thumbnail.url);
-    })
-    console.log('urls', urls.length);
+    });
 
     res.send({urls: urls});
   })
