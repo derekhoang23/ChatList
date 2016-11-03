@@ -25,8 +25,12 @@ body {
 .flex-outer {
   display: flex;
   align-items: center;
+  height: 100%;
 }
-.input {
+/*.end {
+  align-self: flex-end;
+}*/
+/*.input {
   flex: 1;
   border-radius: 2px 0 0 2px;
   border-left: 0;
@@ -47,4 +51,4 @@ body {
   line-height: normal;
   vertical-align: baseline;
   background-image: none;
-}
+}*/

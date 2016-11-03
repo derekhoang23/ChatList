@@ -24,6 +24,7 @@ class App extends React.Component {
       <div>
           <Friendslist />
           <Logout />
+          <Input />
       </div>
     );
   }

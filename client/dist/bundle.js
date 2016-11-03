@@ -115,7 +115,8 @@
 	        'div',
 	        null,
 	        _react2.default.createElement(_Friendslist2.default, null),
-	        _react2.default.createElement(_Logout2.default, null)
+	        _react2.default.createElement(_Logout2.default, null),
+	        _react2.default.createElement(_Input2.default, null)
 	      );
 	    }
 	  }]);
@@ -21556,13 +21557,17 @@
 	        'div',
 	        { className: 'flex-outer' },
 	        _react2.default.createElement(
-	          'button',
-	          { className: 'option' },
-	          _react2.default.createElement('span', { className: 'igpic' })
-	        ),
-	        _react2.default.createElement('input', { className: 'input', type: 'text',
-	          value: this.state.messages,
-	          onChange: this.handleChange.bind(this) })
+	          'div',
+	          { className: 'end' },
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'option' },
+	            _react2.default.createElement('span', { className: 'igpic' })
+	          ),
+	          _react2.default.createElement('input', { className: 'input', type: 'text',
+	            value: this.state.messages,
+	            onChange: this.handleChange.bind(this) })
+	        )
 	      );
 	    }
 	  }]);
