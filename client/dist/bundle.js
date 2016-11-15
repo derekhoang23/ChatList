@@ -100,7 +100,12 @@
 	  function App(props) {
 	    _classCallCheck(this, App);
 
-	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+	    _this.state = {
+	      show: false
+	    };
+	    return _this;
 	  }
 
 	  _createClass(App, [{
@@ -109,14 +114,23 @@
 	      this.setState({ messages: this.state.messages.concat([value]) });
 	    }
 	  }, {
+	    key: 'clickUser',
+	    value: function clickUser() {
+	      this.setState({
+	        show: !this.state.show
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var input = _react2.default.createElement(_Input2.default, null);
+
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(_Friendslist2.default, null),
 	        _react2.default.createElement(_Logout2.default, null),
-	        _react2.default.createElement(_Input2.default, null)
+	        _react2.default.createElement(_Friendslist2.default, { click: this.clickUser.bind(this) }),
+	        this.state.show ? input : null
 	      );
 	    }
 	  }]);
@@ -21555,7 +21569,12 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'flex-outer' },
+	        { className: 'input' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'messages' },
+	          this.state.messages
+	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'end' },
@@ -21564,7 +21583,7 @@
 	            { className: 'option' },
 	            _react2.default.createElement('span', { className: 'igpic' })
 	          ),
-	          _react2.default.createElement('input', { className: 'input', type: 'text',
+	          _react2.default.createElement('input', { className: 'input-box', type: 'text',
 	            value: this.state.messages,
 	            onChange: this.handleChange.bind(this) })
 	        )
@@ -21668,6 +21687,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -21727,14 +21748,14 @@
 	    value: function render() {
 	      var _this3 = this;
 
-	      var displayText = _react2.default.createElement(_Input2.default, null);
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'friends' },
 	        this.state.friends.map(function (friend) {
-	          return _react2.default.createElement(_FriendsEntry2.default, { click: _this3.showText.bind(_this3), friend: friend });
-	        }),
-	        this.state.show ? displayText : null
+	          var _React$createElement;
+
+	          return _react2.default.createElement(_FriendsEntry2.default, (_React$createElement = { click: _this3.showText.bind(_this3) }, _defineProperty(_React$createElement, 'click', _this3.props.click), _defineProperty(_React$createElement, 'friend', friend), _React$createElement));
+	        })
 	      );
 	    }
 	  }]);
@@ -21799,12 +21820,8 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'friend', onClick: this.props.click },
-	          this.props.friend
-	        )
+	        { className: 'friend', onClick: this.props.click },
+	        this.props.friend
 	      );
 	    }
 	  }]);

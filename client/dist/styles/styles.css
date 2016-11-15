@@ -3,7 +3,41 @@ body {
   padding: 0;
   height: 100%;
 }
+
 .friends {
+  border: 1px solid;
+  position: relative;
+  width: 250px;
+  height: 100vh;
+}
+
+.friend {
+  width: 50%;
+  margin: auto;
+  text-align: center;
+  padding: 5px;
+}
+
+.button {
+  border: 1px solid;
+  position: absolute;;
+  right: 0px;
+}
+
+.input {
+  border: 1px solid;
+  position: relative;
+  bottom: 300px;
+  width: 180px;
+  height: 180px;
+  left: 300px;
+}
+
+.end {
+  position: absolute;
+  bottom: 1px;
+}
+/*.friends {
   width: 200px;
   position: fixed;
   height: 100%;
@@ -26,7 +60,7 @@ body {
   display: flex;
   align-items: center;
   height: 100%;
-}
+}*/
 /*.end {
   align-self: flex-end;
 }*/

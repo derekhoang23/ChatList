@@ -21,12 +21,15 @@ class Input extends React.Component {
 
   render() {
     return (
-      <div className='flex-outer'>
+      <div className='input'>
+        <div className='messages'>
+          {this.state.messages}
+        </div>
         <div className='end'>
           <button className='option' >
           <span className='igpic'></span>
           </button>
-          <input className='input' type='text'
+          <input className='input-box' type='text'
           value={this.state.messages}
           onChange={this.handleChange.bind(this)}/>
         </div>

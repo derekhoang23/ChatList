@@ -43,13 +43,13 @@ class Friendslist extends React.Component {
 
 
   render() {
-    var displayText = <Input />;
+    // var displayText = <Input />;
     return (
       <div className='friends'>
         {this.state.friends.map((friend) =>
-          <FriendsEntry click={this.showText.bind(this)} friend={friend} />
+          <FriendsEntry click={this.showText.bind(this)} click={this.props.click} friend={friend} />
         )}
-        {this.state.show ? displayText : null}
+        {/* {this.state.show ? displayText : null} */}
       </div>
     );
   }

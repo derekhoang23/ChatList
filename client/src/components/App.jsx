@@ -10,7 +10,9 @@ import IgFeed from './IgFeed.jsx';
 class App extends React.Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      show: false
+    };
   }
 
 
@@ -18,13 +20,21 @@ class App extends React.Component {
     this.setState({messages: this.state.messages.concat([value])});
   }
 
+  clickUser() {
+    this.setState({
+      show: !this.state.show
+    });
+  }
+
 
   render() {
+    var input = <Input/ >;
+
     return (
       <div>
-          <Friendslist />
           <Logout />
-          <Input />
+          <Friendslist click={this.clickUser.bind(this)}/>
+          {this.state.show ? input : null}
       </div>
     );
   }
