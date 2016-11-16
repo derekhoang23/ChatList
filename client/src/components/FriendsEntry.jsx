@@ -14,9 +14,11 @@ class FriendsEntry extends React.Component {
 
   render() {
     return (
+      <div>
         <div className='friend' onClick={this.props.click}>
           {this.props.friend}
         </div>
+      </div>
     );
   }
 }
