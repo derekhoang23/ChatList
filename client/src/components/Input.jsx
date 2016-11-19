@@ -28,12 +28,11 @@ class Input extends React.Component {
 
   render() {
     return (
-      <div className='input' style={{overflow-y: auto}}>
+      <div className='input'>
         {this.state.send.map(message => {
           return <Messages message={message}/>;
         })}
-        <div className='end'>
-          <form onSubmit={this.handleSubmit.bind(this)}>
+          <form className='form' onSubmit={this.handleSubmit.bind(this)}>
             <button className='option' >
             <span className='igpic'></span>
             </button>
@@ -41,7 +40,6 @@ class Input extends React.Component {
             value={this.state.messages}
             onChange={this.handleChange.bind(this)}/>
           </form>
-        </div>
       </div>
 
 

@@ -31,6 +31,12 @@ body {
   width: 180px;
   height: 180px;
   left: 300px;
+  overflow-y: auto;
+}
+
+.form {
+  position: fixed;
+  bottom: 1px;
 }
 
 .end {
