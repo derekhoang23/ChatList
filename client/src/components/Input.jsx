@@ -29,17 +29,21 @@ class Input extends React.Component {
   render() {
     return (
       <div className='input'>
-        {this.state.send.map(message => {
-          return <Messages message={message}/>;
-        })}
+        <div className='messageContainer'>
+          {this.state.send.map(message => {
+            return <Messages message={message}/>;
+          })}
+        </div>
+        {/* <div className='form'> */}
           <form className='form' onSubmit={this.handleSubmit.bind(this)}>
-            <button className='option' >
-            <span className='igpic'></span>
-            </button>
-            <input className='input-box' type='text'
-            value={this.state.messages}
-            onChange={this.handleChange.bind(this)}/>
+          <button className='option' >
+          <span className='igpic'></span>
+          </button>
+          <input className='input-box' type='text'
+          value={this.state.messages}
+          onChange={this.handleChange.bind(this)}/>
           </form>
+        {/* </div> */}
       </div>
 
 

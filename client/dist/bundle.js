@@ -21580,9 +21580,13 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'input' },
-	        this.state.send.map(function (message) {
-	          return _react2.default.createElement(_Messages2.default, { message: message });
-	        }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'messageContainer' },
+	          this.state.send.map(function (message) {
+	            return _react2.default.createElement(_Messages2.default, { message: message });
+	          })
+	        ),
 	        _react2.default.createElement(
 	          'form',
 	          { className: 'form', onSubmit: this.handleSubmit.bind(this) },

@@ -11,9 +11,7 @@ class Nav extends React.Component {
     };
   }
 
-  searchFriend() {
 
-  }
 
   submitSearch() {
     fetch('http://localhost:3000/search', {

@@ -6,7 +6,9 @@
   "scripts": {
     "test": "test",
     "start": "nodemon server/server.js",
-    "build": "webpack --watch"
+    "build": "webpack --watch",
+    "dev:hot": "nodemon server/server.js & webpack --watch & open -a \"Google Chrome\" http://localhost:3000",
+    "dev": "node_modules/.bin/webpack-dev-server --progress --inline --hot"
   },
   "repository": {
     "type": "git",
@@ -63,6 +65,7 @@
     "session-memory-store": "^0.2.2",
     "simple-oauth2": "^1.0.0",
     "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.2",
     "whatwg-fetch": "^1.0.0"
   }
 }

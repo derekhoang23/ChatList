@@ -8,6 +8,11 @@ module.exports = [
       path: __dirname + '/client/dist',
       filename: 'bundle.js'
     },
+    devServer: {
+      inline: true,
+      contentBase: __dirname + '/client/dist',
+      port: 8100
+    },
     module: {
       loaders: [
         {
@@ -15,10 +20,6 @@ module.exports = [
           exclude: /node_modules/,
           include: /client/,
           loaders: ['react-hot', 'babel']
-        },
-        {
-          test: /\.scss$/,
-          loader: 'style!css!sass'
         }
       ]
     }
