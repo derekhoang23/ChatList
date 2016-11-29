@@ -1,13 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Messages from './Messages.jsx';
+import IgFeed from './IgFeed.jsx';
 
 class Input extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       messages: '',
-      send: []
+      send: [],
+      displayIg: false
     };
   }
 
@@ -26,7 +28,14 @@ class Input extends React.Component {
     });
   }
 
+  displayIg() {
+    this.setState({
+      displayIg: !this.state.displayIg
+    });
+  }
+
   render() {
+    var showIg = <IgFeed />;
     return (
       <div className='input'>
         <div className='messageContainer'>
@@ -34,11 +43,15 @@ class Input extends React.Component {
             return <Messages message={message}/>;
           })}
         </div>
+          {this.state.displayIg ? showIg : null}
         {/* <div className='form'> */}
           <form className='form' onSubmit={this.handleSubmit.bind(this)}>
-          <button className='option' >
-          <span className='igpic'></span>
-          </button>
+          {/* <button className='option' >
+          <span className='igpic'>
+            <img src='./assets/igicon.png' />
+          </span>
+          </button> */}
+          <img src='./assets/igicon.png' className='option' onClick={this.displayIg.bind(this)}/>
           <input className='input-box' type='text'
           value={this.state.messages}
           onChange={this.handleChange.bind(this)}/>

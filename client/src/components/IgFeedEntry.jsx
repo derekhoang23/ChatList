@@ -8,7 +8,7 @@ class IgFeedEntry extends React.Component {
   render() {
     return (
       <div>
-          <img className='igpic' src={this.props.images} />
+        <img className='inner-flex' src={this.props.images} />
       </div>
     );
   }

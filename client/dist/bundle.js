@@ -21534,6 +21534,10 @@
 
 	var _Messages2 = _interopRequireDefault(_Messages);
 
+	var _IgFeed = __webpack_require__(178);
+
+	var _IgFeed2 = _interopRequireDefault(_IgFeed);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21552,7 +21556,8 @@
 
 	    _this.state = {
 	      messages: '',
-	      send: []
+	      send: [],
+	      displayIg: false
 	    };
 	    return _this;
 	  }
@@ -21575,8 +21580,16 @@
 	      });
 	    }
 	  }, {
+	    key: 'displayIg',
+	    value: function displayIg() {
+	      this.setState({
+	        displayIg: !this.state.displayIg
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var showIg = _react2.default.createElement(_IgFeed2.default, null);
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'input' },
@@ -21587,14 +21600,11 @@
 	            return _react2.default.createElement(_Messages2.default, { message: message });
 	          })
 	        ),
+	        this.state.displayIg ? showIg : null,
 	        _react2.default.createElement(
 	          'form',
 	          { className: 'form', onSubmit: this.handleSubmit.bind(this) },
-	          _react2.default.createElement(
-	            'button',
-	            { className: 'option' },
-	            _react2.default.createElement('span', { className: 'igpic' })
-	          ),
+	          _react2.default.createElement('img', { src: './assets/igicon.png', className: 'option', onClick: this.displayIg.bind(this) }),
 	          _react2.default.createElement('input', { className: 'input-box', type: 'text',
 	            value: this.state.messages,
 	            onChange: this.handleChange.bind(this) })
@@ -21963,8 +21973,7 @@
 	    var _this = _possibleConstructorReturn(this, (IgFeed.__proto__ || Object.getPrototypeOf(IgFeed)).call(this, props));
 
 	    _this.state = {
-	      images: [],
-	      showIg: false
+	      images: []
 	    };
 	    return _this;
 	  }
@@ -21993,17 +22002,12 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var showIgFeed = _react2.default.createElement(
+	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'Ig' },
 	        this.state.images.map(function (image) {
 	          return _react2.default.createElement(_IgFeedEntry2.default, { images: image });
 	        })
-	      );
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        this.state.showIg ? showIgFeed : null
 	      );
 	    }
 	  }]);
@@ -22056,7 +22060,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement('img', { className: 'igpic', src: this.props.images })
+	        _react2.default.createElement('img', { className: 'inner-flex', src: this.props.images })
 	      );
 	    }
 	  }]);
