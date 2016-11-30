@@ -30,14 +30,30 @@ class IgFeed extends React.Component {
       });
   }
 
+  prev() {
+
+  }
+
+  next() {
+
+  }
+
+
+
   render() {
     return (
       <div className='Ig'>
-        {this.state.images.map(image =>
-          <IgFeedEntry images={image} />
-        )}
+        <button className='prev' onClick={this.prev.bind(this)} ></button>
+        {/* <div className='stroller'> */}
+          <ul className='items'>
+            {this.state.images.map((image, i) =>
+              <IgFeedEntry key={i} index={i} images={image} />
+            )}
+          </ul>
+        {/* </div> */}
+        <button className='next' onClick={this.next.bind(this)}></button>
       </div>
-    )
+    );
   }
 }
 

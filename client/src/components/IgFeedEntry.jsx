@@ -5,11 +5,15 @@ class IgFeedEntry extends React.Component {
     super(props);
   }
 
+
   render() {
+    var style = {
+      backgroundImage: `url(${this.props.images})`
+    };
+
+    var cx = `item ${this.props.index}`;
     return (
-      <div>
-        <img className='inner-flex' src={this.props.images} />
-      </div>
+          <li className={cx} style={style}></li>
     );
   }
 }

@@ -32,6 +32,7 @@ class Input extends React.Component {
     this.setState({
       displayIg: !this.state.displayIg
     });
+    
   }
 
   render() {

@@ -46,8 +46,8 @@ class Friendslist extends React.Component {
     // var displayText = <Input />;
     return (
       <div className='friends'>
-        {this.state.friends.map((friend) =>
-          <FriendsEntry click={this.showText.bind(this)} click={this.props.click} friend={friend} />
+        {this.state.friends.map((friend, i) =>
+          <FriendsEntry key={i} click={this.showText.bind(this)} click={this.props.click} friend={friend} />
         )}
         {/* {this.state.show ? displayText : null} */}
       </div>

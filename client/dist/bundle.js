@@ -21773,10 +21773,10 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'friends' },
-	        this.state.friends.map(function (friend) {
+	        this.state.friends.map(function (friend, i) {
 	          var _React$createElement;
 
-	          return _react2.default.createElement(_FriendsEntry2.default, (_React$createElement = { click: _this3.showText.bind(_this3) }, _defineProperty(_React$createElement, 'click', _this3.props.click), _defineProperty(_React$createElement, 'friend', friend), _React$createElement));
+	          return _react2.default.createElement(_FriendsEntry2.default, (_React$createElement = { key: i, click: _this3.showText.bind(_this3) }, _defineProperty(_React$createElement, 'click', _this3.props.click), _defineProperty(_React$createElement, 'friend', friend), _React$createElement));
 	        })
 	      );
 	    }
@@ -22000,14 +22000,26 @@
 	      });
 	    }
 	  }, {
+	    key: 'prev',
+	    value: function prev() {}
+	  }, {
+	    key: 'next',
+	    value: function next() {}
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'Ig' },
-	        this.state.images.map(function (image) {
-	          return _react2.default.createElement(_IgFeedEntry2.default, { images: image });
-	        })
+	        _react2.default.createElement('button', { className: 'prev', onClick: this.prev.bind(this) }),
+	        _react2.default.createElement(
+	          'ul',
+	          { className: 'items' },
+	          this.state.images.map(function (image, i) {
+	            return _react2.default.createElement(_IgFeedEntry2.default, { key: i, index: i, images: image });
+	          })
+	        ),
+	        _react2.default.createElement('button', { className: 'next', onClick: this.next.bind(this) })
 	      );
 	    }
 	  }]);
@@ -22057,11 +22069,12 @@
 	  _createClass(IgFeedEntry, [{
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement('img', { className: 'inner-flex', src: this.props.images })
-	      );
+	      var style = {
+	        backgroundImage: 'url(' + this.props.images + ')'
+	      };
+
+	      var cx = 'item ' + this.props.index;
+	      return _react2.default.createElement('li', { className: cx, style: style });
 	    }
 	  }]);
 
