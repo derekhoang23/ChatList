@@ -72,11 +72,17 @@ body {
 }
 
 .Ig {
-  position: fixed;
-  bottom: 40px;
+  position: absolute;;
+  bottom: 30px;
   height: 100px;
-  width: 350px;
+  width: 100%;
   display: flex;
+}
+
+.Ig > Button {
+  width: 10px;
+  padding-left: 1px;
+  padding-right: 1px;
 }
 
 /*.Ig > button {
@@ -109,19 +115,13 @@ body {
 
 .item{
   background-repeat: no-repeat;
-  height: auto;
-  width: auto;
-  max-width: 100%;
-  max-height: 100%;
-  text-align: center;
-  overflow: hidden;
+  background-size: 100px 100%, cover;
+  flex: 1 0 33.33%;
+  order: 2;
   -webkit-transition: flex 1s ease;
   transition: flex 2s ease;
 }
 
-li:nth-child(-n + 3) {
-  flex: 1;
-}
 
 /*
 .Ig > div {
