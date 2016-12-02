@@ -31,11 +31,18 @@ class IgFeed extends React.Component {
   }
 
   prev() {
-
+    var previousThree = this.state.images.splice(-3, 3);
+    previousThree = previousThree.concat(this.state.images);
+    this.setState({
+      images: previousThree
+    });
   }
 
   next() {
-
+    var nextThree = this.state.images.splice(0, 3);
+    this.setState({
+      images: this.state.images.concat(nextThree)
+    });
   }
 
 
@@ -47,7 +54,7 @@ class IgFeed extends React.Component {
         {/* <div className='stroller'> */}
           <ul className='items'>
             {this.state.images.map((image, i) =>
-              <IgFeedEntry key={i} index={i} images={image} />
+              <IgFeedEntry handleImg={this.props.handleImg} key={i} index={i} images={image} />
             )}
           </ul>
         {/* </div> */}

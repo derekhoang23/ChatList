@@ -103,7 +103,8 @@
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
 	    _this.state = {
-	      show: false
+	      show: false,
+	      currentSelectedUser: ''
 	    };
 	    return _this;
 	  }
@@ -121,15 +122,23 @@
 	      });
 	    }
 	  }, {
+	    key: 'showClickedUsername',
+	    value: function showClickedUsername(val) {
+	      console.log('user', val);
+	      this.setState({
+	        currentSelectedUser: val
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var input = _react2.default.createElement(_Input2.default, null);
+	      var input = _react2.default.createElement(_Input2.default, { user: this.state.currentSelectedUser });
 
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(_Logout2.default, null),
-	        _react2.default.createElement(_Friendslist2.default, { click: this.clickUser.bind(this) }),
+	        _react2.default.createElement(_Friendslist2.default, { user: this.showClickedUsername.bind(this), click: this.clickUser.bind(this) }),
 	        this.state.show ? input : null
 	      );
 	    }
@@ -21557,7 +21566,9 @@
 	    _this.state = {
 	      messages: '',
 	      send: [],
-	      displayIg: false
+	      // send needs to be updated with the image val and then passed on to Messages component for rendering
+	      displayIg: false,
+	      image: null
 	    };
 	    return _this;
 	  }
@@ -21587,17 +21598,32 @@
 	      });
 	    }
 	  }, {
+	    key: 'handleImg',
+	    value: function handleImg(val) {
+	      this.setState({
+	        image: val
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var showIg = _react2.default.createElement(_IgFeed2.default, null);
+	      var _this2 = this;
+
+	      console.log('wtrefre', this.state.image);
+	      var showIg = _react2.default.createElement(_IgFeed2.default, { handleImg: this.handleImg.bind(this) });
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'input' },
 	        _react2.default.createElement(
 	          'div',
+	          { className: 'selectedUser' },
+	          this.props.user
+	        ),
+	        _react2.default.createElement(
+	          'div',
 	          { className: 'messageContainer' },
 	          this.state.send.map(function (message) {
-	            return _react2.default.createElement(_Messages2.default, { message: message });
+	            return _react2.default.createElement(_Messages2.default, { image: _this2.state.image, message: message });
 	          })
 	        ),
 	        this.state.displayIg ? showIg : null,
@@ -21656,16 +21682,26 @@
 	  function Messages(props) {
 	    _classCallCheck(this, Messages);
 
-	    return _possibleConstructorReturn(this, (Messages.__proto__ || Object.getPrototypeOf(Messages)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Messages.__proto__ || Object.getPrototypeOf(Messages)).call(this, props));
+
+	    _this.state = {
+	      clickedImage: false,
+	      image: ''
+	    };
+	    return _this;
 	  }
 
 	  _createClass(Messages, [{
 	    key: 'render',
 	    value: function render() {
+	      var img = _react2.default.createElement('img', { src: this.props.image });
+	      console.log('is htis img', this.props.image);
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'messages' },
-	        this.props.message
+	        this.props.message,
+	        _react2.default.createElement('img', { src: this.props.image }),
+	        ';'
 	      );
 	    }
 	  }]);
@@ -21746,13 +21782,26 @@
 	    }
 	  }, {
 	    key: 'prev',
-	    value: function prev() {}
+	    value: function prev() {
+	      var previousThree = this.state.images.splice(-3, 3);
+	      previousThree = previousThree.concat(this.state.images);
+	      this.setState({
+	        images: previousThree
+	      });
+	    }
 	  }, {
 	    key: 'next',
-	    value: function next() {}
+	    value: function next() {
+	      var nextThree = this.state.images.splice(0, 3);
+	      this.setState({
+	        images: this.state.images.concat(nextThree)
+	      });
+	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this3 = this;
+
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'Ig' },
@@ -21761,7 +21810,7 @@
 	          'ul',
 	          { className: 'items' },
 	          this.state.images.map(function (image, i) {
-	            return _react2.default.createElement(_IgFeedEntry2.default, { key: i, index: i, images: image });
+	            return _react2.default.createElement(_IgFeedEntry2.default, { handleImg: _this3.props.handleImg, key: i, index: i, images: image });
 	          })
 	        ),
 	        _react2.default.createElement('button', { className: 'next', onClick: this.next.bind(this) })
@@ -21809,9 +21858,21 @@
 	    _classCallCheck(this, IgFeedEntry);
 
 	    return _possibleConstructorReturn(this, (IgFeedEntry.__proto__ || Object.getPrototypeOf(IgFeedEntry)).call(this, props));
+	    // this.state = {
+	    //   clickedImage: false
+	    // };
 	  }
 
 	  _createClass(IgFeedEntry, [{
+	    key: 'handleOnClickImage',
+	    value: function handleOnClickImage(e) {
+	      var img = e.target.style.backgroundImage.slice(4, -1);
+	      // this.setState({
+	      //   clickedImage: !this.state.clickedImage
+	      // });
+	      this.props.handleImg(img);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var style = {
@@ -21819,7 +21880,7 @@
 	      };
 
 	      var cx = 'item ' + this.props.index;
-	      return _react2.default.createElement('li', { className: cx, style: style });
+	      return _react2.default.createElement('li', { className: cx, style: style, onClick: this.handleOnClickImage.bind(this) });
 	    }
 	  }]);
 
@@ -21929,7 +21990,7 @@
 	        this.state.friends.map(function (friend, i) {
 	          var _React$createElement;
 
-	          return _react2.default.createElement(_FriendsEntry2.default, (_React$createElement = { key: i, click: _this3.showText.bind(_this3) }, _defineProperty(_React$createElement, 'click', _this3.props.click), _defineProperty(_React$createElement, 'friend', friend), _React$createElement));
+	          return _react2.default.createElement(_FriendsEntry2.default, (_React$createElement = { user: _this3.props.user, key: i, click: _this3.showText.bind(_this3) }, _defineProperty(_React$createElement, 'click', _this3.props.click), _defineProperty(_React$createElement, 'friend', friend), _React$createElement));
 	        })
 	      );
 	    }
@@ -21991,6 +22052,12 @@
 	  }
 
 	  _createClass(FriendsEntry, [{
+	    key: 'showUserAndInput',
+	    value: function showUserAndInput(e) {
+	      this.props.click();
+	      this.props.user(e.target.innerHTML);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -21998,7 +22065,7 @@
 	        null,
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'friend', onClick: this.props.click },
+	          { className: 'friend', onClick: this.showUserAndInput.bind(this) },
 	          this.props.friend
 	        )
 	      );

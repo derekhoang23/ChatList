@@ -9,7 +9,9 @@ class Input extends React.Component {
     this.state = {
       messages: '',
       send: [],
-      displayIg: false
+      // send needs to be updated with the image val and then passed on to Messages component for rendering
+      displayIg: false,
+      image: null
     };
   }
 
@@ -32,16 +34,26 @@ class Input extends React.Component {
     this.setState({
       displayIg: !this.state.displayIg
     });
-    
   }
 
+  handleImg(val) {
+    this.setState({
+      image: val
+    });
+  }
+
+
   render() {
-    var showIg = <IgFeed />;
+    console.log('wtrefre', this.state.image)
+    var showIg = <IgFeed handleImg={this.handleImg.bind(this)}/>;
     return (
       <div className='input'>
+        <div className='selectedUser'>
+          {this.props.user}
+        </div>
         <div className='messageContainer'>
           {this.state.send.map(message => {
-            return <Messages message={message}/>;
+            return <Messages image={this.state.image} message={message}/>;
           })}
         </div>
           {this.state.displayIg ? showIg : null}

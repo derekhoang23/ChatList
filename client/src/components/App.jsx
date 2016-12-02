@@ -11,7 +11,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: false
+      show: false,
+      currentSelectedUser: ''
     };
   }
 
@@ -26,14 +27,21 @@ class App extends React.Component {
     });
   }
 
+  showClickedUsername(val) {
+    console.log('user', val)
+    this.setState({
+      currentSelectedUser: val
+    })
+  }
+
 
   render() {
-    var input = <Input/ >;
+    var input = <Input user={this.state.currentSelectedUser} />;
 
     return (
       <div>
           <Logout />
-          <Friendslist click={this.clickUser.bind(this)}/>
+          <Friendslist user={this.showClickedUsername.bind(this)} click={this.clickUser.bind(this)}/>
           {this.state.show ? input : null}
       </div>
     );

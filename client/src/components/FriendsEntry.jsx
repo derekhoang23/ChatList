@@ -10,12 +10,17 @@ class FriendsEntry extends React.Component {
   }
 
 
+  showUserAndInput(e) {
+    this.props.click();
+    this.props.user(e.target.innerHTML);
+  }
+
 
 
   render() {
     return (
       <div>
-        <div className='friend' onClick={this.props.click}>
+        <div className='friend' onClick={this.showUserAndInput.bind(this)}>
           {this.props.friend}
         </div>
       </div>

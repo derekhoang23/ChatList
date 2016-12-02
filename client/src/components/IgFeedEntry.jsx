@@ -3,6 +3,17 @@ import React from 'react';
 class IgFeedEntry extends React.Component {
   constructor(props) {
     super(props);
+    // this.state = {
+    //   clickedImage: false
+    // };
+  }
+
+  handleOnClickImage(e) {
+    var img = e.target.style.backgroundImage.slice(4, -1);
+    // this.setState({
+    //   clickedImage: !this.state.clickedImage
+    // });
+    this.props.handleImg(img);
   }
 
 
@@ -13,7 +24,7 @@ class IgFeedEntry extends React.Component {
 
     var cx = `item ${this.props.index}`;
     return (
-          <li className={cx} style={style}></li>
+          <li className={cx} style={style} onClick={this.handleOnClickImage.bind(this)}></li>
     );
   }
 }

@@ -45,7 +45,7 @@ body {
   margin: 0 auto;
   margin-bottom: 5px;
   padding: 5px;
-  height: 250px;
+  height: 220px;
   max-height: 90%;
   width: 250px;
   overflow: auto;
@@ -85,6 +85,12 @@ body {
   padding-right: 1px;
 }
 
+.selectedUser {
+  text-align: center;
+  padding: 5px;
+  border-bottom: 1px solid;
+}
+
 /*.Ig > button {
   width: 30px;
   border: none;
@@ -121,6 +127,8 @@ body {
   -webkit-transition: flex 1s ease;
   transition: flex 2s ease;
 }
+
+
 
 
 /*
