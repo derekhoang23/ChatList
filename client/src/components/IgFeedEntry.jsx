@@ -3,17 +3,20 @@ import React from 'react';
 class IgFeedEntry extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = {
-    //   clickedImage: false
-    // };
+    this.state = {
+      clickedImage: false
+    };
   }
 
   handleOnClickImage(e) {
-    var img = e.target.style.backgroundImage.slice(4, -1);
+    var img = e.target.style.backgroundImage.slice(5, -2);
     // this.setState({
     //   clickedImage: !this.state.clickedImage
     // });
-    this.props.handleImg(img);
+    console.log('image tag', e.target.style.backgroundImage);
+    console.log('after slice', img);
+    this.props.handleImg(img, !this.state.clickedImage);
+
   }
 
 

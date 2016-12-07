@@ -9,7 +9,7 @@ class Input extends React.Component {
     this.state = {
       messages: '',
       send: [],
-      // send needs to be updated with the image val and then passed on to Messages component for rendering
+      // send needs to be updated with the image val and then passed on to Messages component for renderi
       displayIg: false,
       image: null
     };
@@ -22,12 +22,35 @@ class Input extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+
     this.setState({
       send: this.state.send.concat([this.state.messages])
     });
+
     this.setState({
       messages: ''
     });
+
+    fetch('http://localhost:3000/postMessages', {
+      mode: 'POST',
+      credentials: 'include',
+      mode: 'no-cors',
+      body: JSON.stringify({
+        text: this.state.send,
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res =>
+      res.json())
+      .then(data => {
+        console.log('received message', data);
+      })
+      .catch(err => {
+        console.log('did not save messages', err );
+      });
+
   }
 
   displayIg() {
@@ -37,14 +60,17 @@ class Input extends React.Component {
   }
 
   handleImg(val) {
+    console.log('val', val);
+    var imgSrc = `${val}`;
+    var img = <img src={imgSrc} />;
+
     this.setState({
-      image: val
+      send: this.state.send.concat([img])
     });
   }
 
 
   render() {
-    console.log('wtrefre', this.state.image)
     var showIg = <IgFeed handleImg={this.handleImg.bind(this)}/>;
     return (
       <div className='input'>
@@ -52,8 +78,8 @@ class Input extends React.Component {
           {this.props.user}
         </div>
         <div className='messageContainer'>
-          {this.state.send.map(message => {
-            return <Messages image={this.state.image} message={message}/>;
+          {this.state.send.map((message, i) => {
+            return <Messages key={i} message={message}/>;
           })}
         </div>
           {this.state.displayIg ? showIg : null}

@@ -21549,6 +21549,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -21566,7 +21568,7 @@
 	    _this.state = {
 	      messages: '',
 	      send: [],
-	      // send needs to be updated with the image val and then passed on to Messages component for rendering
+	      // send needs to be updated with the image val and then passed on to Messages component for renderi
 	      displayIg: false,
 	      image: null
 	    };
@@ -21582,12 +21584,31 @@
 	  }, {
 	    key: 'handleSubmit',
 	    value: function handleSubmit(e) {
+	      var _fetch;
+
 	      e.preventDefault();
+
 	      this.setState({
 	        send: this.state.send.concat([this.state.messages])
 	      });
+
 	      this.setState({
 	        messages: ''
+	      });
+
+	      fetch('http://localhost:3000/postMessages', (_fetch = {
+	        mode: 'POST',
+	        credentials: 'include'
+	      }, _defineProperty(_fetch, 'mode', 'no-cors'), _defineProperty(_fetch, 'body', JSON.stringify({
+	        text: this.state.send
+	      })), _defineProperty(_fetch, 'headers', {
+	        'Content-Type': 'application/json'
+	      }), _fetch)).then(function (res) {
+	        return res.json();
+	      }).then(function (data) {
+	        console.log('received message', data);
+	      }).catch(function (err) {
+	        console.log('did not save messages', err);
 	      });
 	    }
 	  }, {
@@ -21600,16 +21621,17 @@
 	  }, {
 	    key: 'handleImg',
 	    value: function handleImg(val) {
+	      console.log('val', val);
+	      var imgSrc = '' + val;
+	      var img = _react2.default.createElement('img', { src: imgSrc });
+
 	      this.setState({
-	        image: val
+	        send: this.state.send.concat([img])
 	      });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
-
-	      console.log('wtrefre', this.state.image);
 	      var showIg = _react2.default.createElement(_IgFeed2.default, { handleImg: this.handleImg.bind(this) });
 	      return _react2.default.createElement(
 	        'div',
@@ -21622,8 +21644,8 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'messageContainer' },
-	          this.state.send.map(function (message) {
-	            return _react2.default.createElement(_Messages2.default, { image: _this2.state.image, message: message });
+	          this.state.send.map(function (message, i) {
+	            return _react2.default.createElement(_Messages2.default, { key: i, message: message });
 	          })
 	        ),
 	        this.state.displayIg ? showIg : null,
@@ -21682,26 +21704,16 @@
 	  function Messages(props) {
 	    _classCallCheck(this, Messages);
 
-	    var _this = _possibleConstructorReturn(this, (Messages.__proto__ || Object.getPrototypeOf(Messages)).call(this, props));
-
-	    _this.state = {
-	      clickedImage: false,
-	      image: ''
-	    };
-	    return _this;
+	    return _possibleConstructorReturn(this, (Messages.__proto__ || Object.getPrototypeOf(Messages)).call(this, props));
 	  }
 
 	  _createClass(Messages, [{
 	    key: 'render',
 	    value: function render() {
-	      var img = _react2.default.createElement('img', { src: this.props.image });
-	      console.log('is htis img', this.props.image);
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'messages' },
-	        this.props.message,
-	        _react2.default.createElement('img', { src: this.props.image }),
-	        ';'
+	        this.props.message
 	      );
 	    }
 	  }]);
@@ -21857,20 +21869,24 @@
 	  function IgFeedEntry(props) {
 	    _classCallCheck(this, IgFeedEntry);
 
-	    return _possibleConstructorReturn(this, (IgFeedEntry.__proto__ || Object.getPrototypeOf(IgFeedEntry)).call(this, props));
-	    // this.state = {
-	    //   clickedImage: false
-	    // };
+	    var _this = _possibleConstructorReturn(this, (IgFeedEntry.__proto__ || Object.getPrototypeOf(IgFeedEntry)).call(this, props));
+
+	    _this.state = {
+	      clickedImage: false
+	    };
+	    return _this;
 	  }
 
 	  _createClass(IgFeedEntry, [{
 	    key: 'handleOnClickImage',
 	    value: function handleOnClickImage(e) {
-	      var img = e.target.style.backgroundImage.slice(4, -1);
+	      var img = e.target.style.backgroundImage.slice(5, -2);
 	      // this.setState({
 	      //   clickedImage: !this.state.clickedImage
 	      // });
-	      this.props.handleImg(img);
+	      console.log('image tag', e.target.style.backgroundImage);
+	      console.log('after slice', img);
+	      this.props.handleImg(img, !this.state.clickedImage);
 	    }
 	  }, {
 	    key: 'render',
