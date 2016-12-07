@@ -8,10 +8,16 @@ var checkUser = function(req, res, next) {
   if (!isLoggedIn(req)) {
     console.log('user is not logged in');
     res.redirect('/redirect');
-  } else {
-    console.log('user successfuly signed in');
+  }
+  else {
     next();
   }
+  // if (req.session.token || req.path === '/redirect') {
+  //   next();
+  // } else {
+  //   console.log('user is not logged in');
+  //   res.redirect('/redirect');
+  // }
 };
 
 var createSession = function(req, res, body) {

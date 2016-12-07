@@ -5,16 +5,16 @@ var bodyParser = require('body-parser');
 var router = require('./routes.js');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-var auth = require('./controller/authController.js');
 var mongoose = require('mongoose');
 var MongoStore = require('connect-mongo')(session);
 var app = express();
+var io = require('socket.io').listen(app.listen(3000));
 require('dotenv').config();
 const connection = mongoose.createConnection(process.env.MONGODB_URI);
 
-app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, '../client/dist/')));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, '../client/dist')));
 app.use(cookieParser('keyboard cat'));
 app.use(session({
   secret: 'keyboard cat',
@@ -29,8 +29,8 @@ app.use(session({
 
 
 
+
 app.all('/*', function(req, res, next) {
-  // access control allow origin has to be chrome:extension/chromeID
   res.header('Access-Control-Allow-Credentials', true);
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Cache-Control, Pragma, Origin, Authorization, Content-Type, X-Requested-With');
@@ -41,11 +41,28 @@ app.all('/*', function(req, res, next) {
 
 
 
+io.sockets.on('connection', function(socket) {
+  console.log('client connected');
+  socket.on('sender', function(data) {
+    console.log('data', data)
+    io.emit('received', data)
+  });
+
+});
+
+// app.use(function(req, res, next) {
+//   req.io = io;
+//   next();
+// });
+
 app.use('/', router);
 
 
-app.listen(3000, function() {
-  console.log('Listening to port 3000!');
-});
+
+// app.listen(3000, function() {
+//   console.log('Listening to port 3000!');
+// });
+
+
 
 module.exports = app;

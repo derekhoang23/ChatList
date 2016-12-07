@@ -21,7 +21,6 @@ var getPics = function(req, res) {
 };
 
 var retrieveUsers = function(req, res) {
-  console.log('sess', req.session);
   User.find({instagramName: {
     $ne: req.session.username
   }})

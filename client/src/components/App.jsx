@@ -12,10 +12,31 @@ class App extends React.Component {
     super(props);
     this.state = {
       show: false,
-      currentSelectedUser: ''
+      currentSelectedUser: '',
+      currentUser: null
     };
   }
 
+  componentDidMount() {
+    fetch('http://localhost:3000/userInfo', {
+      method: 'GET',
+      credentials: 'include',
+      // mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(res => res.json())
+    .then(user => {
+      console.log('user', user);
+      this.setState({
+        currentUser: user.username
+      });
+    })
+    .catch(err => {
+      console.log('did not auth in', err);
+    });
+  }
 
   enterMessage(value) {
     this.setState({messages: this.state.messages.concat([value])});
@@ -28,7 +49,6 @@ class App extends React.Component {
   }
 
   showClickedUsername(val) {
-    console.log('user', val)
     this.setState({
       currentSelectedUser: val
     })
@@ -36,7 +56,7 @@ class App extends React.Component {
 
 
   render() {
-    var input = <Input user={this.state.currentSelectedUser} />;
+    var input = <Input currentUser={this.state.currentUser} user={this.state.currentSelectedUser} />;
 
     return (
       <div>

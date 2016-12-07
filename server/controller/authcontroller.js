@@ -4,6 +4,8 @@ var User = require('../db/models/users.js');
 var request = require('request-promise');
 var util = require('../util/utility.js');
 var Url = require('url');
+var io = require('../server.js');
+
 var redirect_uri = 'http://localhost:3000/handleauth';
 var instalink = `https://api.instagram.com/oauth/authorize/?client_id=${process.env.Instagram_ClientId}&redirect_uri=${redirect_uri}&response_type=code`;
 
@@ -17,7 +19,7 @@ var logout = function(req, res) {
 
 var authUser = function(req, res) {
   console.log('redirecting to auth ig');
-    res.redirect(instalink);
+  res.redirect(instalink);
 };
 
 var handleauth = function(req, res) {
@@ -69,12 +71,19 @@ var handleauth = function(req, res) {
 };
 
 var directHome = function(req, res) {
-      res.sendFile(path.join(__dirname, '../../client/index.html'));
+   res.sendFile(path.join(__dirname, '../../client/index.html'));
 };
+
+var userInfo = function(req, res) {
+  console.log('userinfo', req.session.username)
+  res.send({username: req.session.username});
+};
+
 
 module.exports = {
   authUser,
   handleauth,
   directHome,
-  logout
+  logout,
+  userInfo
 };

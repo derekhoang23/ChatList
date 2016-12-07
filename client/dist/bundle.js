@@ -104,12 +104,36 @@
 
 	    _this.state = {
 	      show: false,
-	      currentSelectedUser: ''
+	      currentSelectedUser: '',
+	      currentUser: null
 	    };
 	    return _this;
 	  }
 
 	  _createClass(App, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      fetch('http://localhost:3000/userInfo', {
+	        method: 'GET',
+	        credentials: 'include',
+	        // mode: 'no-cors',
+	        headers: {
+	          'Content-Type': 'application/json'
+	        }
+	      }).then(function (res) {
+	        return res.json();
+	      }).then(function (user) {
+	        console.log('user', user);
+	        _this2.setState({
+	          currentUser: user.username
+	        });
+	      }).catch(function (err) {
+	        console.log('did not auth in', err);
+	      });
+	    }
+	  }, {
 	    key: 'enterMessage',
 	    value: function enterMessage(value) {
 	      this.setState({ messages: this.state.messages.concat([value]) });
@@ -124,7 +148,6 @@
 	  }, {
 	    key: 'showClickedUsername',
 	    value: function showClickedUsername(val) {
-	      console.log('user', val);
 	      this.setState({
 	        currentSelectedUser: val
 	      });
@@ -132,7 +155,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var input = _react2.default.createElement(_Input2.default, { user: this.state.currentSelectedUser });
+	      var input = _react2.default.createElement(_Input2.default, { currentUser: this.state.currentUser, user: this.state.currentSelectedUser });
 
 	      return _react2.default.createElement(
 	        'div',
@@ -21549,13 +21572,14 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var socket = io.connect('http://localhost:3000');
+	var messages = [];
 
 	var Input = function (_React$Component) {
 	  _inherits(Input, _React$Component);
@@ -21576,6 +21600,18 @@
 	  }
 
 	  _createClass(Input, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      socket.on('received', function (data) {
+	        console.log('data', data);
+	        _this2.setState({
+	          send: _this2.state.send.concat([data])
+	        });
+	      });
+	    }
+	  }, {
 	    key: 'handleChange',
 	    value: function handleChange(e) {
 	      e.preventDefault();
@@ -21584,31 +21620,39 @@
 	  }, {
 	    key: 'handleSubmit',
 	    value: function handleSubmit(e) {
-	      var _fetch;
-
 	      e.preventDefault();
-
+	      console.log('stock', this.state.socket);
 	      this.setState({
-	        send: this.state.send.concat([this.state.messages])
+	        send: this.state.send.concat([this.state.socket])
 	      });
+	      var userInput = {
+	        text: this.state.send,
+	        senderName: this.props.currentUser,
+	        receiverName: this.props.user
+	      };
+
+	      // fetch('http://localhost:3000/postMessages', {
+	      //   method: 'POST',
+	      //   credentials: 'include',
+	      //   mode: 'cors',
+	      //   headers: {
+	      //     'Content-Type': 'application/json'
+	      //   },
+	      //   body: JSON.stringify(userInput)
+	      // })
+	      // .then(res =>
+	      //   res.json())
+	      //   .then(data => {
+	      //     console.log('received message', data);
+	      //   })
+	      //   .catch(err => {
+	      //     console.log('did not save messages', err );
+	      //   });
+	      console.log('lenfth', this.state.messages.length);
+	      socket.emit('sender', this.state.messages);
 
 	      this.setState({
 	        messages: ''
-	      });
-
-	      fetch('http://localhost:3000/postMessages', (_fetch = {
-	        mode: 'POST',
-	        credentials: 'include'
-	      }, _defineProperty(_fetch, 'mode', 'no-cors'), _defineProperty(_fetch, 'body', JSON.stringify({
-	        text: this.state.send
-	      })), _defineProperty(_fetch, 'headers', {
-	        'Content-Type': 'application/json'
-	      }), _fetch)).then(function (res) {
-	        return res.json();
-	      }).then(function (data) {
-	        console.log('received message', data);
-	      }).catch(function (err) {
-	        console.log('did not save messages', err);
 	      });
 	    }
 	  }, {
@@ -21625,13 +21669,15 @@
 	      var imgSrc = '' + val;
 	      var img = _react2.default.createElement('img', { src: imgSrc });
 
-	      this.setState({
-	        send: this.state.send.concat([img])
-	      });
+	      // this.setState({
+	      //   send: this.state.send.concat([img])
+	      // });
+	      socket.emit('sender', val);
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+
 	      var showIg = _react2.default.createElement(_IgFeed2.default, { handleImg: this.handleImg.bind(this) });
 	      return _react2.default.createElement(
 	        'div',
@@ -21710,10 +21756,11 @@
 	  _createClass(Messages, [{
 	    key: 'render',
 	    value: function render() {
+	      var isImg = this.props.message === undefined || this.props.message.length > 100 && this.props.message.slice(0, 33) === 'https://scontent.cdninstagram.com';
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'messages' },
-	        this.props.message
+	        isImg ? _react2.default.createElement('img', { src: this.props.message }) : this.props.message
 	      );
 	    }
 	  }]);
@@ -21885,7 +21932,7 @@
 	      //   clickedImage: !this.state.clickedImage
 	      // });
 	      console.log('image tag', e.target.style.backgroundImage);
-	      console.log('after slice', img);
+	      console.log('after slice', img.length);
 	      this.props.handleImg(img, !this.state.clickedImage);
 	    }
 	  }, {

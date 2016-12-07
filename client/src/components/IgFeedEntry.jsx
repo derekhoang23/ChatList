@@ -14,7 +14,7 @@ class IgFeedEntry extends React.Component {
     //   clickedImage: !this.state.clickedImage
     // });
     console.log('image tag', e.target.style.backgroundImage);
-    console.log('after slice', img);
+    console.log('after slice', img.length);
     this.props.handleImg(img, !this.state.clickedImage);
 
   }
