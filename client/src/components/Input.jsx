@@ -10,23 +10,19 @@ class Input extends React.Component {
     this.state = {
       messages: '',
       send: [],
-      // send needs to be updated with the image val and then passed on to Messages component for renderi
+      // send eeds to be updated with the image val and then passed on to Messages component for renderi
       displayIg: false,
       image: null
     };
   }
 
-  componentDidMount() {
-    socket.on('received', data => {
-      console.log('data', data)
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.messageContainer !== this.state.send) {
       this.setState({
-        send: this.state.send.concat([data])
+        send: nextProps.messageContainer
       });
-    });
+    }
   }
-
-
-
 
   handleChange(e) {
     e.preventDefault();
@@ -35,17 +31,14 @@ class Input extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log('stock', this.state.socket)
-    this.setState({
-      send: this.state.send.concat([this.state.socket])
-    })
     var userInput = {
-      text: this.state.send,
+      text: this.state.messages,
       senderName: this.props.currentUser,
       receiverName: this.props.user
     };
 
-
+    socket.emit('new message', {id: this.props.conversationId, friend:this.props.user, text: this.state.messages});
+    this.props.sentMessageTo(this.props.user);
     // fetch('http://localhost:3000/postMessages', {
     //   method: 'POST',
     //   credentials: 'include',
@@ -63,8 +56,6 @@ class Input extends React.Component {
     //   .catch(err => {
     //     console.log('did not save messages', err );
     //   });
-    console.log('lenfth', this.state.messages.length)
-    socket.emit('sender', this.state.messages);
 
     this.setState({
       messages: ''
@@ -79,14 +70,11 @@ class Input extends React.Component {
   }
 
   handleImg(val) {
-    console.log('val', val);
-    var imgSrc = `${val}`;
-    var img = <img src={imgSrc} />;
 
+    socket.emit('new message', {id: this.props.conversationId, friend: this.props.user, text: val});
     // this.setState({
     //   send: this.state.send.concat([img])
     // });
-    socket.emit('sender', val);
   }
 
 

@@ -86,6 +86,10 @@
 
 	var _IgFeed2 = _interopRequireDefault(_IgFeed);
 
+	var _showConversation = __webpack_require__(181);
+
+	var _showConversation2 = _interopRequireDefault(_showConversation);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -93,6 +97,8 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var socket = io.connect('http://localhost:3000');
 
 	var App = function (_React$Component) {
 	  _inherits(App, _React$Component);
@@ -104,8 +110,13 @@
 
 	    _this.state = {
 	      show: false,
+	      receivedMessage: false,
 	      currentSelectedUser: '',
-	      currentUser: null
+	      currentUser: null,
+	      messageContainer: [],
+	      // need to serch database for conversation id in future otherwise this will be fine for now
+	      conversationId: 1,
+	      messageSentTo: null
 	    };
 	    return _this;
 	  }
@@ -132,6 +143,35 @@
 	      }).catch(function (err) {
 	        console.log('did not auth in', err);
 	      });
+
+	      socket.on('refresh', this.refreshMessages.bind(this));
+	    }
+	    //
+	    // componentWillMount() {
+	    //   if (this.state.messageSentTo !== this.state.currentUser) {
+	    //     return  <Input sentMessageTo={this.sentMessageTo.bind(this)} id={this.state.conversationId} messageContainer={this.state.messageContainer} currentUser={this.state.currentUser} user={this.state.currentSelectedUser} />;
+	    //   } else {
+	    //     return null;
+	    //   }
+	    // }
+
+	  }, {
+	    key: 'refreshMessages',
+	    value: function refreshMessages(data) {
+	      console.log('data', data);
+	      if (data.text.length > 130 && data.text.slice(0, 33) === 'https://scontent.cdninstagram.com') {
+	        var img = _react2.default.createElement('img', { src: data.text });
+	        this.setState({
+	          messageContainer: this.state.messageContainer.concat([img]),
+	          messageSentTo: data.friend
+
+	        });
+	      } else {
+	        this.setState({
+	          messageContainer: this.state.messageContainer.concat([data.text]),
+	          messageSentTo: data.friend
+	        });
+	      }
 	    }
 	  }, {
 	    key: 'enterMessage',
@@ -144,6 +184,19 @@
 	      this.setState({
 	        show: !this.state.show
 	      });
+
+	      // if (this.state.show === false) {
+	      //   socket.emit('leave conversation', this.state.currentSelectedUser);
+	      // }
+	    }
+	  }, {
+	    key: 'sentMessageTo',
+	    value: function sentMessageTo(val) {
+	      console.log('what is this', val);
+	      console.log('who am i', this.state.currentUser);
+	      this.setState({
+	        sentMessageTo: val
+	      });
 	    }
 	  }, {
 	    key: 'showClickedUsername',
@@ -151,18 +204,33 @@
 	      this.setState({
 	        currentSelectedUser: val
 	      });
+	      socket.emit('enter conversation', this.state.conversationId);
+	    }
+	  }, {
+	    key: 'displayNewConversation',
+	    value: function displayNewConversation() {
+	      console.log('me', this.state.currentUser);
+	      console.log('sending message to', this.state.messageSentTo);
+	      if (this.state.currentUser !== this.state.messageSentTo) {
+	        return _react2.default.createElement(_Input2.default, { sentMessageTo: this.sentMessageTo.bind(this), conversationId: this.state.conversationId, messageContainer: this.state.messageContainer, currentUser: this.state.currentUser, user: this.state.currentSelectedUser });
+	      } else if (this.state.messageSentTo === null) {
+	        return null;
+	      } else {
+	        return null;
+	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var input = _react2.default.createElement(_Input2.default, { currentUser: this.state.currentUser, user: this.state.currentSelectedUser });
-
+	      var input = _react2.default.createElement(_Input2.default, { sentMessageTo: this.sentMessageTo.bind(this), conversationId: this.state.conversationId, messageContainer: this.state.messageContainer, currentUser: this.state.currentUser, user: this.state.currentSelectedUser });
+	      var friendInput = _react2.default.createElement(_showConversation2.default, null);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(_Logout2.default, null),
 	        _react2.default.createElement(_Friendslist2.default, { user: this.showClickedUsername.bind(this), click: this.clickUser.bind(this) }),
-	        this.state.show ? input : null
+	        this.state.show ? input : null,
+	        this.state.currentUser === this.state.messageSentTo && this.state.messageSentTo !== null ? friendInput : null
 	      );
 	    }
 	  }]);
@@ -21592,7 +21660,7 @@
 	    _this.state = {
 	      messages: '',
 	      send: [],
-	      // send needs to be updated with the image val and then passed on to Messages component for renderi
+	      // send eeds to be updated with the image val and then passed on to Messages component for renderi
 	      displayIg: false,
 	      image: null
 	    };
@@ -21600,16 +21668,13 @@
 	  }
 
 	  _createClass(Input, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      var _this2 = this;
-
-	      socket.on('received', function (data) {
-	        console.log('data', data);
-	        _this2.setState({
-	          send: _this2.state.send.concat([data])
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      if (nextProps.messageContainer !== this.state.send) {
+	        this.setState({
+	          send: nextProps.messageContainer
 	        });
-	      });
+	      }
 	    }
 	  }, {
 	    key: 'handleChange',
@@ -21621,16 +21686,14 @@
 	    key: 'handleSubmit',
 	    value: function handleSubmit(e) {
 	      e.preventDefault();
-	      console.log('stock', this.state.socket);
-	      this.setState({
-	        send: this.state.send.concat([this.state.socket])
-	      });
 	      var userInput = {
-	        text: this.state.send,
+	        text: this.state.messages,
 	        senderName: this.props.currentUser,
 	        receiverName: this.props.user
 	      };
 
+	      socket.emit('new message', { id: this.props.conversationId, friend: this.props.user, text: this.state.messages });
+	      this.props.sentMessageTo(this.props.user);
 	      // fetch('http://localhost:3000/postMessages', {
 	      //   method: 'POST',
 	      //   credentials: 'include',
@@ -21648,8 +21711,6 @@
 	      //   .catch(err => {
 	      //     console.log('did not save messages', err );
 	      //   });
-	      console.log('lenfth', this.state.messages.length);
-	      socket.emit('sender', this.state.messages);
 
 	      this.setState({
 	        messages: ''
@@ -21665,14 +21726,11 @@
 	  }, {
 	    key: 'handleImg',
 	    value: function handleImg(val) {
-	      console.log('val', val);
-	      var imgSrc = '' + val;
-	      var img = _react2.default.createElement('img', { src: imgSrc });
 
+	      socket.emit('new message', { id: this.props.conversationId, friend: this.props.user, text: val });
 	      // this.setState({
 	      //   send: this.state.send.concat([img])
 	      // });
-	      socket.emit('sender', val);
 	    }
 	  }, {
 	    key: 'render',
@@ -21986,8 +22044,6 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -22036,13 +22092,6 @@
 	      });
 	    }
 	  }, {
-	    key: 'showText',
-	    value: function showText() {
-	      this.setState({
-	        show: !this.state.show
-	      });
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this3 = this;
@@ -22051,9 +22100,7 @@
 	        'div',
 	        { className: 'friends' },
 	        this.state.friends.map(function (friend, i) {
-	          var _React$createElement;
-
-	          return _react2.default.createElement(_FriendsEntry2.default, (_React$createElement = { user: _this3.props.user, key: i, click: _this3.showText.bind(_this3) }, _defineProperty(_React$createElement, 'click', _this3.props.click), _defineProperty(_React$createElement, 'friend', friend), _React$createElement));
+	          return _react2.default.createElement(_FriendsEntry2.default, { user: _this3.props.user, key: i, click: _this3.props.click, friend: friend });
 	        })
 	      );
 	    }
@@ -22653,6 +22700,63 @@
 	  self.fetch.polyfill = true
 	})(typeof self !== 'undefined' ? self : this);
 
+
+/***/ },
+/* 181 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(35);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var showConversation = function (_React$Component) {
+	  _inherits(showConversation, _React$Component);
+
+	  function showConversation(props) {
+	    _classCallCheck(this, showConversation);
+
+	    return _possibleConstructorReturn(this, (showConversation.__proto__ || Object.getPrototypeOf(showConversation)).call(this, props));
+	  }
+
+	  _createClass(showConversation, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        'Willll this work'
+	      );
+	    }
+	  }]);
+
+	  return showConversation;
+	}(_react2.default.Component);
+
+	exports.default = showConversation;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "showConversation.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }
 /******/ ]);

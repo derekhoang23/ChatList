@@ -2,15 +2,18 @@ var express = require('express');
 var path = require('path');
 var request = require('request');
 var bodyParser = require('body-parser');
-var router = require('./routes.js');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var mongoose = require('mongoose');
 var MongoStore = require('connect-mongo')(session);
 var app = express();
-var io = require('socket.io').listen(app.listen(3000));
+var socketEvents = require('./socketEvents.js');
+var server = app.listen(3000);
+var io = require('socket.io')(server);
+var router = require('./routes.js');
 require('dotenv').config();
 const connection = mongoose.createConnection(process.env.MONGODB_URI);
+socketEvents(io);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -27,6 +30,16 @@ app.use(session({
   }
 }));
 
+// app.io = io.sockets.on('connection', function(socket) {
+//   socket.on('server', function(data) {
+//     console.log('data', data);
+//   });
+// });
+
+// app.use(function(req, res, next) {
+//   req.io = io;
+//   next();
+// });
 
 
 
@@ -41,28 +54,12 @@ app.all('/*', function(req, res, next) {
 
 
 
-io.sockets.on('connection', function(socket) {
-  console.log('client connected');
-  socket.on('sender', function(data) {
-    console.log('data', data)
-    io.emit('received', data)
-  });
 
-});
-
-// app.use(function(req, res, next) {
-//   req.io = io;
-//   next();
-// });
 
 app.use('/', router);
 
 
 
-// app.listen(3000, function() {
-//   console.log('Listening to port 3000!');
-// });
 
 
-
-module.exports = app;
+// module.exports = passSocket;

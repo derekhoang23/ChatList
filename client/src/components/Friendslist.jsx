@@ -35,11 +35,8 @@ class Friendslist extends React.Component {
       });
   }
 
-  showText() {
-    this.setState({
-      show: !this.state.show
-    });
-  }
+
+
 
 
   render() {
@@ -47,7 +44,7 @@ class Friendslist extends React.Component {
     return (
       <div className='friends'>
         {this.state.friends.map((friend, i) =>
-          <FriendsEntry user={this.props.user} key={i} click={this.showText.bind(this)} click={this.props.click} friend={friend} />
+          <FriendsEntry user={this.props.user} key={i} click={this.props.click} friend={friend} />
         )}
         {/* {this.state.show ? displayText : null} */}
       </div>
