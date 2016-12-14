@@ -12,7 +12,7 @@ class FriendsEntry extends React.Component {
 
   showUserAndInput(e) {
     this.props.click();
-    this.props.user(e.target.innerHTML);
+    this.props.user(e.target.innerHTML, this.props.socketId);
   }
 
 

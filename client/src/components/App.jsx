@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import Input from './Input.jsx';
 import Messages from './Messages.jsx';
 import Friendslist from './Friendslist.jsx';
-import Logout from './Logout.jsx'
+import Logout from './Logout.jsx';
 import IgFeed from './IgFeed.jsx';
 import ShowConversation from './showConversation.jsx';
 var socket = io.connect('http://localhost:3000');
-
+import { Notification } from 'react-notification';
 
 class App extends React.Component {
   constructor(props) {
@@ -15,15 +15,16 @@ class App extends React.Component {
     this.state = {
       show: false,
       receivedMessage: false,
-      currentSelectedUser: '',
+      currentSelectedUser: null,
+      seletectedUserSocketId: null,
       currentUser: null,
       messageContainer: [],
       // need to serch database for conversation id in future otherwise this will be fine for now
-      conversationId: 1,
-      messageSentTo: null
+      socketId: null,
+      messageSentTo: null,
+      messageNotify: false
     };
   }
-
   componentDidMount() {
     fetch('http://localhost:3000/userInfo', {
       method: 'GET',
@@ -39,35 +40,59 @@ class App extends React.Component {
       this.setState({
         currentUser: user.username
       });
+      socket.emit('username', user.username);
     })
     .catch(err => {
       console.log('did not auth in', err);
     });
+    //
+    // socket.on('currentInfo', (list, socketId) => {
+    //   if (this.state.socketId === null) {
+    //     this.setState({
+    //       socketId: socketId
+    //     })
+    //   }
+    // })
+    // socket.on('userList', (userList, socketId) => {
+    //   if (this.state.socketId === null) {
+    //     this.setState({
+    //       socketId: socketId
+    //     })
+    //   }
+    // });
 
-    socket.on('refresh', this.refreshMessages.bind(this));
+    // socket.on(this.props.currentUser, data => {
+    //   console.log('data', data)
+    // })
+    socket.on('sendMsg', this.refreshMessages.bind(this))
+    // socket.on('sendMsg', this.refreshMessages.bind(this));
   }
-  //
-  // componentWillMount() {
-  //   if (this.state.messageSentTo !== this.state.currentUser) {
-  //     return  <Input sentMessageTo={this.sentMessageTo.bind(this)} id={this.state.conversationId} messageContainer={this.state.messageContainer} currentUser={this.state.currentUser} user={this.state.currentSelectedUser} />;
-  //   } else {
-  //     return null;
-  //   }
-  // }
+
+  addNotification() {
+    this.setState({
+      messageNotify: true
+    });
+  }
+
+  setConversationId(val) {
+    this.setState({
+      conversationId: val
+    })
+  }
 
   refreshMessages(data) {
     console.log('data', data);
-    if (data.text.length > 130 && data.text.slice(0, 33) === 'https://scontent.cdninstagram.com') {
-      var img = <img src={data.text}/>
+    if (data.msg.length > 130 && data.msg.slice(0, 33) === 'https://scontent.cdninstagram.com') {
+      var img = <img src={data.msg}/>
       this.setState({
         messageContainer: this.state.messageContainer.concat([img]),
-        messageSentTo: data.friend
+        messageSentTo: data.name
 
       })
     } else {
       this.setState({
-        messageContainer: this.state.messageContainer.concat([data.text]),
-        messageSentTo: data.friend
+        messageContainer: this.state.messageContainer.concat([data.msg]),
+        messageSentTo: data.name
       })
     }
   }
@@ -75,6 +100,7 @@ class App extends React.Component {
   enterMessage(value) {
     this.setState({messages: this.state.messages.concat([value])});
   }
+
 
   clickUser() {
     this.setState({
@@ -85,6 +111,7 @@ class App extends React.Component {
     // if (this.state.show === false) {
     //   socket.emit('leave conversation', this.state.currentSelectedUser);
     // }
+
   }
 
   sentMessageTo(val) {
@@ -95,12 +122,19 @@ class App extends React.Component {
     });
   }
 
-  showClickedUsername(val) {
-    this.setState({
-      currentSelectedUser: val
-    })
-    socket.emit('enter conversation', this.state.conversationId);
+  showClickedUsername(val, socketId) {
+    console.log('current state socket', this.state.socketId);
+    console.log('selected user socket id', socketId)
+    if (socketId === this.state.socketId) {
+      alert('cant message to yourself')
+    } else {
+      this.setState({
+        currentSelectedUser: val,
+        seletectedUserSocketId: socketId
+      })
+    }
 
+    // socket.emit('enter conversation', this.state.conversationId);
   }
 
   displayNewConversation() {
@@ -118,16 +152,18 @@ class App extends React.Component {
 
 
   render() {
-    var input = <Input sentMessageTo={this.sentMessageTo.bind(this)} conversationId={this.state.conversationId} messageContainer={this.state.messageContainer} currentUser={this.state.currentUser} user={this.state.currentSelectedUser} />;
-    var friendInput = <ShowConversation />;
+    var input = <Input notify={this.addNotification.bind(this)} sentMessageTo={this.sentMessageTo.bind(this)} messageContainer={this.state.messageContainer} socketId={this.state.seletectedUserSocketId} currentUser={this.state.currentUser} selectedUser={this.state.currentSelectedUser} />;
+    // var friendInput = <ShowConversation />;
     return (
       <div>
           <Logout />
-          <Friendslist user={this.showClickedUsername.bind(this)} click={this.clickUser.bind(this)}/>
+          <Friendslist currentUser={this.state.currentUser} user={this.showClickedUsername.bind(this)} click={this.clickUser.bind(this)}/>
           {this.state.show ? input : null}
-          {/* {this.state.sentMessageTo !== this.state.currentUser ? null : input} */}
-          {/* {this.displayNewConversation()} */}
-          {this.state.currentUser === this.state.messageSentTo && this.state.messageSentTo !== null ? friendInput : null}
+          {/* <Notification
+          isActive={this.state.messageNotify}
+          message={input}
+          /> */}
+          {this.dis}
       </div>
     );
   }

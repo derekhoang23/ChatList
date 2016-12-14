@@ -1,27 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Messages from './Messages.jsx';
+import ReceivedMessages from './ReceivedMessages.jsx';
 import IgFeed from './IgFeed.jsx';
 var socket = io.connect('http://localhost:3000');
-var messages = [];
+import update from 'react-addons-update';
+
 class Input extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       messages: '',
-      send: [],
+      send: [{receiver: [], sender: []}],
       // send eeds to be updated with the image val and then passed on to Messages component for renderi
       displayIg: false,
       image: null
     };
   }
 
+  // figure out how to render messages in order 
+
+
   componentWillReceiveProps(nextProps) {
-    if (nextProps.messageContainer !== this.state.send) {
+    if (nextProps.messageContainer !== this.state.send[0].receiver) {
+      console.log('fuihtgl hg', nextProps.messageContainer)
       this.setState({
-        send: nextProps.messageContainer
-      });
+        send: update(this.state.send, {0: {receiver: {$set: nextProps.messageContainer}}})
+      })
+
     }
+    console.log('whfiuerhfe', this.state.send)
   }
 
   handleChange(e) {
@@ -29,16 +37,13 @@ class Input extends React.Component {
     this.setState({messages: e.target.value});
   }
 
+
   handleSubmit(e) {
     e.preventDefault();
-    var userInput = {
-      text: this.state.messages,
-      senderName: this.props.currentUser,
-      receiverName: this.props.user
-    };
 
-    socket.emit('new message', {id: this.props.conversationId, friend:this.props.user, text: this.state.messages});
-    this.props.sentMessageTo(this.props.user);
+
+    // socket.emit('new message', {id: this.props.conversationId, friend:this.props.user, text: this.state.messages});
+    // this.props.sentMessageTo(this.props.user);
     // fetch('http://localhost:3000/postMessages', {
     //   method: 'POST',
     //   credentials: 'include',
@@ -56,11 +61,21 @@ class Input extends React.Component {
     //   .catch(err => {
     //     console.log('did not save messages', err );
     //   });
+    socket.emit('getMsg', {
+      toid: this.props.socketId,
+      msg: this.state.messages,
+      name: this.props.currentUser
+    })
+
+    this.setState({
+      send: update(this.state.send, {0: {sender: {$push: [this.state.messages]}}})
+    })
+
 
     this.setState({
       messages: ''
     });
-
+    // this.props.notify();
   }
 
   displayIg() {
@@ -79,7 +94,7 @@ class Input extends React.Component {
 
 
   render() {
-
+    console.log('fjuerihrg', this.state.send[0].sender)
     var showIg = <IgFeed handleImg={this.handleImg.bind(this)}/>;
     return (
       <div className='input'>
@@ -87,9 +102,11 @@ class Input extends React.Component {
           {this.props.user}
         </div>
         <div className='messageContainer'>
-          {this.state.send.map((message, i) => {
-            return <Messages key={i} message={message}/>;
+          {this.state.send.map(message => {
+            // return (<span>{<Messages key={i} sender={message.sender} receiver={message.receiver} />;}<br/></span>)
+            return (<div><Messages sender={message.sender} receiver={message.receiver} /></div>);
           })}
+
         </div>
           {this.state.displayIg ? showIg : null}
         {/* <div className='form'> */}
