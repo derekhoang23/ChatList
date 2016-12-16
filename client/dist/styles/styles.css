@@ -48,6 +48,7 @@ body {
   max-height: 90%;
   width: 250px;
   overflow: auto;
+  background-color: #ECEFF1;
 }
 
 .input-box {
@@ -129,7 +130,16 @@ body {
 
 .Me {
   text-align: right;
+  background-color: #CFD8DC;
+  border-radius: 1px;
 }
+
+.friendMessenger {
+  background-color: white;
+  border-radius: 1px;
+}
+
+
 
 
 

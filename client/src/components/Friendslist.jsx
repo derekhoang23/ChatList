@@ -40,6 +40,7 @@ class Friendslist extends React.Component {
     socket.on('userList', (data, socketId) => {
       for (let i = 0; i < data.length; i++) {
         if (this.state.socketId === null) {
+          this.props.currentUserSocket(socketId)
           this.setState({
             socketId: socketId
           });
@@ -63,7 +64,6 @@ class Friendslist extends React.Component {
       });
     });
 
-    // console.log('friends list', this.state.friends)
   }
 
 
@@ -71,7 +71,6 @@ class Friendslist extends React.Component {
 
 
   render() {
-    console.log('friends list', this.state.friends)
 
     return (
       <div className='friends'>

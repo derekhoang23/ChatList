@@ -15,7 +15,6 @@ class Messages extends React.Component {
 
 
   render() {
-    console.log('am i getting messages', this.props.messages)
     // var isImg = (this.props.receiver === undefined || this.props.receiver.length > 100 && this.props.receiver.slice(0, 33) === 'https://scontent.cdninstagram.com');
     // var isImg2 = (this.props.sender === undefined || this.props.sender.length > 100 && this.props.sender.slice(0, 33) === 'https://scontent.cdninstagram.com');
     var messages = this.props.messages.map((message, i) => {

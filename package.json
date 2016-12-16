@@ -62,6 +62,7 @@
     "react-addons-update": "^15.4.1",
     "react-dom": "^15.3.2",
     "react-notification": "^6.5.2",
+    "react-notification-system": "^0.2.11",
     "request": "^2.75.0",
     "request-promise": "^4.1.1",
     "session-memory-store": "^0.2.2",

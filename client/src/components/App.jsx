@@ -1,20 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Input from './Input.jsx';
+import FriendInput from './FriendInput.jsx';
 import Messages from './Messages.jsx';
 import Friendslist from './Friendslist.jsx';
 import Logout from './Logout.jsx';
 import IgFeed from './IgFeed.jsx';
 import ShowConversation from './showConversation.jsx';
 var socket = io.connect('http://localhost:3000');
-import { Notification } from 'react-notification';
+var NotificationSystem = require('react-notification-system');
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       show: false,
-      receivedMessage: false,
+      receivedMessage: [],
+      flag: false,
       currentSelectedUser: null,
       seletectedUserSocketId: null,
       currentUser: null,
@@ -22,6 +24,7 @@ class App extends React.Component {
       // need to serch database for conversation id in future otherwise this will be fine for now
       socketId: null
     };
+    this.notificationSystem = null;
   }
   componentDidMount() {
     fetch('http://localhost:3000/userInfo', {
@@ -62,19 +65,48 @@ class App extends React.Component {
     // socket.on(this.props.currentUser, data => {
     //   console.log('data', data)
     // })
-    socket.on('sendMsg', this.refreshMessages.bind(this))
+    socket.on('sendMsg', this.refreshMessages.bind(this));
     // socket.on('sendMsg', this.refreshMessages.bind(this));
+    this.notificationSystem = this.refs.notificationSystem;
+  }
+
+  clearNotification() {
+    this.notificationSystem.clearNotifications();
+  }
+
+  addNotification(val) {
+    this.notificationSystem.addNotification({
+      message: `${val.name} has sent you a message`,
+      level: 'success',
+      autoDismiss: 0
+    });
+    console.log('what is in this', this.notificationSystem);
   }
 
   refreshMessages(data) {
     console.log('data', data);
-    // var messages = this.state.messages;
+
+    var messages = this.state.messages;
+    var receivedMessage = this.state.receivedMessage;
     if (data.name !== this.state.currentUser) {
+      receivedMessage.push(data);
       this.setState({
-        receivedMessage: true
-      });
+        flag: true
+      })
+      this.addNotification(data);
+      this.setState({receivedMessage});
+    } else {
+      this.setState({
+        flag: false
+      })
     }
     this.addMessage(data);
+  }
+
+  currentUserSocket(val) {
+    this.setState({
+      socketId: val
+    });
   }
 
   sendHandler(value) {
@@ -83,10 +115,10 @@ class App extends React.Component {
       msg: value,
       name: this.state.currentUser
     }
-
     socket.emit('getMsg', messageObj);
     this.addMessage(messageObj);
   }
+
 
   addMessage(message) {
     var messages = this.state.messageContainer;
@@ -116,7 +148,8 @@ class App extends React.Component {
       this.setState({
         currentSelectedUser: val,
         seletectedUserSocketId: socketId
-      })
+      });
+      this.clearNotification()
     }
 
     // socket.emit('enter conversation', this.state.conversationId);
@@ -127,18 +160,17 @@ class App extends React.Component {
 
 
   render() {
+
     var input = <Input send={this.sendHandler.bind(this)} messageContainer={this.state.messageContainer} socketId={this.state.seletectedUserSocketId} currentUser={this.state.currentUser} selectedUser={this.state.currentSelectedUser} />;
     // var friendInput = <ShowConversation />;
+    var self = this;
     return (
       <div>
           <Logout />
-          <Friendslist currentUser={this.state.currentUser} user={this.showClickedUsername.bind(this)} click={this.clickUser.bind(this)}/>
+          <Friendslist currentUserSocket={this.currentUserSocket.bind(this)} currentUser={this.state.currentUser} user={this.showClickedUsername.bind(this)} click={this.clickUser.bind(this)}/>
           {this.state.show ? input : null}
-          {/* <Notification
-          isActive={this.state.messageNotify}
-          message={input}
-          /> */}
-          {this.dis}
+          {this.state.flag ? <NotificationSystem ref='notificationSystem' /> : null}
+          <NotificationSystem ref='notificationSystem' />
       </div>
     );
   }

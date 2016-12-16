@@ -6,7 +6,7 @@ import IgFeed from './IgFeed.jsx';
 var socket = io.connect('http://localhost:3000');
 import update from 'react-addons-update';
 
-class Input extends React.Component {
+class FriendInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,6 +18,17 @@ class Input extends React.Component {
     };
   }
 
+  // figure out how to render messages in order
+  //
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.messageContainer !== this.state.send[0].receiver) {
+  //     console.log('fuihtgl hg', nextProps.messageContainer)
+  //     this.setState({
+  //       send: update(this.state.send, {0: {receiver: {$set: nextProps.messageContainer}}})
+  //     })
+  //
+  //   }
+  // }
 
   handleChange(e) {
     e.preventDefault();
@@ -109,4 +120,4 @@ class Input extends React.Component {
   }
 }
 
-export default Input;
+export default FriendInput;
