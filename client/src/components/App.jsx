@@ -20,9 +20,7 @@ class App extends React.Component {
       currentUser: null,
       messageContainer: [],
       // need to serch database for conversation id in future otherwise this will be fine for now
-      socketId: null,
-      messageSentTo: null,
-      messageNotify: false
+      socketId: null
     };
   }
   componentDidMount() {
@@ -68,39 +66,33 @@ class App extends React.Component {
     // socket.on('sendMsg', this.refreshMessages.bind(this));
   }
 
-  addNotification() {
-    this.setState({
-      messageNotify: true
-    });
-  }
-
-  setConversationId(val) {
-    this.setState({
-      conversationId: val
-    })
-  }
-
   refreshMessages(data) {
     console.log('data', data);
-    if (data.msg.length > 130 && data.msg.slice(0, 33) === 'https://scontent.cdninstagram.com') {
-      var img = <img src={data.msg}/>
+    // var messages = this.state.messages;
+    if (data.name !== this.state.currentUser) {
       this.setState({
-        messageContainer: this.state.messageContainer.concat([img]),
-        messageSentTo: data.name
-
-      })
-    } else {
-      this.setState({
-        messageContainer: this.state.messageContainer.concat([data.msg]),
-        messageSentTo: data.name
-      })
+        receivedMessage: true
+      });
     }
+    this.addMessage(data);
   }
 
-  enterMessage(value) {
-    this.setState({messages: this.state.messages.concat([value])});
+  sendHandler(value) {
+    var messageObj = {
+      toid: this.state.seletectedUserSocketId,
+      msg: value,
+      name: this.state.currentUser
+    }
+
+    socket.emit('getMsg', messageObj);
+    this.addMessage(messageObj);
   }
 
+  addMessage(message) {
+    var messages = this.state.messageContainer;
+    messages.push(message);
+    this.setState({messages});
+  }
 
   clickUser() {
     this.setState({
@@ -114,13 +106,6 @@ class App extends React.Component {
 
   }
 
-  sentMessageTo(val) {
-    console.log('what is this', val)
-    console.log('who am i', this.state.currentUser);
-    this.setState({
-      sentMessageTo: val
-    });
-  }
 
   showClickedUsername(val, socketId) {
     console.log('current state socket', this.state.socketId);
@@ -137,22 +122,12 @@ class App extends React.Component {
     // socket.emit('enter conversation', this.state.conversationId);
   }
 
-  displayNewConversation() {
-    console.log('me', this.state.currentUser);
-    console.log('sending message to', this.state.messageSentTo);
-    if (this.state.currentUser !== this.state.messageSentTo) {
-      return <Input sentMessageTo={this.sentMessageTo.bind(this)} conversationId={this.state.conversationId} messageContainer={this.state.messageContainer} currentUser={this.state.currentUser} user={this.state.currentSelectedUser} />;
-    } else if (this.state.messageSentTo === null ) {
-      return null;
-    } else {
-      return null;
-    }
-  }
+
 
 
 
   render() {
-    var input = <Input notify={this.addNotification.bind(this)} sentMessageTo={this.sentMessageTo.bind(this)} messageContainer={this.state.messageContainer} socketId={this.state.seletectedUserSocketId} currentUser={this.state.currentUser} selectedUser={this.state.currentSelectedUser} />;
+    var input = <Input send={this.sendHandler.bind(this)} messageContainer={this.state.messageContainer} socketId={this.state.seletectedUserSocketId} currentUser={this.state.currentUser} selectedUser={this.state.currentSelectedUser} />;
     // var friendInput = <ShowConversation />;
     return (
       <div>

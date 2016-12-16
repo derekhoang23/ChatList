@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	module.exports = __webpack_require__(181);
+	module.exports = __webpack_require__(189);
 
 
 /***/ },
@@ -74,23 +74,23 @@
 
 	var _Messages2 = _interopRequireDefault(_Messages);
 
-	var _Friendslist = __webpack_require__(177);
+	var _Friendslist = __webpack_require__(180);
 
 	var _Friendslist2 = _interopRequireDefault(_Friendslist);
 
-	var _Logout = __webpack_require__(179);
+	var _Logout = __webpack_require__(182);
 
 	var _Logout2 = _interopRequireDefault(_Logout);
 
-	var _IgFeed = __webpack_require__(175);
+	var _IgFeed = __webpack_require__(176);
 
 	var _IgFeed2 = _interopRequireDefault(_IgFeed);
 
-	var _showConversation = __webpack_require__(180);
+	var _showConversation = __webpack_require__(183);
 
 	var _showConversation2 = _interopRequireDefault(_showConversation);
 
-	var _reactNotification = __webpack_require__(188);
+	var _reactNotification = __webpack_require__(184);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -118,9 +118,7 @@
 	      currentUser: null,
 	      messageContainer: [],
 	      // need to serch database for conversation id in future otherwise this will be fine for now
-	      socketId: null,
-	      messageSentTo: null,
-	      messageNotify: false
+	      socketId: null
 	    };
 	    return _this;
 	  }
@@ -171,41 +169,35 @@
 	      // socket.on('sendMsg', this.refreshMessages.bind(this));
 	    }
 	  }, {
-	    key: 'addNotification',
-	    value: function addNotification() {
-	      this.setState({
-	        messageNotify: true
-	      });
-	    }
-	  }, {
-	    key: 'setConversationId',
-	    value: function setConversationId(val) {
-	      this.setState({
-	        conversationId: val
-	      });
-	    }
-	  }, {
 	    key: 'refreshMessages',
 	    value: function refreshMessages(data) {
 	      console.log('data', data);
-	      if (data.msg.length > 130 && data.msg.slice(0, 33) === 'https://scontent.cdninstagram.com') {
-	        var img = _react2.default.createElement('img', { src: data.msg });
+	      // var messages = this.state.messages;
+	      if (data.name !== this.state.currentUser) {
 	        this.setState({
-	          messageContainer: this.state.messageContainer.concat([img]),
-	          messageSentTo: data.name
-
-	        });
-	      } else {
-	        this.setState({
-	          messageContainer: this.state.messageContainer.concat([data.msg]),
-	          messageSentTo: data.name
+	          receivedMessage: true
 	        });
 	      }
+	      this.addMessage(data);
 	    }
 	  }, {
-	    key: 'enterMessage',
-	    value: function enterMessage(value) {
-	      this.setState({ messages: this.state.messages.concat([value]) });
+	    key: 'sendHandler',
+	    value: function sendHandler(value) {
+	      var messageObj = {
+	        toid: this.state.seletectedUserSocketId,
+	        msg: value,
+	        name: this.state.currentUser
+	      };
+
+	      socket.emit('getMsg', messageObj);
+	      this.addMessage(messageObj);
+	    }
+	  }, {
+	    key: 'addMessage',
+	    value: function addMessage(message) {
+	      var messages = this.state.messageContainer;
+	      messages.push(message);
+	      this.setState({ messages: messages });
 	    }
 	  }, {
 	    key: 'clickUser',
@@ -217,15 +209,6 @@
 	      // if (this.state.show === false) {
 	      //   socket.emit('leave conversation', this.state.currentSelectedUser);
 	      // }
-	    }
-	  }, {
-	    key: 'sentMessageTo',
-	    value: function sentMessageTo(val) {
-	      console.log('what is this', val);
-	      console.log('who am i', this.state.currentUser);
-	      this.setState({
-	        sentMessageTo: val
-	      });
 	    }
 	  }, {
 	    key: 'showClickedUsername',
@@ -244,22 +227,9 @@
 	      // socket.emit('enter conversation', this.state.conversationId);
 	    }
 	  }, {
-	    key: 'displayNewConversation',
-	    value: function displayNewConversation() {
-	      console.log('me', this.state.currentUser);
-	      console.log('sending message to', this.state.messageSentTo);
-	      if (this.state.currentUser !== this.state.messageSentTo) {
-	        return _react2.default.createElement(_Input2.default, { sentMessageTo: this.sentMessageTo.bind(this), conversationId: this.state.conversationId, messageContainer: this.state.messageContainer, currentUser: this.state.currentUser, user: this.state.currentSelectedUser });
-	      } else if (this.state.messageSentTo === null) {
-	        return null;
-	      } else {
-	        return null;
-	      }
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var input = _react2.default.createElement(_Input2.default, { notify: this.addNotification.bind(this), sentMessageTo: this.sentMessageTo.bind(this), messageContainer: this.state.messageContainer, socketId: this.state.seletectedUserSocketId, currentUser: this.state.currentUser, selectedUser: this.state.currentSelectedUser });
+	      var input = _react2.default.createElement(_Input2.default, { send: this.sendHandler.bind(this), messageContainer: this.state.messageContainer, socketId: this.state.seletectedUserSocketId, currentUser: this.state.currentUser, selectedUser: this.state.currentSelectedUser });
 	      // var friendInput = <ShowConversation />;
 	      return _react2.default.createElement(
 	        'div',
@@ -21671,15 +21641,15 @@
 
 	var _Messages2 = _interopRequireDefault(_Messages);
 
-	var _ReceivedMessages = __webpack_require__(193);
+	var _ReceivedMessages = __webpack_require__(175);
 
 	var _ReceivedMessages2 = _interopRequireDefault(_ReceivedMessages);
 
-	var _IgFeed = __webpack_require__(175);
+	var _IgFeed = __webpack_require__(176);
 
 	var _IgFeed2 = _interopRequireDefault(_IgFeed);
 
-	var _reactAddonsUpdate = __webpack_require__(194);
+	var _reactAddonsUpdate = __webpack_require__(178);
 
 	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
 
@@ -21703,7 +21673,7 @@
 
 	    _this.state = {
 	      messages: '',
-	      send: [{ receiver: [], sender: [] }],
+	      // send: [{receiver: [], sender: []}],
 	      // send eeds to be updated with the image val and then passed on to Messages component for renderi
 	      displayIg: false,
 	      image: null
@@ -21711,21 +21681,19 @@
 	    return _this;
 	  }
 
-	  // figure out how to render messages in order 
-
+	  // figure out how to render messages in order
+	  //
+	  // componentWillReceiveProps(nextProps) {
+	  //   if (nextProps.messageContainer !== this.state.send[0].receiver) {
+	  //     console.log('fuihtgl hg', nextProps.messageContainer)
+	  //     this.setState({
+	  //       send: update(this.state.send, {0: {receiver: {$set: nextProps.messageContainer}}})
+	  //     })
+	  //
+	  //   }
+	  // }
 
 	  _createClass(Input, [{
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(nextProps) {
-	      if (nextProps.messageContainer !== this.state.send[0].receiver) {
-	        console.log('fuihtgl hg', nextProps.messageContainer);
-	        this.setState({
-	          send: (0, _reactAddonsUpdate2.default)(this.state.send, { 0: { receiver: { $set: nextProps.messageContainer } } })
-	        });
-	      }
-	      console.log('whfiuerhfe', this.state.send);
-	    }
-	  }, {
 	    key: 'handleChange',
 	    value: function handleChange(e) {
 	      e.preventDefault();
@@ -21755,16 +21723,17 @@
 	      //   .catch(err => {
 	      //     console.log('did not save messages', err );
 	      //   });
-	      socket.emit('getMsg', {
-	        toid: this.props.socketId,
-	        msg: this.state.messages,
-	        name: this.props.currentUser
-	      });
+	      // socket.emit('getMsg', {
+	      //   toid: this.props.socketId,
+	      //   msg: this.state.messages,
+	      //   name: this.props.currentUser
+	      // })
 
-	      this.setState({
-	        send: (0, _reactAddonsUpdate2.default)(this.state.send, { 0: { sender: { $push: [this.state.messages] } } })
-	      });
+	      // this.setState({
+	      //   send: update(this.state.send, {0: {sender: {$push: [this.state.messages]}}})
+	      // })
 
+	      this.props.send(this.state.messages);
 	      this.setState({
 	        messages: ''
 	      });
@@ -21780,8 +21749,8 @@
 	  }, {
 	    key: 'handleImg',
 	    value: function handleImg(val) {
-
-	      socket.emit('new message', { id: this.props.conversationId, friend: this.props.user, text: val });
+	      this.props.send(val);
+	      // socket.emit('new message', {id: this.props.conversationId, friend: this.props.user, text: val});
 	      // this.setState({
 	      //   send: this.state.send.concat([img])
 	      // });
@@ -21789,7 +21758,6 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log('fjuerihrg', this.state.send[0].sender);
 	      var showIg = _react2.default.createElement(_IgFeed2.default, { handleImg: this.handleImg.bind(this) });
 	      return _react2.default.createElement(
 	        'div',
@@ -21797,20 +21765,9 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'selectedUser' },
-	          this.props.user
+	          this.props.selectedUser
 	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'messageContainer' },
-	          this.state.send.map(function (message) {
-	            // return (<span>{<Messages key={i} sender={message.sender} receiver={message.receiver} />;}<br/></span>)
-	            return _react2.default.createElement(
-	              'div',
-	              null,
-	              _react2.default.createElement(_Messages2.default, { sender: message.sender, receiver: message.receiver })
-	            );
-	          })
-	        ),
+	        _react2.default.createElement(_Messages2.default, { currentUser: this.props.currentUser, messages: this.props.messageContainer }),
 	        this.state.displayIg ? showIg : null,
 	        _react2.default.createElement(
 	          'form',
@@ -21853,9 +21810,13 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _ReceivedMessages = __webpack_require__(193);
+	var _ReceivedMessages = __webpack_require__(175);
 
 	var _ReceivedMessages2 = _interopRequireDefault(_ReceivedMessages);
+
+	var _Message = __webpack_require__(190);
+
+	var _Message2 = _interopRequireDefault(_Message);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -21871,33 +21832,30 @@
 	  function Messages(props) {
 	    _classCallCheck(this, Messages);
 
-	    var _this = _possibleConstructorReturn(this, (Messages.__proto__ || Object.getPrototypeOf(Messages)).call(this, props));
-
-	    _this.state = {
-	      wtf: null
-	    };
-	    return _this;
+	    return _possibleConstructorReturn(this, (Messages.__proto__ || Object.getPrototypeOf(Messages)).call(this, props));
 	  }
 
 	  _createClass(Messages, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.setState({
-	        wtf: this.props.sender
-	      });
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      var objDiv = document.getElementById('messageContainer');
+	      objDiv.scrollTop = objDiv.scrollHeight;
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var isImg = this.props.receiver === undefined || this.props.receiver.length > 100 && this.props.receiver.slice(0, 33) === 'https://scontent.cdninstagram.com';
-	      var isImg2 = this.props.sender === undefined || this.props.sender.length > 100 && this.props.sender.slice(0, 33) === 'https://scontent.cdninstagram.com';
+	      var _this2 = this;
 
+	      console.log('am i getting messages', this.props.messages);
+	      // var isImg = (this.props.receiver === undefined || this.props.receiver.length > 100 && this.props.receiver.slice(0, 33) === 'https://scontent.cdninstagram.com');
+	      // var isImg2 = (this.props.sender === undefined || this.props.sender.length > 100 && this.props.sender.slice(0, 33) === 'https://scontent.cdninstagram.com');
+	      var messages = this.props.messages.map(function (message, i) {
+	        return _react2.default.createElement(_Message2.default, { key: i, currentUser: _this2.props.currentUser, messages: message.msg, name: message.name });
+	      });
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'messages' },
-	        this.state.wtf.map(function (message) {
-	          _react2.default.createElement(_ReceivedMessages2.default, { sender: message });
-	        })
+	        { id: 'messageContainer' },
+	        messages
 	      );
 	    }
 	  }]);
@@ -21927,7 +21885,71 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _IgFeedEntry = __webpack_require__(176);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ReceivedMessages = function (_React$Component) {
+	  _inherits(ReceivedMessages, _React$Component);
+
+	  function ReceivedMessages(props) {
+	    _classCallCheck(this, ReceivedMessages);
+
+	    return _possibleConstructorReturn(this, (ReceivedMessages.__proto__ || Object.getPrototypeOf(ReceivedMessages)).call(this, props));
+	  }
+	  //
+
+
+	  _createClass(ReceivedMessages, [{
+	    key: 'render',
+	    value: function render() {
+	      var isImg = this.props.receiver === undefined || this.props.receiver.length > 100 && this.props.receiver.slice(0, 33) === 'https://scontent.cdninstagram.com';
+	      // var isImg2 = (this.props.sender === undefined || this.props.sender.length > 100 && this.props.sender.slice(0, 33) === 'https://scontent.cdninstagram.com');
+
+	      return (
+	        // <div className='messages'>
+	        //   { isImg ? <img src={this.props.receiver} /> : this.props.receiver }
+	        //   {/* { isImg2 ? <img src={this.props.sender} /> : this.props.sender } */}
+	        // </div>\
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          this.props.sender
+	        )
+	      );
+	    }
+	  }]);
+
+	  return ReceivedMessages;
+	}(_react2.default.Component);
+
+	exports.default = ReceivedMessages;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "ReceivedMessages.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 176 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _IgFeedEntry = __webpack_require__(177);
 
 	var _IgFeedEntry2 = _interopRequireDefault(_IgFeedEntry);
 
@@ -22022,7 +22044,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "IgFeed.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 176 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -22092,7 +22114,132 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "IgFeedEntry.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 177 */
+/* 178 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(179);
+
+/***/ },
+/* 179 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule update
+	 */
+
+	/* global hasOwnProperty:true */
+
+	'use strict';
+
+	var _prodInvariant = __webpack_require__(8),
+	    _assign = __webpack_require__(5);
+
+	var keyOf = __webpack_require__(26);
+	var invariant = __webpack_require__(9);
+	var hasOwnProperty = {}.hasOwnProperty;
+
+	function shallowCopy(x) {
+	  if (Array.isArray(x)) {
+	    return x.concat();
+	  } else if (x && typeof x === 'object') {
+	    return _assign(new x.constructor(), x);
+	  } else {
+	    return x;
+	  }
+	}
+
+	var COMMAND_PUSH = keyOf({ $push: null });
+	var COMMAND_UNSHIFT = keyOf({ $unshift: null });
+	var COMMAND_SPLICE = keyOf({ $splice: null });
+	var COMMAND_SET = keyOf({ $set: null });
+	var COMMAND_MERGE = keyOf({ $merge: null });
+	var COMMAND_APPLY = keyOf({ $apply: null });
+
+	var ALL_COMMANDS_LIST = [COMMAND_PUSH, COMMAND_UNSHIFT, COMMAND_SPLICE, COMMAND_SET, COMMAND_MERGE, COMMAND_APPLY];
+
+	var ALL_COMMANDS_SET = {};
+
+	ALL_COMMANDS_LIST.forEach(function (command) {
+	  ALL_COMMANDS_SET[command] = true;
+	});
+
+	function invariantArrayCase(value, spec, command) {
+	  !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected target of %s to be an array; got %s.', command, value) : _prodInvariant('1', command, value) : void 0;
+	  var specValue = spec[command];
+	  !Array.isArray(specValue) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array; got %s. Did you forget to wrap your parameter in an array?', command, specValue) : _prodInvariant('2', command, specValue) : void 0;
+	}
+
+	/**
+	 * Returns a updated shallow copy of an object without mutating the original.
+	 * See https://facebook.github.io/react/docs/update.html for details.
+	 */
+	function update(value, spec) {
+	  !(typeof spec === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): You provided a key path to update() that did not contain one of %s. Did you forget to include {%s: ...}?', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : _prodInvariant('3', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : void 0;
+
+	  if (hasOwnProperty.call(spec, COMMAND_SET)) {
+	    !(Object.keys(spec).length === 1) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Cannot have more than one key in an object with %s', COMMAND_SET) : _prodInvariant('4', COMMAND_SET) : void 0;
+
+	    return spec[COMMAND_SET];
+	  }
+
+	  var nextValue = shallowCopy(value);
+
+	  if (hasOwnProperty.call(spec, COMMAND_MERGE)) {
+	    var mergeObj = spec[COMMAND_MERGE];
+	    !(mergeObj && typeof mergeObj === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a spec of type \'object\'; got %s', COMMAND_MERGE, mergeObj) : _prodInvariant('5', COMMAND_MERGE, mergeObj) : void 0;
+	    !(nextValue && typeof nextValue === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a target of type \'object\'; got %s', COMMAND_MERGE, nextValue) : _prodInvariant('6', COMMAND_MERGE, nextValue) : void 0;
+	    _assign(nextValue, spec[COMMAND_MERGE]);
+	  }
+
+	  if (hasOwnProperty.call(spec, COMMAND_PUSH)) {
+	    invariantArrayCase(value, spec, COMMAND_PUSH);
+	    spec[COMMAND_PUSH].forEach(function (item) {
+	      nextValue.push(item);
+	    });
+	  }
+
+	  if (hasOwnProperty.call(spec, COMMAND_UNSHIFT)) {
+	    invariantArrayCase(value, spec, COMMAND_UNSHIFT);
+	    spec[COMMAND_UNSHIFT].forEach(function (item) {
+	      nextValue.unshift(item);
+	    });
+	  }
+
+	  if (hasOwnProperty.call(spec, COMMAND_SPLICE)) {
+	    !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Expected %s target to be an array; got %s', COMMAND_SPLICE, value) : _prodInvariant('7', COMMAND_SPLICE, value) : void 0;
+	    !Array.isArray(spec[COMMAND_SPLICE]) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : _prodInvariant('8', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : void 0;
+	    spec[COMMAND_SPLICE].forEach(function (args) {
+	      !Array.isArray(args) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : _prodInvariant('8', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : void 0;
+	      nextValue.splice.apply(nextValue, args);
+	    });
+	  }
+
+	  if (hasOwnProperty.call(spec, COMMAND_APPLY)) {
+	    !(typeof spec[COMMAND_APPLY] === 'function') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be a function; got %s.', COMMAND_APPLY, spec[COMMAND_APPLY]) : _prodInvariant('9', COMMAND_APPLY, spec[COMMAND_APPLY]) : void 0;
+	    nextValue = spec[COMMAND_APPLY](nextValue);
+	  }
+
+	  for (var k in spec) {
+	    if (!(ALL_COMMANDS_SET.hasOwnProperty(k) && ALL_COMMANDS_SET[k])) {
+	      nextValue[k] = update(value[k], spec[k]);
+	    }
+	  }
+
+	  return nextValue;
+	}
+
+	module.exports = update;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+
+/***/ },
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -22113,13 +22260,17 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _FriendsEntry = __webpack_require__(178);
+	var _FriendsEntry = __webpack_require__(181);
 
 	var _FriendsEntry2 = _interopRequireDefault(_FriendsEntry);
 
 	var _Input = __webpack_require__(173);
 
 	var _Input2 = _interopRequireDefault(_Input);
+
+	var _reactAddonsUpdate = __webpack_require__(178);
+
+	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22148,45 +22299,38 @@
 	    return _this;
 	  }
 
-	  // on load pull all friends data
-
-
 	  _createClass(Friendslist, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var _this2 = this;
 
-	      fetch('http://localhost:3000/userList', {
-	        method: 'GET',
-	        credentials: 'include',
-	        mode: 'no-cors',
-	        headers: {
-	          'Content-Type': 'application/json'
-	        }
-	      }).then(function (res) {
-	        return res.json();
-	      }).then(function (data) {
-	        // this.setState({
-	        //   friends: this.state.friends.concat([data.name])
-	        // });
-	        // socket.emit('username', data.name)
-	      }).catch(function (err) {
-	        console.log('error in getting instagram feedback', err);
-	      });
+	      // fetch('http://localhost:3000/userList', {
+	      //   method: 'GET',
+	      //   credentials: 'include',
+	      //   mode: 'no-cors',
+	      //   headers: {
+	      //     'Content-Type': 'application/json'
+	      //   }
+	      // })
+	      // .then(res =>
+	      //   res.json())
+	      // .then(data => {
+	      // this.setState({
+	      //   friends: this.state.friends.concat([data.name])
+	      // });
+	      // socket.emit('username', data.name)
+	      // })
+	      // .catch(err => {
+	      //   console.log('error in getting instagram feedback', err);
+	      // });
 
 	      socket.on('userList', function (data, socketId) {
-	        // this.setState({
-	        //   friends: this.state.friends.concat(data)
-	        // });
-	        console.log('wuergregt', data);
-	        console.log('id', socketId);
 	        for (var i = 0; i < data.length; i++) {
 	          if (_this2.state.socketId === null) {
 	            _this2.setState({
 	              socketId: socketId
 	            });
 	          }
-	          console.log('erfhurghthjrg', _this2.props.currentUser);
 	          if (_this2.props.currentUser !== data[i].userName) {
 	            _this2.setState({
 	              friends: _this2.state.friends.concat(data[i])
@@ -22194,15 +22338,27 @@
 	          }
 	        }
 	      });
+
+	      socket.on('exit', function (user) {
+	        // this.state.friends.findIndex(u => {
+	        //   return u === user;
+	        var index = _this2.state.friends.indexOf(user);
+
+	        // }).slice()
+	        _this2.setState({
+	          friends: (0, _reactAddonsUpdate2.default)(_this2.state.friends, { $splice: [[index, 1]] })
+	        });
+	      });
+
+	      // console.log('friends list', this.state.friends)
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this3 = this;
 
-	      console.log('friends', this.state.friends);
-	      // var displayText = <Input />;
-	      console.log('current socket', this.state.socketId);
+	      console.log('friends list', this.state.friends);
+
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'friends' },
@@ -22221,7 +22377,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Friendslist.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 178 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -22297,7 +22453,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "FriendsEntry.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 179 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -22370,7 +22526,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Logout.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 180 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -22427,7 +22583,468 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "showConversation.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 181 */
+/* 184 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _notification = __webpack_require__(185);
+
+	Object.defineProperty(exports, 'Notification', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_notification).default;
+	  }
+	});
+
+	var _notificationStack = __webpack_require__(187);
+
+	Object.defineProperty(exports, 'NotificationStack', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_notificationStack).default;
+	  }
+	});
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/***/ },
+/* 185 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _defaultPropTypes = __webpack_require__(186);
+
+	var _defaultPropTypes2 = _interopRequireDefault(_defaultPropTypes);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Notification = function (_Component) {
+	  _inherits(Notification, _Component);
+
+	  function Notification(props) {
+	    _classCallCheck(this, Notification);
+
+	    var _this = _possibleConstructorReturn(this, (Notification.__proto__ || Object.getPrototypeOf(Notification)).call(this, props));
+
+	    _this.getBarStyle = _this.getBarStyle.bind(_this);
+	    _this.getActionStyle = _this.getActionStyle.bind(_this);
+	    _this.getTitleStyle = _this.getTitleStyle.bind(_this);
+	    _this.handleClick = _this.handleClick.bind(_this);
+
+	    if (props.onDismiss && props.isActive) {
+	      _this.dismissTimeout = setTimeout(props.onDismiss, props.dismissAfter);
+	    }
+	    return _this;
+	  }
+
+	  _createClass(Notification, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      if (this.props.dismissAfter === false) return;
+
+	      // See http://eslint.org/docs/rules/no-prototype-builtins
+	      if (!{}.hasOwnProperty.call(nextProps, 'isLast')) {
+	        clearTimeout(this.dismissTimeout);
+	      }
+
+	      if (nextProps.onDismiss && nextProps.isActive && !this.props.isActive) {
+	        this.dismissTimeout = setTimeout(nextProps.onDismiss, nextProps.dismissAfter);
+	      }
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      if (this.props.dismissAfter) clearTimeout(this.dismissTimeout);
+	    }
+
+	    /*
+	    * @description Dynamically get the styles for the bar.
+	    * @returns {object} result The style.
+	    */
+
+	  }, {
+	    key: 'getBarStyle',
+	    value: function getBarStyle() {
+	      if (this.props.style === false) return {};
+
+	      var _props = this.props,
+	          isActive = _props.isActive,
+	          barStyle = _props.barStyle,
+	          activeBarStyle = _props.activeBarStyle;
+
+
+	      var baseStyle = {
+	        position: 'fixed',
+	        bottom: '2rem',
+	        left: '-100%',
+	        width: 'auto',
+	        padding: '1rem',
+	        margin: 0,
+	        color: '#fafafa',
+	        font: '1rem normal Roboto, sans-serif',
+	        borderRadius: '5px',
+	        background: '#212121',
+	        borderSizing: 'border-box',
+	        boxShadow: '0 0 1px 1px rgba(10, 10, 11, .125)',
+	        cursor: 'default',
+	        WebKitTransition: '.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
+	        MozTransition: '.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
+	        msTransition: '.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
+	        OTransition: '.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
+	        transition: '.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
+	        WebkitTransform: 'translatez(0)',
+	        MozTransform: 'translatez(0)',
+	        msTransform: 'translatez(0)',
+	        OTransform: 'translatez(0)',
+	        transform: 'translatez(0)'
+	      };
+
+	      return isActive ? _extends({}, baseStyle, { left: '1rem' }, barStyle, activeBarStyle) : _extends({}, baseStyle, barStyle);
+	    }
+
+	    /*
+	    * @function getActionStyle
+	    * @description Dynamically get the styles for the action text.
+	    * @returns {object} result The style.
+	    */
+
+	  }, {
+	    key: 'getActionStyle',
+	    value: function getActionStyle() {
+	      return this.props.style !== false ? _extends({}, {
+	        padding: '0.125rem',
+	        marginLeft: '1rem',
+	        color: '#f44336',
+	        font: '.75rem normal Roboto, sans-serif',
+	        lineHeight: '1rem',
+	        letterSpacing: '.125ex',
+	        textTransform: 'uppercase',
+	        borderRadius: '5px',
+	        cursor: 'pointer'
+	      }, this.props.actionStyle) : {};
+	    }
+
+	    /*
+	    * @function getTitleStyle
+	    * @description Dynamically get the styles for the title.
+	    * @returns {object} result The style.
+	    */
+
+	  }, {
+	    key: 'getTitleStyle',
+	    value: function getTitleStyle() {
+	      return this.props.style !== false ? _extends({}, {
+	        fontWeight: '700',
+	        marginRight: '.5rem'
+	      }, this.props.titleStyle) : {};
+	    }
+
+	    /*
+	    * @function handleClick
+	    * @description Handle click events on the action button.
+	    */
+
+	  }, {
+	    key: 'handleClick',
+	    value: function handleClick() {
+	      if (this.props.onClick && typeof this.props.onClick === 'function') {
+	        return this.props.onClick();
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var className = 'notification-bar';
+
+	      if (this.props.isActive) className += ' ' + this.props.activeClassName;
+	      if (this.props.className) className += ' ' + this.props.className;
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: className, style: this.getBarStyle() },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'notification-bar-wrapper' },
+	          this.props.title ? _react2.default.createElement(
+	            'span',
+	            {
+	              className: 'notification-bar-title',
+	              style: this.getTitleStyle()
+	            },
+	            this.props.title
+	          ) : null,
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'notification-bar-message' },
+	            this.props.message
+	          ),
+	          this.props.action ? _react2.default.createElement(
+	            'span',
+	            {
+	              className: 'notification-bar-action',
+	              onClick: this.handleClick,
+	              style: this.getActionStyle()
+	            },
+	            this.props.action
+	          ) : null
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Notification;
+	}(_react.Component);
+
+	Notification.propTypes = _defaultPropTypes2.default;
+
+	Notification.defaultProps = {
+	  isActive: false,
+	  dismissAfter: 2000,
+	  activeClassName: 'notification-bar-active'
+	};
+
+	exports.default = Notification;
+
+/***/ },
+/* 186 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(2);
+
+	exports.default = {
+	  message: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.element]).isRequired,
+	  action: _react.PropTypes.oneOfType([_react.PropTypes.bool, _react.PropTypes.string, _react.PropTypes.node]),
+	  onClick: _react.PropTypes.func,
+	  style: _react.PropTypes.bool,
+	  actionStyle: _react.PropTypes.object,
+	  barStyle: _react.PropTypes.object,
+	  activeBarStyle: _react.PropTypes.object,
+	  dismissAfter: _react.PropTypes.oneOfType([_react.PropTypes.bool, _react.PropTypes.number]),
+	  onDismiss: _react.PropTypes.func,
+	  className: _react.PropTypes.string,
+	  activeClassName: _react.PropTypes.string,
+	  isActive: _react.PropTypes.bool,
+	  title: _react.PropTypes.string
+	};
+
+/***/ },
+/* 187 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /* eslint-disable react/jsx-no-bind */
+
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _stackedNotification = __webpack_require__(188);
+
+	var _stackedNotification2 = _interopRequireDefault(_stackedNotification);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function defaultStyleFactory(index, style) {
+	  return _extends({}, style, { bottom: 2 + index * 4 + 'rem' });
+	}
+
+	/**
+	* The notification list does not have any state, so use a
+	* pure function here. It just needs to return the stacked array
+	* of notification components.
+	*/
+	var NotificationStack = function NotificationStack(props) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'notification-list' },
+	    props.notifications.map(function (notification, index) {
+	      var isLast = index === 0 && props.notifications.length === 1;
+	      var dismissNow = isLast || !props.dismissInOrder;
+	      var dismissAfter = notification.dismissAfter;
+
+	      if (dismissAfter !== false) {
+	        if (dismissAfter == null) dismissAfter = props.dismissAfter;
+	        if (!dismissNow) dismissAfter += index * 1000;
+	      }
+	      var barStyle = props.barStyleFactory(index, notification.barStyle);
+	      var activeBarStyle = props.activeBarStyleFactory(index, notification.activeBarStyle);
+
+	      return _react2.default.createElement(_stackedNotification2.default, _extends({}, notification, {
+	        key: notification.key,
+	        isLast: isLast,
+	        action: notification.action || props.action,
+	        dismissAfter: dismissAfter,
+	        onDismiss: props.onDismiss.bind(undefined, notification),
+	        activeBarStyle: activeBarStyle,
+	        barStyle: barStyle
+	      }));
+	    })
+	  );
+	};
+
+	/* eslint-disable react/no-unused-prop-types, react/forbid-prop-types */
+
+	NotificationStack.propTypes = {
+	  activeBarStyleFactory: _react.PropTypes.func,
+	  barStyleFactory: _react.PropTypes.func,
+	  dismissInOrder: _react.PropTypes.bool.isRequired,
+	  notifications: _react.PropTypes.array.isRequired,
+	  onDismiss: _react.PropTypes.func.isRequired
+	};
+
+	NotificationStack.defaultProps = {
+	  activeBarStyleFactory: defaultStyleFactory,
+	  barStyleFactory: defaultStyleFactory,
+	  dismissInOrder: true,
+	  dismissAfter: 1000
+	};
+
+	/* eslint-enable no-alert, no-console */
+
+	exports.default = NotificationStack;
+
+/***/ },
+/* 188 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _defaultPropTypes = __webpack_require__(186);
+
+	var _defaultPropTypes2 = _interopRequireDefault(_defaultPropTypes);
+
+	var _notification = __webpack_require__(185);
+
+	var _notification2 = _interopRequireDefault(_notification);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var StackedNotification = function (_Component) {
+	  _inherits(StackedNotification, _Component);
+
+	  function StackedNotification(props) {
+	    _classCallCheck(this, StackedNotification);
+
+	    var _this = _possibleConstructorReturn(this, (StackedNotification.__proto__ || Object.getPrototypeOf(StackedNotification)).call(this, props));
+
+	    _this.state = {
+	      isActive: false
+	    };
+
+	    _this.handleClick = _this.handleClick.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(StackedNotification, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.activeTimeout = setTimeout(this.setState.bind(this, {
+	        isActive: true
+	      }), 1);
+
+	      if (this.props.dismissAfter) {
+	        this.dismissTimeout = setTimeout(this.setState.bind(this, {
+	          isActive: false
+	        }), this.props.dismissAfter);
+	      }
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      clearTimeout(this.activeTimeout);
+	      clearTimeout(this.dismissTimeout);
+	    }
+
+	    /*
+	    * @function handleClick
+	    * @description Bind deactivate Notification function to Notification click handler
+	    */
+
+	  }, {
+	    key: 'handleClick',
+	    value: function handleClick() {
+	      if (this.props.onClick && typeof this.props.onClick === 'function') {
+	        return this.props.onClick(this.setState.bind(this, { isActive: false }));
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      return _react2.default.createElement(_notification2.default, _extends({}, this.props, {
+	        onClick: this.handleClick,
+	        onDismiss: function onDismiss() {
+	          return setTimeout(_this2.props.onDismiss, 300);
+	        },
+	        isActive: this.state.isActive
+	      }));
+	    }
+	  }]);
+
+	  return StackedNotification;
+	}(_react.Component);
+
+	StackedNotification.propTypes = _defaultPropTypes2.default;
+
+	exports.default = StackedNotification;
+
+/***/ },
+/* 189 */
 /***/ function(module, exports) {
 
 	(function(self) {
@@ -22866,474 +23483,7 @@
 
 
 /***/ },
-/* 182 */,
-/* 183 */,
-/* 184 */,
-/* 185 */,
-/* 186 */,
-/* 187 */,
-/* 188 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _notification = __webpack_require__(189);
-
-	Object.defineProperty(exports, 'Notification', {
-	  enumerable: true,
-	  get: function get() {
-	    return _interopRequireDefault(_notification).default;
-	  }
-	});
-
-	var _notificationStack = __webpack_require__(191);
-
-	Object.defineProperty(exports, 'NotificationStack', {
-	  enumerable: true,
-	  get: function get() {
-	    return _interopRequireDefault(_notificationStack).default;
-	  }
-	});
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-/***/ },
-/* 189 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _defaultPropTypes = __webpack_require__(190);
-
-	var _defaultPropTypes2 = _interopRequireDefault(_defaultPropTypes);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Notification = function (_Component) {
-	  _inherits(Notification, _Component);
-
-	  function Notification(props) {
-	    _classCallCheck(this, Notification);
-
-	    var _this = _possibleConstructorReturn(this, (Notification.__proto__ || Object.getPrototypeOf(Notification)).call(this, props));
-
-	    _this.getBarStyle = _this.getBarStyle.bind(_this);
-	    _this.getActionStyle = _this.getActionStyle.bind(_this);
-	    _this.getTitleStyle = _this.getTitleStyle.bind(_this);
-	    _this.handleClick = _this.handleClick.bind(_this);
-
-	    if (props.onDismiss && props.isActive) {
-	      _this.dismissTimeout = setTimeout(props.onDismiss, props.dismissAfter);
-	    }
-	    return _this;
-	  }
-
-	  _createClass(Notification, [{
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(nextProps) {
-	      if (this.props.dismissAfter === false) return;
-
-	      // See http://eslint.org/docs/rules/no-prototype-builtins
-	      if (!{}.hasOwnProperty.call(nextProps, 'isLast')) {
-	        clearTimeout(this.dismissTimeout);
-	      }
-
-	      if (nextProps.onDismiss && nextProps.isActive && !this.props.isActive) {
-	        this.dismissTimeout = setTimeout(nextProps.onDismiss, nextProps.dismissAfter);
-	      }
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      if (this.props.dismissAfter) clearTimeout(this.dismissTimeout);
-	    }
-
-	    /*
-	    * @description Dynamically get the styles for the bar.
-	    * @returns {object} result The style.
-	    */
-
-	  }, {
-	    key: 'getBarStyle',
-	    value: function getBarStyle() {
-	      if (this.props.style === false) return {};
-
-	      var _props = this.props,
-	          isActive = _props.isActive,
-	          barStyle = _props.barStyle,
-	          activeBarStyle = _props.activeBarStyle;
-
-
-	      var baseStyle = {
-	        position: 'fixed',
-	        bottom: '2rem',
-	        left: '-100%',
-	        width: 'auto',
-	        padding: '1rem',
-	        margin: 0,
-	        color: '#fafafa',
-	        font: '1rem normal Roboto, sans-serif',
-	        borderRadius: '5px',
-	        background: '#212121',
-	        borderSizing: 'border-box',
-	        boxShadow: '0 0 1px 1px rgba(10, 10, 11, .125)',
-	        cursor: 'default',
-	        WebKitTransition: '.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
-	        MozTransition: '.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
-	        msTransition: '.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
-	        OTransition: '.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
-	        transition: '.5s cubic-bezier(0.89, 0.01, 0.5, 1.1)',
-	        WebkitTransform: 'translatez(0)',
-	        MozTransform: 'translatez(0)',
-	        msTransform: 'translatez(0)',
-	        OTransform: 'translatez(0)',
-	        transform: 'translatez(0)'
-	      };
-
-	      return isActive ? _extends({}, baseStyle, { left: '1rem' }, barStyle, activeBarStyle) : _extends({}, baseStyle, barStyle);
-	    }
-
-	    /*
-	    * @function getActionStyle
-	    * @description Dynamically get the styles for the action text.
-	    * @returns {object} result The style.
-	    */
-
-	  }, {
-	    key: 'getActionStyle',
-	    value: function getActionStyle() {
-	      return this.props.style !== false ? _extends({}, {
-	        padding: '0.125rem',
-	        marginLeft: '1rem',
-	        color: '#f44336',
-	        font: '.75rem normal Roboto, sans-serif',
-	        lineHeight: '1rem',
-	        letterSpacing: '.125ex',
-	        textTransform: 'uppercase',
-	        borderRadius: '5px',
-	        cursor: 'pointer'
-	      }, this.props.actionStyle) : {};
-	    }
-
-	    /*
-	    * @function getTitleStyle
-	    * @description Dynamically get the styles for the title.
-	    * @returns {object} result The style.
-	    */
-
-	  }, {
-	    key: 'getTitleStyle',
-	    value: function getTitleStyle() {
-	      return this.props.style !== false ? _extends({}, {
-	        fontWeight: '700',
-	        marginRight: '.5rem'
-	      }, this.props.titleStyle) : {};
-	    }
-
-	    /*
-	    * @function handleClick
-	    * @description Handle click events on the action button.
-	    */
-
-	  }, {
-	    key: 'handleClick',
-	    value: function handleClick() {
-	      if (this.props.onClick && typeof this.props.onClick === 'function') {
-	        return this.props.onClick();
-	      }
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var className = 'notification-bar';
-
-	      if (this.props.isActive) className += ' ' + this.props.activeClassName;
-	      if (this.props.className) className += ' ' + this.props.className;
-
-	      return _react2.default.createElement(
-	        'div',
-	        { className: className, style: this.getBarStyle() },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'notification-bar-wrapper' },
-	          this.props.title ? _react2.default.createElement(
-	            'span',
-	            {
-	              className: 'notification-bar-title',
-	              style: this.getTitleStyle()
-	            },
-	            this.props.title
-	          ) : null,
-	          _react2.default.createElement(
-	            'span',
-	            { className: 'notification-bar-message' },
-	            this.props.message
-	          ),
-	          this.props.action ? _react2.default.createElement(
-	            'span',
-	            {
-	              className: 'notification-bar-action',
-	              onClick: this.handleClick,
-	              style: this.getActionStyle()
-	            },
-	            this.props.action
-	          ) : null
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Notification;
-	}(_react.Component);
-
-	Notification.propTypes = _defaultPropTypes2.default;
-
-	Notification.defaultProps = {
-	  isActive: false,
-	  dismissAfter: 2000,
-	  activeClassName: 'notification-bar-active'
-	};
-
-	exports.default = Notification;
-
-/***/ },
 /* 190 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(2);
-
-	exports.default = {
-	  message: _react.PropTypes.oneOfType([_react.PropTypes.string, _react.PropTypes.element]).isRequired,
-	  action: _react.PropTypes.oneOfType([_react.PropTypes.bool, _react.PropTypes.string, _react.PropTypes.node]),
-	  onClick: _react.PropTypes.func,
-	  style: _react.PropTypes.bool,
-	  actionStyle: _react.PropTypes.object,
-	  barStyle: _react.PropTypes.object,
-	  activeBarStyle: _react.PropTypes.object,
-	  dismissAfter: _react.PropTypes.oneOfType([_react.PropTypes.bool, _react.PropTypes.number]),
-	  onDismiss: _react.PropTypes.func,
-	  className: _react.PropTypes.string,
-	  activeClassName: _react.PropTypes.string,
-	  isActive: _react.PropTypes.bool,
-	  title: _react.PropTypes.string
-	};
-
-/***/ },
-/* 191 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /* eslint-disable react/jsx-no-bind */
-
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _stackedNotification = __webpack_require__(192);
-
-	var _stackedNotification2 = _interopRequireDefault(_stackedNotification);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function defaultStyleFactory(index, style) {
-	  return _extends({}, style, { bottom: 2 + index * 4 + 'rem' });
-	}
-
-	/**
-	* The notification list does not have any state, so use a
-	* pure function here. It just needs to return the stacked array
-	* of notification components.
-	*/
-	var NotificationStack = function NotificationStack(props) {
-	  return _react2.default.createElement(
-	    'div',
-	    { className: 'notification-list' },
-	    props.notifications.map(function (notification, index) {
-	      var isLast = index === 0 && props.notifications.length === 1;
-	      var dismissNow = isLast || !props.dismissInOrder;
-	      var dismissAfter = notification.dismissAfter;
-
-	      if (dismissAfter !== false) {
-	        if (dismissAfter == null) dismissAfter = props.dismissAfter;
-	        if (!dismissNow) dismissAfter += index * 1000;
-	      }
-	      var barStyle = props.barStyleFactory(index, notification.barStyle);
-	      var activeBarStyle = props.activeBarStyleFactory(index, notification.activeBarStyle);
-
-	      return _react2.default.createElement(_stackedNotification2.default, _extends({}, notification, {
-	        key: notification.key,
-	        isLast: isLast,
-	        action: notification.action || props.action,
-	        dismissAfter: dismissAfter,
-	        onDismiss: props.onDismiss.bind(undefined, notification),
-	        activeBarStyle: activeBarStyle,
-	        barStyle: barStyle
-	      }));
-	    })
-	  );
-	};
-
-	/* eslint-disable react/no-unused-prop-types, react/forbid-prop-types */
-
-	NotificationStack.propTypes = {
-	  activeBarStyleFactory: _react.PropTypes.func,
-	  barStyleFactory: _react.PropTypes.func,
-	  dismissInOrder: _react.PropTypes.bool.isRequired,
-	  notifications: _react.PropTypes.array.isRequired,
-	  onDismiss: _react.PropTypes.func.isRequired
-	};
-
-	NotificationStack.defaultProps = {
-	  activeBarStyleFactory: defaultStyleFactory,
-	  barStyleFactory: defaultStyleFactory,
-	  dismissInOrder: true,
-	  dismissAfter: 1000
-	};
-
-	/* eslint-enable no-alert, no-console */
-
-	exports.default = NotificationStack;
-
-/***/ },
-/* 192 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _defaultPropTypes = __webpack_require__(190);
-
-	var _defaultPropTypes2 = _interopRequireDefault(_defaultPropTypes);
-
-	var _notification = __webpack_require__(189);
-
-	var _notification2 = _interopRequireDefault(_notification);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var StackedNotification = function (_Component) {
-	  _inherits(StackedNotification, _Component);
-
-	  function StackedNotification(props) {
-	    _classCallCheck(this, StackedNotification);
-
-	    var _this = _possibleConstructorReturn(this, (StackedNotification.__proto__ || Object.getPrototypeOf(StackedNotification)).call(this, props));
-
-	    _this.state = {
-	      isActive: false
-	    };
-
-	    _this.handleClick = _this.handleClick.bind(_this);
-	    return _this;
-	  }
-
-	  _createClass(StackedNotification, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.activeTimeout = setTimeout(this.setState.bind(this, {
-	        isActive: true
-	      }), 1);
-
-	      if (this.props.dismissAfter) {
-	        this.dismissTimeout = setTimeout(this.setState.bind(this, {
-	          isActive: false
-	        }), this.props.dismissAfter);
-	      }
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      clearTimeout(this.activeTimeout);
-	      clearTimeout(this.dismissTimeout);
-	    }
-
-	    /*
-	    * @function handleClick
-	    * @description Bind deactivate Notification function to Notification click handler
-	    */
-
-	  }, {
-	    key: 'handleClick',
-	    value: function handleClick() {
-	      if (this.props.onClick && typeof this.props.onClick === 'function') {
-	        return this.props.onClick(this.setState.bind(this, { isActive: false }));
-	      }
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
-
-	      return _react2.default.createElement(_notification2.default, _extends({}, this.props, {
-	        onClick: this.handleClick,
-	        onDismiss: function onDismiss() {
-	          return setTimeout(_this2.props.onDismiss, 300);
-	        },
-	        isActive: this.state.isActive
-	      }));
-	    }
-	  }]);
-
-	  return StackedNotification;
-	}(_react.Component);
-
-	StackedNotification.propTypes = _defaultPropTypes2.default;
-
-	exports.default = StackedNotification;
-
-/***/ },
-/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -23358,168 +23508,67 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var ReceivedMessages = function (_React$Component) {
-	  _inherits(ReceivedMessages, _React$Component);
+	var Message = function (_React$Component) {
+	  _inherits(Message, _React$Component);
 
-	  function ReceivedMessages(props) {
-	    _classCallCheck(this, ReceivedMessages);
+	  function Message(props) {
+	    _classCallCheck(this, Message);
 
-	    return _possibleConstructorReturn(this, (ReceivedMessages.__proto__ || Object.getPrototypeOf(ReceivedMessages)).call(this, props));
+	    return _possibleConstructorReturn(this, (Message.__proto__ || Object.getPrototypeOf(Message)).call(this, props));
 	  }
-	  //
 
-
-	  _createClass(ReceivedMessages, [{
+	  _createClass(Message, [{
 	    key: 'render',
 	    value: function render() {
-	      var isImg = this.props.receiver === undefined || this.props.receiver.length > 100 && this.props.receiver.slice(0, 33) === 'https://scontent.cdninstagram.com';
-	      // var isImg2 = (this.props.sender === undefined || this.props.sender.length > 100 && this.props.sender.slice(0, 33) === 'https://scontent.cdninstagram.com');
-
-	      return (
-	        // <div className='messages'>
-	        //   { isImg ? <img src={this.props.receiver} /> : this.props.receiver }
-	        //   {/* { isImg2 ? <img src={this.props.sender} /> : this.props.sender } */}
-	        // </div>\
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          this.props.sender
-	        )
+	      var messages = this.props.messages;
+	      var selectedUser = this.props.name;
+	      var currentUser = this.props.currentUser;
+	      var media = function media() {
+	        if (messages.length > 130 && messages.slice(0, 33) === 'https://scontent.cdninstagram.com') {
+	          var img = _react2.default.createElement('img', { src: messages });
+	          if (selectedUser !== currentUser) {
+	            return _react2.default.createElement(
+	              'div',
+	              { className: 'friendMessenger' },
+	              img
+	            );
+	          } else {
+	            return _react2.default.createElement(
+	              'div',
+	              { className: 'Me' },
+	              img
+	            );
+	          }
+	        } else {
+	          if (selectedUser !== currentUser) {
+	            return _react2.default.createElement(
+	              'div',
+	              { className: 'friendMessenger' },
+	              messages
+	            );
+	          } else {
+	            return _react2.default.createElement(
+	              'div',
+	              { className: 'Me' },
+	              messages
+	            );
+	          }
+	        }
+	      };
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        media()
 	      );
 	    }
 	  }]);
 
-	  return ReceivedMessages;
+	  return Message;
 	}(_react2.default.Component);
 
-	exports.default = ReceivedMessages;
+	exports.default = Message;
 
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "ReceivedMessages.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ },
-/* 194 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(195);
-
-/***/ },
-/* 195 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule update
-	 */
-
-	/* global hasOwnProperty:true */
-
-	'use strict';
-
-	var _prodInvariant = __webpack_require__(8),
-	    _assign = __webpack_require__(5);
-
-	var keyOf = __webpack_require__(26);
-	var invariant = __webpack_require__(9);
-	var hasOwnProperty = {}.hasOwnProperty;
-
-	function shallowCopy(x) {
-	  if (Array.isArray(x)) {
-	    return x.concat();
-	  } else if (x && typeof x === 'object') {
-	    return _assign(new x.constructor(), x);
-	  } else {
-	    return x;
-	  }
-	}
-
-	var COMMAND_PUSH = keyOf({ $push: null });
-	var COMMAND_UNSHIFT = keyOf({ $unshift: null });
-	var COMMAND_SPLICE = keyOf({ $splice: null });
-	var COMMAND_SET = keyOf({ $set: null });
-	var COMMAND_MERGE = keyOf({ $merge: null });
-	var COMMAND_APPLY = keyOf({ $apply: null });
-
-	var ALL_COMMANDS_LIST = [COMMAND_PUSH, COMMAND_UNSHIFT, COMMAND_SPLICE, COMMAND_SET, COMMAND_MERGE, COMMAND_APPLY];
-
-	var ALL_COMMANDS_SET = {};
-
-	ALL_COMMANDS_LIST.forEach(function (command) {
-	  ALL_COMMANDS_SET[command] = true;
-	});
-
-	function invariantArrayCase(value, spec, command) {
-	  !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected target of %s to be an array; got %s.', command, value) : _prodInvariant('1', command, value) : void 0;
-	  var specValue = spec[command];
-	  !Array.isArray(specValue) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array; got %s. Did you forget to wrap your parameter in an array?', command, specValue) : _prodInvariant('2', command, specValue) : void 0;
-	}
-
-	/**
-	 * Returns a updated shallow copy of an object without mutating the original.
-	 * See https://facebook.github.io/react/docs/update.html for details.
-	 */
-	function update(value, spec) {
-	  !(typeof spec === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): You provided a key path to update() that did not contain one of %s. Did you forget to include {%s: ...}?', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : _prodInvariant('3', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : void 0;
-
-	  if (hasOwnProperty.call(spec, COMMAND_SET)) {
-	    !(Object.keys(spec).length === 1) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Cannot have more than one key in an object with %s', COMMAND_SET) : _prodInvariant('4', COMMAND_SET) : void 0;
-
-	    return spec[COMMAND_SET];
-	  }
-
-	  var nextValue = shallowCopy(value);
-
-	  if (hasOwnProperty.call(spec, COMMAND_MERGE)) {
-	    var mergeObj = spec[COMMAND_MERGE];
-	    !(mergeObj && typeof mergeObj === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a spec of type \'object\'; got %s', COMMAND_MERGE, mergeObj) : _prodInvariant('5', COMMAND_MERGE, mergeObj) : void 0;
-	    !(nextValue && typeof nextValue === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a target of type \'object\'; got %s', COMMAND_MERGE, nextValue) : _prodInvariant('6', COMMAND_MERGE, nextValue) : void 0;
-	    _assign(nextValue, spec[COMMAND_MERGE]);
-	  }
-
-	  if (hasOwnProperty.call(spec, COMMAND_PUSH)) {
-	    invariantArrayCase(value, spec, COMMAND_PUSH);
-	    spec[COMMAND_PUSH].forEach(function (item) {
-	      nextValue.push(item);
-	    });
-	  }
-
-	  if (hasOwnProperty.call(spec, COMMAND_UNSHIFT)) {
-	    invariantArrayCase(value, spec, COMMAND_UNSHIFT);
-	    spec[COMMAND_UNSHIFT].forEach(function (item) {
-	      nextValue.unshift(item);
-	    });
-	  }
-
-	  if (hasOwnProperty.call(spec, COMMAND_SPLICE)) {
-	    !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Expected %s target to be an array; got %s', COMMAND_SPLICE, value) : _prodInvariant('7', COMMAND_SPLICE, value) : void 0;
-	    !Array.isArray(spec[COMMAND_SPLICE]) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : _prodInvariant('8', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : void 0;
-	    spec[COMMAND_SPLICE].forEach(function (args) {
-	      !Array.isArray(args) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : _prodInvariant('8', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : void 0;
-	      nextValue.splice.apply(nextValue, args);
-	    });
-	  }
-
-	  if (hasOwnProperty.call(spec, COMMAND_APPLY)) {
-	    !(typeof spec[COMMAND_APPLY] === 'function') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be a function; got %s.', COMMAND_APPLY, spec[COMMAND_APPLY]) : _prodInvariant('9', COMMAND_APPLY, spec[COMMAND_APPLY]) : void 0;
-	    nextValue = spec[COMMAND_APPLY](nextValue);
-	  }
-
-	  for (var k in spec) {
-	    if (!(ALL_COMMANDS_SET.hasOwnProperty(k) && ALL_COMMANDS_SET[k])) {
-	      nextValue[k] = update(value[k], spec[k]);
-	    }
-	  }
-
-	  return nextValue;
-	}
-
-	module.exports = update;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Message.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }
 /******/ ]);

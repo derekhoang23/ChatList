@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import FriendsEntry from './FriendsEntry.jsx';
 import Input from './Input.jsx';
 var socket = io.connect('http://localhost:3000');
+import update from 'react-addons-update';
 
 class Friendslist extends React.Component {
   constructor(props) {
@@ -15,41 +16,34 @@ class Friendslist extends React.Component {
     };
   }
 
-  // on load pull all friends data
   componentDidMount() {
-    fetch('http://localhost:3000/userList', {
-      method: 'GET',
-      credentials: 'include',
-      mode: 'no-cors',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(res =>
-      res.json())
-      .then(data => {
+    // fetch('http://localhost:3000/userList', {
+    //   method: 'GET',
+    //   credentials: 'include',
+    //   mode: 'no-cors',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // })
+    // .then(res =>
+    //   res.json())
+      // .then(data => {
         // this.setState({
         //   friends: this.state.friends.concat([data.name])
         // });
         // socket.emit('username', data.name)
-      })
-      .catch(err => {
-        console.log('error in getting instagram feedback', err);
-      });
+      // })
+      // .catch(err => {
+      //   console.log('error in getting instagram feedback', err);
+      // });
 
     socket.on('userList', (data, socketId) => {
-      // this.setState({
-      //   friends: this.state.friends.concat(data)
-      // });
-      console.log('wuergregt', data)
-      console.log('id', socketId)
       for (let i = 0; i < data.length; i++) {
         if (this.state.socketId === null) {
           this.setState({
             socketId: socketId
           });
         }
-        console.log('erfhurghthjrg', this.props.currentUser)
         if (this.props.currentUser !== data[i].userName) {
           this.setState({
             friends: this.state.friends.concat(data[i])
@@ -57,6 +51,19 @@ class Friendslist extends React.Component {
         }
       }
     });
+
+    socket.on('exit', user => {
+      // this.state.friends.findIndex(u => {
+      //   return u === user;
+      var index = this.state.friends.indexOf(user);
+
+      // }).slice()
+      this.setState({
+        friends: update(this.state.friends, {$splice: [[index, 1]]})
+      });
+    });
+
+    // console.log('friends list', this.state.friends)
   }
 
 
@@ -64,9 +71,8 @@ class Friendslist extends React.Component {
 
 
   render() {
-    console.log('friends', this.state.friends)
-    // var displayText = <Input />;
-    console.log('current socket', this.state.socketId)
+    console.log('friends list', this.state.friends)
+
     return (
       <div className='friends'>
         {this.state.friends.map((friend, i) =>

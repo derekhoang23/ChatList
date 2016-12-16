@@ -40,8 +40,7 @@ body {
   text-align: center;
 }
 
-.messageContainer {
-  text-align: right;
+#messageContainer {
   margin: 0 auto;
   margin-bottom: 5px;
   padding: 5px;
@@ -127,6 +126,11 @@ body {
   -webkit-transition: flex 1s ease;
   transition: flex 2s ease;
 }
+
+.Me {
+  text-align: right;
+}
+
 
 
 
