@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	module.exports = __webpack_require__(189);
+	module.exports = __webpack_require__(192);
 
 
 /***/ },
@@ -70,7 +70,7 @@
 
 	var _Input2 = _interopRequireDefault(_Input);
 
-	var _FriendInput = __webpack_require__(191);
+	var _FriendInput = __webpack_require__(181);
 
 	var _FriendInput2 = _interopRequireDefault(_FriendInput);
 
@@ -78,19 +78,19 @@
 
 	var _Messages2 = _interopRequireDefault(_Messages);
 
-	var _Friendslist = __webpack_require__(180);
+	var _Friendslist = __webpack_require__(182);
 
 	var _Friendslist2 = _interopRequireDefault(_Friendslist);
 
-	var _Logout = __webpack_require__(182);
+	var _Logout = __webpack_require__(184);
 
 	var _Logout2 = _interopRequireDefault(_Logout);
 
-	var _IgFeed = __webpack_require__(176);
+	var _IgFeed = __webpack_require__(177);
 
 	var _IgFeed2 = _interopRequireDefault(_IgFeed);
 
-	var _showConversation = __webpack_require__(183);
+	var _showConversation = __webpack_require__(185);
 
 	var _showConversation2 = _interopRequireDefault(_showConversation);
 
@@ -103,7 +103,7 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var socket = io.connect('http://localhost:3000');
-	var NotificationSystem = __webpack_require__(192);
+	var NotificationSystem = __webpack_require__(186);
 
 	var App = function (_React$Component) {
 	  _inherits(App, _React$Component);
@@ -21685,11 +21685,11 @@
 
 	var _ReceivedMessages2 = _interopRequireDefault(_ReceivedMessages);
 
-	var _IgFeed = __webpack_require__(176);
+	var _IgFeed = __webpack_require__(177);
 
 	var _IgFeed2 = _interopRequireDefault(_IgFeed);
 
-	var _reactAddonsUpdate = __webpack_require__(178);
+	var _reactAddonsUpdate = __webpack_require__(179);
 
 	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
 
@@ -21842,7 +21842,7 @@
 
 	var _ReceivedMessages2 = _interopRequireDefault(_ReceivedMessages);
 
-	var _Message = __webpack_require__(190);
+	var _Message = __webpack_require__(176);
 
 	var _Message2 = _interopRequireDefault(_Message);
 
@@ -21976,7 +21976,104 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _IgFeedEntry = __webpack_require__(177);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Message = function (_React$Component) {
+	  _inherits(Message, _React$Component);
+
+	  function Message(props) {
+	    _classCallCheck(this, Message);
+
+	    return _possibleConstructorReturn(this, (Message.__proto__ || Object.getPrototypeOf(Message)).call(this, props));
+	  }
+
+	  _createClass(Message, [{
+	    key: 'render',
+	    value: function render() {
+	      var messages = this.props.messages;
+	      var selectedUser = this.props.name;
+	      var currentUser = this.props.currentUser;
+	      var media = function media() {
+	        if (messages.length > 130 && messages.slice(0, 33) === 'https://scontent.cdninstagram.com') {
+	          var img = _react2.default.createElement('img', { src: messages });
+	          if (selectedUser !== currentUser) {
+	            return _react2.default.createElement(
+	              'div',
+	              { className: 'friendMessenger' },
+	              img
+	            );
+	          } else {
+	            return _react2.default.createElement(
+	              'div',
+	              { className: 'Me' },
+	              img
+	            );
+	          }
+	        } else {
+	          if (selectedUser !== currentUser) {
+	            return _react2.default.createElement(
+	              'div',
+	              { className: 'friendMessenger' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'letter' },
+	                selectedUser.slice(0, 1).toUpperCase()
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'message' },
+	                messages
+	              )
+	            );
+	          } else {
+	            return _react2.default.createElement(
+	              'div',
+	              { className: 'Me' },
+	              messages
+	            );
+	          }
+	        }
+	      };
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        media()
+	      );
+	    }
+	  }]);
+
+	  return Message;
+	}(_react2.default.Component);
+
+	exports.default = Message;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Message.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 177 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _IgFeedEntry = __webpack_require__(178);
 
 	var _IgFeedEntry2 = _interopRequireDefault(_IgFeedEntry);
 
@@ -22071,7 +22168,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "IgFeed.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 177 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -22141,13 +22238,13 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "IgFeedEntry.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 178 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(179);
+	module.exports = __webpack_require__(180);
 
 /***/ },
-/* 179 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -22266,7 +22363,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 180 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -22287,7 +22384,180 @@
 
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 
-	var _FriendsEntry = __webpack_require__(181);
+	var _Messages = __webpack_require__(174);
+
+	var _Messages2 = _interopRequireDefault(_Messages);
+
+	var _ReceivedMessages = __webpack_require__(175);
+
+	var _ReceivedMessages2 = _interopRequireDefault(_ReceivedMessages);
+
+	var _IgFeed = __webpack_require__(177);
+
+	var _IgFeed2 = _interopRequireDefault(_IgFeed);
+
+	var _reactAddonsUpdate = __webpack_require__(179);
+
+	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var socket = io.connect('http://localhost:3000');
+
+	var FriendInput = function (_React$Component) {
+	  _inherits(FriendInput, _React$Component);
+
+	  function FriendInput(props) {
+	    _classCallCheck(this, FriendInput);
+
+	    var _this = _possibleConstructorReturn(this, (FriendInput.__proto__ || Object.getPrototypeOf(FriendInput)).call(this, props));
+
+	    _this.state = {
+	      messages: '',
+	      // send: [{receiver: [], sender: []}],
+	      // send eeds to be updated with the image val and then passed on to Messages component for renderi
+	      displayIg: false,
+	      image: null
+	    };
+	    return _this;
+	  }
+
+	  // figure out how to render messages in order
+	  //
+	  // componentWillReceiveProps(nextProps) {
+	  //   if (nextProps.messageContainer !== this.state.send[0].receiver) {
+	  //     console.log('fuihtgl hg', nextProps.messageContainer)
+	  //     this.setState({
+	  //       send: update(this.state.send, {0: {receiver: {$set: nextProps.messageContainer}}})
+	  //     })
+	  //
+	  //   }
+	  // }
+
+	  _createClass(FriendInput, [{
+	    key: 'handleChange',
+	    value: function handleChange(e) {
+	      e.preventDefault();
+	      this.setState({ messages: e.target.value });
+	    }
+	  }, {
+	    key: 'handleSubmit',
+	    value: function handleSubmit(e) {
+	      e.preventDefault();
+
+	      // socket.emit('new message', {id: this.props.conversationId, friend:this.props.user, text: this.state.messages});
+	      // this.props.sentMessageTo(this.props.user);
+	      // fetch('http://localhost:3000/postMessages', {
+	      //   method: 'POST',
+	      //   credentials: 'include',
+	      //   mode: 'cors',
+	      //   headers: {
+	      //     'Content-Type': 'application/json'
+	      //   },
+	      //   body: JSON.stringify(userInput)
+	      // })
+	      // .then(res =>
+	      //   res.json())
+	      //   .then(data => {
+	      //     console.log('received message', data);
+	      //   })
+	      //   .catch(err => {
+	      //     console.log('did not save messages', err );
+	      //   });
+	      // socket.emit('getMsg', {
+	      //   toid: this.props.socketId,
+	      //   msg: this.state.messages,
+	      //   name: this.props.currentUser
+	      // })
+
+	      // this.setState({
+	      //   send: update(this.state.send, {0: {sender: {$push: [this.state.messages]}}})
+	      // })
+
+	      this.props.send(this.state.messages);
+	      this.setState({
+	        messages: ''
+	      });
+	      // this.props.notify();
+	    }
+	  }, {
+	    key: 'displayIg',
+	    value: function displayIg() {
+	      this.setState({
+	        displayIg: !this.state.displayIg
+	      });
+	    }
+	  }, {
+	    key: 'handleImg',
+	    value: function handleImg(val) {
+	      this.props.send(val);
+	      // socket.emit('new message', {id: this.props.conversationId, friend: this.props.user, text: val});
+	      // this.setState({
+	      //   send: this.state.send.concat([img])
+	      // });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var showIg = _react2.default.createElement(_IgFeed2.default, { handleImg: this.handleImg.bind(this) });
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'input' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'selectedUser' },
+	          this.props.selectedUser
+	        ),
+	        _react2.default.createElement(_Messages2.default, { currentUser: this.props.currentUser, messages: this.props.messageContainer }),
+	        this.state.displayIg ? showIg : null,
+	        _react2.default.createElement(
+	          'form',
+	          { className: 'form', onSubmit: this.handleSubmit.bind(this) },
+	          _react2.default.createElement('img', { src: './assets/igicon.png', className: 'option', onClick: this.displayIg.bind(this) }),
+	          _react2.default.createElement('input', { className: 'input-box', type: 'text',
+	            value: this.state.messages,
+	            onChange: this.handleChange.bind(this) })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return FriendInput;
+	}(_react2.default.Component);
+
+	exports.default = FriendInput;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "FriendInput.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ },
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(35);
+
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+
+	var _FriendsEntry = __webpack_require__(183);
 
 	var _FriendsEntry2 = _interopRequireDefault(_FriendsEntry);
 
@@ -22295,7 +22565,7 @@
 
 	var _Input2 = _interopRequireDefault(_Input);
 
-	var _reactAddonsUpdate = __webpack_require__(178);
+	var _reactAddonsUpdate = __webpack_require__(179);
 
 	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
 
@@ -22401,7 +22671,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Friendslist.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 181 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -22477,7 +22747,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "FriendsEntry.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 182 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -22550,7 +22820,7 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Logout.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 183 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -22607,12 +22877,977 @@
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "showConversation.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ },
-/* 184 */,
-/* 185 */,
-/* 186 */,
-/* 187 */,
-/* 188 */,
+/* 186 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(2);
+	var merge = __webpack_require__(5);
+	var NotificationContainer = __webpack_require__(187);
+	var Constants = __webpack_require__(189);
+	var Styles = __webpack_require__(191);
+
+	var NotificationSystem = React.createClass({displayName: "NotificationSystem",
+
+	  uid: 3400,
+
+	  _isMounted: false,
+
+	  _getStyles: {
+	    overrideStyle: {},
+
+	    overrideWidth: null,
+
+	    setOverrideStyle: function(style) {
+	      this.overrideStyle = style;
+	    },
+
+	    wrapper: function() {
+	      if (!this.overrideStyle) return {};
+	      return merge({}, Styles.Wrapper, this.overrideStyle.Wrapper);
+	    },
+
+	    container: function(position) {
+	      var override = this.overrideStyle.Containers || {};
+	      if (!this.overrideStyle) return {};
+
+	      this.overrideWidth = Styles.Containers.DefaultStyle.width;
+
+	      if (override.DefaultStyle && override.DefaultStyle.width) {
+	        this.overrideWidth = override.DefaultStyle.width;
+	      }
+
+	      if (override[position] && override[position].width) {
+	        this.overrideWidth = override[position].width;
+	      }
+
+	      return merge({}, Styles.Containers.DefaultStyle, Styles.Containers[position], override.DefaultStyle, override[position]);
+	    },
+
+	    elements: {
+	      notification: 'NotificationItem',
+	      title: 'Title',
+	      messageWrapper: 'MessageWrapper',
+	      dismiss: 'Dismiss',
+	      action: 'Action',
+	      actionWrapper: 'ActionWrapper'
+	    },
+
+	    byElement: function(element) {
+	      var self = this;
+	      return function(level) {
+	        var _element = self.elements[element];
+	        var override = self.overrideStyle[_element] || {};
+	        if (!self.overrideStyle) return {};
+	        return merge({}, Styles[_element].DefaultStyle, Styles[_element][level], override.DefaultStyle, override[level]);
+	      };
+	    }
+	  },
+
+	  _didNotificationRemoved: function(uid) {
+	    var notification;
+	    var notifications = this.state.notifications.filter(function(toCheck) {
+	      if (toCheck.uid === uid) {
+	        notification = toCheck;
+	      }
+	      return toCheck.uid !== uid;
+	    });
+
+	    if (notification && notification.onRemove) {
+	      notification.onRemove(notification);
+	    }
+
+	    if (this._isMounted) {
+	      this.setState({ notifications: notifications });
+	    }
+	  },
+
+	  getInitialState: function() {
+	    return {
+	      notifications: []
+	    };
+	  },
+
+	  propTypes: {
+	    style: React.PropTypes.oneOfType([
+	      React.PropTypes.bool,
+	      React.PropTypes.object
+	    ]),
+	    noAnimation: React.PropTypes.bool,
+	    allowHTML: React.PropTypes.bool
+	  },
+
+	  getDefaultProps: function() {
+	    return {
+	      style: {},
+	      noAnimation: false,
+	      allowHTML: false
+	    };
+	  },
+
+	  addNotification: function(notification) {
+	    var _notification = merge({}, Constants.notification, notification);
+	    var notifications = this.state.notifications;
+	    var i;
+
+	    if (!_notification.level) {
+	      throw new Error('notification level is required.');
+	    }
+
+	    if (Object.keys(Constants.levels).indexOf(_notification.level) === -1) {
+	      throw new Error('\'' + _notification.level + '\' is not a valid level.');
+	    }
+
+	    if (isNaN(_notification.autoDismiss)) {
+	      throw new Error('\'autoDismiss\' must be a number.');
+	    }
+
+	    if (Object.keys(Constants.positions).indexOf(_notification.position) === -1) {
+	      throw new Error('\'' + _notification.position + '\' is not a valid position.');
+	    }
+
+	    // Some preparations
+	    _notification.position = _notification.position.toLowerCase();
+	    _notification.level = _notification.level.toLowerCase();
+	    _notification.autoDismiss = parseInt(_notification.autoDismiss, 10);
+
+	    _notification.uid = _notification.uid || this.uid;
+	    _notification.ref = 'notification-' + _notification.uid;
+	    this.uid += 1;
+
+	    // do not add if the notification already exists based on supplied uid
+	    for (i = 0; i < notifications.length; i++) {
+	      if (notifications[i].uid === _notification.uid) {
+	        return false;
+	      }
+	    }
+
+	    notifications.push(_notification);
+
+	    if (typeof _notification.onAdd === 'function') {
+	      notification.onAdd(_notification);
+	    }
+
+	    this.setState({
+	      notifications: notifications
+	    });
+
+	    return _notification;
+	  },
+
+	  removeNotification: function(notification) {
+	    var self = this;
+	    Object.keys(this.refs).forEach(function(container) {
+	      if (container.indexOf('container') > -1) {
+	        Object.keys(self.refs[container].refs).forEach(function(_notification) {
+	          var uid = notification.uid ? notification.uid : notification;
+	          if (_notification === 'notification-' + uid) {
+	            self.refs[container].refs[_notification]._hideNotification();
+	          }
+	        });
+	      }
+	    });
+	  },
+
+	  clearNotifications: function() {
+	    var self = this;
+	    Object.keys(this.refs).forEach(function(container) {
+	      if (container.indexOf('container') > -1) {
+	        Object.keys(self.refs[container].refs).forEach(function(_notification) {
+	          self.refs[container].refs[_notification]._hideNotification();
+	        });
+	      }
+	    });
+	  },
+
+	  componentDidMount: function() {
+	    this._getStyles.setOverrideStyle(this.props.style);
+	    this._isMounted = true;
+	  },
+
+	  componentWillUnmount: function() {
+	    this._isMounted = false;
+	  },
+
+	  render: function() {
+	    var self = this;
+	    var containers = null;
+	    var notifications = this.state.notifications;
+
+	    if (notifications.length) {
+	      containers = Object.keys(Constants.positions).map(function(position) {
+	        var _notifications = notifications.filter(function(notification) {
+	          return position === notification.position;
+	        });
+
+	        if (!_notifications.length) {
+	          return null;
+	        }
+
+	        return (
+	          React.createElement(NotificationContainer, {
+	            ref:  'container-' + position, 
+	            key:  position, 
+	            position:  position, 
+	            notifications:  _notifications, 
+	            getStyles:  self._getStyles, 
+	            onRemove:  self._didNotificationRemoved, 
+	            noAnimation:  self.props.noAnimation, 
+	            allowHTML:  self.props.allowHTML}
+	          )
+	        );
+	      });
+	    }
+
+
+	    return (
+	      React.createElement("div", {className: "notifications-wrapper", style:  this._getStyles.wrapper() }, 
+	         containers 
+	      )
+
+	    );
+	  }
+	});
+
+	module.exports = NotificationSystem;
+
+
+/***/ },
+/* 187 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(2);
+	var NotificationItem = __webpack_require__(188);
+	var Constants = __webpack_require__(189);
+
+	var NotificationContainer = React.createClass({displayName: "NotificationContainer",
+
+	  propTypes: {
+	    position: React.PropTypes.string.isRequired,
+	    notifications: React.PropTypes.array.isRequired,
+	    getStyles: React.PropTypes.object
+	  },
+
+	  _style: {},
+
+	  componentWillMount: function() {
+	    // Fix position if width is overrided
+	    this._style = this.props.getStyles.container(this.props.position);
+
+	    if (this.props.getStyles.overrideWidth && (this.props.position === Constants.positions.tc || this.props.position === Constants.positions.bc)) {
+	      this._style.marginLeft = -(this.props.getStyles.overrideWidth / 2);
+	    }
+	  },
+
+	  render: function() {
+	    var self = this;
+	    var notifications;
+
+	    if ([Constants.positions.bl, Constants.positions.br, Constants.positions.bc].indexOf(this.props.position) > -1) {
+	      this.props.notifications.reverse();
+	    }
+
+	    notifications = this.props.notifications.map(function(notification) {
+	      return (
+	        React.createElement(NotificationItem, {
+	          ref:  'notification-' + notification.uid, 
+	          key:  notification.uid, 
+	          notification:  notification, 
+	          getStyles:  self.props.getStyles, 
+	          onRemove:  self.props.onRemove, 
+	          noAnimation:  self.props.noAnimation, 
+	          allowHTML:  self.props.allowHTML, 
+	          children:  self.props.children}
+	        )
+	      );
+	    });
+
+	    return (
+	      React.createElement("div", {className:  'notifications-' + this.props.position, style:  this._style}, 
+	         notifications 
+	      )
+	    );
+	  }
+	});
+
+
+	module.exports = NotificationContainer;
+
+
+/***/ },
+/* 188 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(2);
+	var ReactDOM = __webpack_require__(35);
+	var Constants = __webpack_require__(189);
+	var Helpers = __webpack_require__(190);
+	var merge = __webpack_require__(5);
+
+	/* From Modernizr */
+	var whichTransitionEvent = function() {
+	  var el = document.createElement('fakeelement');
+	  var transition;
+	  var transitions = {
+	    transition: 'transitionend',
+	    OTransition: 'oTransitionEnd',
+	    MozTransition: 'transitionend',
+	    WebkitTransition: 'webkitTransitionEnd'
+	  };
+
+	  Object.keys(transitions).forEach(function(transitionKey) {
+	    if (el.style[transitionKey] !== undefined) {
+	      transition = transitions[transitionKey];
+	    }
+	  });
+
+	  return transition;
+	};
+
+	var NotificationItem = React.createClass({displayName: "NotificationItem",
+
+	  propTypes: {
+	    notification: React.PropTypes.object,
+	    getStyles: React.PropTypes.object,
+	    onRemove: React.PropTypes.func,
+	    allowHTML: React.PropTypes.bool,
+	    noAnimation: React.PropTypes.bool,
+	    children: React.PropTypes.oneOfType([
+	      React.PropTypes.string,
+	      React.PropTypes.element
+	    ])
+	  },
+
+	  getDefaultProps: function() {
+	    return {
+	      noAnimation: false,
+	      onRemove: function() {},
+	      allowHTML: false
+	    };
+	  },
+
+	  getInitialState: function() {
+	    return {
+	      visible: false,
+	      removed: false
+	    };
+	  },
+
+	  componentWillMount: function() {
+	    var getStyles = this.props.getStyles;
+	    var level = this.props.notification.level;
+
+	    this._noAnimation = this.props.noAnimation;
+
+	    this._styles = {
+	      notification: getStyles.byElement('notification')(level),
+	      title: getStyles.byElement('title')(level),
+	      dismiss: getStyles.byElement('dismiss')(level),
+	      messageWrapper: getStyles.byElement('messageWrapper')(level),
+	      actionWrapper: getStyles.byElement('actionWrapper')(level),
+	      action: getStyles.byElement('action')(level)
+	    };
+
+	    if (!this.props.notification.dismissible) {
+	      this._styles.notification.cursor = 'default';
+	    }
+	  },
+
+	  _styles: {},
+
+	  _notificationTimer: null,
+
+	  _height: 0,
+
+	  _noAnimation: null,
+
+	  _isMounted: false,
+
+	  _removeCount: 0,
+
+	  _getCssPropertyByPosition: function() {
+	    var position = this.props.notification.position;
+	    var css = {};
+
+	    switch (position) {
+	    case Constants.positions.tl:
+	    case Constants.positions.bl:
+	      css = {
+	        property: 'left',
+	        value: -200
+	      };
+	      break;
+
+	    case Constants.positions.tr:
+	    case Constants.positions.br:
+	      css = {
+	        property: 'right',
+	        value: -200
+	      };
+	      break;
+
+	    case Constants.positions.tc:
+	      css = {
+	        property: 'top',
+	        value: -100
+	      };
+	      break;
+
+	    case Constants.positions.bc:
+	      css = {
+	        property: 'bottom',
+	        value: -100
+	      };
+	      break;
+
+	    default:
+	    }
+
+	    return css;
+	  },
+
+	  _defaultAction: function(event) {
+	    var notification = this.props.notification;
+
+	    event.preventDefault();
+	    this._hideNotification();
+	    if (typeof notification.action.callback === 'function') {
+	      notification.action.callback();
+	    }
+	  },
+
+	  _hideNotification: function() {
+	    if (this._notificationTimer) {
+	      this._notificationTimer.clear();
+	    }
+
+	    if (this._isMounted) {
+	      this.setState({
+	        visible: false,
+	        removed: true
+	      });
+	    }
+
+	    if (this._noAnimation) {
+	      this._removeNotification();
+	    }
+	  },
+
+	  _removeNotification: function() {
+	    this.props.onRemove(this.props.notification.uid);
+	  },
+
+	  _dismiss: function() {
+	    if (!this.props.notification.dismissible) {
+	      return;
+	    }
+
+	    this._hideNotification();
+	  },
+
+	  _showNotification: function() {
+	    var self = this;
+	    setTimeout(function() {
+	      if (self._isMounted) {
+	        self.setState({
+	          visible: true
+	        });
+	      }
+	    }, 50);
+	  },
+
+	  _onTransitionEnd: function() {
+	    if (this._removeCount > 0) return;
+	    if (this.state.removed) {
+	      this._removeCount++;
+	      this._removeNotification();
+	    }
+	  },
+
+	  componentDidMount: function() {
+	    var self = this;
+	    var transitionEvent = whichTransitionEvent();
+	    var notification = this.props.notification;
+	    var element = ReactDOM.findDOMNode(this);
+
+	    this._height = element.offsetHeight;
+
+	    this._isMounted = true;
+
+	    // Watch for transition end
+	    if (!this._noAnimation) {
+	      if (transitionEvent) {
+	        element.addEventListener(transitionEvent, this._onTransitionEnd);
+	      } else {
+	        this._noAnimation = true;
+	      }
+	    }
+
+
+	    if (notification.autoDismiss) {
+	      this._notificationTimer = new Helpers.Timer(function() {
+	        self._hideNotification();
+	      }, notification.autoDismiss * 1000);
+	    }
+
+	    this._showNotification();
+	  },
+
+	  _handleMouseEnter: function() {
+	    var notification = this.props.notification;
+	    if (notification.autoDismiss) {
+	      this._notificationTimer.pause();
+	    }
+	  },
+
+	  _handleMouseLeave: function() {
+	    var notification = this.props.notification;
+	    if (notification.autoDismiss) {
+	      this._notificationTimer.resume();
+	    }
+	  },
+
+	  componentWillUnmount: function() {
+	    var element = ReactDOM.findDOMNode(this);
+	    var transitionEvent = whichTransitionEvent();
+	    element.removeEventListener(transitionEvent, this._onTransitionEnd);
+	    this._isMounted = false;
+	  },
+
+	  _allowHTML: function(string) {
+	    return { __html: string };
+	  },
+
+	  render: function() {
+	    var notification = this.props.notification;
+	    var className = 'notification notification-' + notification.level;
+	    var notificationStyle = merge({}, this._styles.notification);
+	    var cssByPos = this._getCssPropertyByPosition();
+	    var dismiss = null;
+	    var actionButton = null;
+	    var title = null;
+	    var message = null;
+
+	    if (this.state.visible) {
+	      className += ' notification-visible';
+	    } else {
+	      className += ' notification-hidden';
+	    }
+
+	    if (!notification.dismissible) {
+	      className += ' notification-not-dismissible';
+	    }
+
+	    if (this.props.getStyles.overrideStyle) {
+	      if (!this.state.visible && !this.state.removed) {
+	        notificationStyle[cssByPos.property] = cssByPos.value;
+	      }
+
+	      if (this.state.visible && !this.state.removed) {
+	        notificationStyle.height = this._height;
+	        notificationStyle[cssByPos.property] = 0;
+	      }
+
+	      if (this.state.removed) {
+	        notificationStyle.overlay = 'hidden';
+	        notificationStyle.height = 0;
+	        notificationStyle.marginTop = 0;
+	        notificationStyle.paddingTop = 0;
+	        notificationStyle.paddingBottom = 0;
+	      }
+	      notificationStyle.opacity = this.state.visible ? this._styles.notification.isVisible.opacity : this._styles.notification.isHidden.opacity;
+	    }
+
+	    if (notification.title) {
+	      title = React.createElement("h4", {className: "notification-title", style:  this._styles.title},  notification.title);
+	    }
+
+	    if (notification.message) {
+	      if (this.props.allowHTML) {
+	        message = (
+	          React.createElement("div", {className: "notification-message", style:  this._styles.messageWrapper, dangerouslySetInnerHTML:  this._allowHTML(notification.message) })
+	        );
+	      } else {
+	        message = (
+	          React.createElement("div", {className: "notification-message", style:  this._styles.messageWrapper},  notification.message)
+	        );
+	      }
+	    }
+
+	    if (notification.dismissible) {
+	      dismiss = React.createElement("span", {className: "notification-dismiss", style:  this._styles.dismiss}, "×");
+	    }
+
+	    if (notification.action) {
+	      actionButton = (
+	        React.createElement("div", {className: "notification-action-wrapper", style:  this._styles.actionWrapper}, 
+	          React.createElement("button", {className: "notification-action-button", 
+	            onClick:  this._defaultAction, 
+	            style:  this._styles.action}, 
+	               notification.action.label
+	          )
+	        )
+	      );
+	    }
+
+	    if (notification.children) {
+	      actionButton = notification.children;
+	    }
+
+	    return (
+	      React.createElement("div", {className:  className, onClick:  this._dismiss, onMouseEnter:  this._handleMouseEnter, onMouseLeave:  this._handleMouseLeave, style:  notificationStyle }, 
+	         title, 
+	         message, 
+	         dismiss, 
+	         actionButton 
+	      )
+	    );
+	  }
+
+	});
+
+	module.exports = NotificationItem;
+
+
+/***/ },
 /* 189 */
+/***/ function(module, exports) {
+
+	var CONSTANTS = {
+
+	  // Positions
+	  positions: {
+	    tl: 'tl',
+	    tr: 'tr',
+	    tc: 'tc',
+	    bl: 'bl',
+	    br: 'br',
+	    bc: 'bc'
+	  },
+
+	  // Levels
+	  levels: {
+	    success: 'success',
+	    error: 'error',
+	    warning: 'warning',
+	    info: 'info'
+	  },
+
+	  // Notification defaults
+	  notification: {
+	    title: null,
+	    message: null,
+	    level: null,
+	    position: 'tr',
+	    autoDismiss: 5,
+	    dismissible: true,
+	    action: null
+	  }
+	};
+
+
+	module.exports = CONSTANTS;
+
+
+/***/ },
+/* 190 */
+/***/ function(module, exports) {
+
+	var Helpers = {
+	  Timer: function(callback, delay) {
+	    var timerId;
+	    var start;
+	    var remaining = delay;
+
+	    this.pause = function() {
+	      clearTimeout(timerId);
+	      remaining -= new Date() - start;
+	    };
+
+	    this.resume = function() {
+	      start = new Date();
+	      clearTimeout(timerId);
+	      timerId = setTimeout(callback, remaining);
+	    };
+
+	    this.clear = function() {
+	      clearTimeout(timerId);
+	    };
+
+	    this.resume();
+	  }
+	};
+
+	module.exports = Helpers;
+
+
+/***/ },
+/* 191 */
+/***/ function(module, exports) {
+
+	// Used for calculations
+	var defaultWidth = 320;
+	var defaultColors = {
+	  success: {
+	    rgb: '94, 164, 0',
+	    hex: '#5ea400'
+	  },
+	  error: {
+	    rgb: '236, 61, 61',
+	    hex: '#ec3d3d'
+	  },
+	  warning: {
+	    rgb: '235, 173, 23',
+	    hex: '#ebad1a'
+	  },
+	  info: {
+	    rgb: '54, 156, 199',
+	    hex: '#369cc7'
+	  }
+	};
+	var defaultShadowOpacity = '0.9';
+
+	var STYLES = {
+
+	  Wrapper: {},
+	  Containers: {
+	    DefaultStyle: {
+	      fontFamily: 'inherit',
+	      position: 'fixed',
+	      width: defaultWidth,
+	      padding: '0 10px 10px 10px',
+	      zIndex: 9998,
+	      WebkitBoxSizing: 'border-box',
+	      MozBoxSizing: 'border-box',
+	      boxSizing: 'border-box',
+	      height: 'auto'
+	    },
+
+	    tl: {
+	      top: '0px',
+	      bottom: 'auto',
+	      left: '0px',
+	      right: 'auto'
+	    },
+
+	    tr: {
+	      top: '0px',
+	      bottom: 'auto',
+	      left: 'auto',
+	      right: '0px'
+	    },
+
+	    tc: {
+	      top: '0px',
+	      bottom: 'auto',
+	      margin: '0 auto',
+	      left: '50%',
+	      marginLeft: -(defaultWidth / 2)
+	    },
+
+	    bl: {
+	      top: 'auto',
+	      bottom: '0px',
+	      left: '0px',
+	      right: 'auto'
+	    },
+
+	    br: {
+	      top: 'auto',
+	      bottom: '0px',
+	      left: 'auto',
+	      right: '0px'
+	    },
+
+	    bc: {
+	      top: 'auto',
+	      bottom: '0px',
+	      margin: '0 auto',
+	      left: '50%',
+	      marginLeft: -(defaultWidth / 2)
+	    }
+
+	  },
+
+	  NotificationItem: {
+	    DefaultStyle: {
+	      position: 'relative',
+	      width: '100%',
+	      cursor: 'pointer',
+	      borderRadius: '2px',
+	      fontSize: '13px',
+	      margin: '10px 0 0',
+	      padding: '10px',
+	      display: 'block',
+	      WebkitBoxSizing: 'border-box',
+	      MozBoxSizing: 'border-box',
+	      boxSizing: 'border-box',
+	      opacity: 0,
+	      transition: '0.3s ease-in-out',
+	      WebkitTransform: 'translate3d(0, 0, 0)',
+	      transform: 'translate3d(0, 0, 0)',
+	      willChange: 'transform, opacity',
+
+	      isHidden: {
+	        opacity: 0
+	      },
+
+	      isVisible: {
+	        opacity: 1
+	      }
+	    },
+
+	    success: {
+	      borderTop: '2px solid ' + defaultColors.success.hex,
+	      backgroundColor: '#f0f5ea',
+	      color: '#4b583a',
+	      WebkitBoxShadow: '0 0 1px rgba(' + defaultColors.success.rgb + ',' + defaultShadowOpacity + ')',
+	      MozBoxShadow: '0 0 1px rgba(' + defaultColors.success.rgb + ',' + defaultShadowOpacity + ')',
+	      boxShadow: '0 0 1px rgba(' + defaultColors.success.rgb + ',' + defaultShadowOpacity + ')'
+	    },
+
+	    error: {
+	      borderTop: '2px solid ' + defaultColors.error.hex,
+	      backgroundColor: '#f4e9e9',
+	      color: '#412f2f',
+	      WebkitBoxShadow: '0 0 1px rgba(' + defaultColors.error.rgb + ',' + defaultShadowOpacity + ')',
+	      MozBoxShadow: '0 0 1px rgba(' + defaultColors.error.rgb + ',' + defaultShadowOpacity + ')',
+	      boxShadow: '0 0 1px rgba(' + defaultColors.error.rgb + ',' + defaultShadowOpacity + ')'
+	    },
+
+	    warning: {
+	      borderTop: '2px solid ' + defaultColors.warning.hex,
+	      backgroundColor: '#f9f6f0',
+	      color: '#5a5343',
+	      WebkitBoxShadow: '0 0 1px rgba(' + defaultColors.warning.rgb + ',' + defaultShadowOpacity + ')',
+	      MozBoxShadow: '0 0 1px rgba(' + defaultColors.warning.rgb + ',' + defaultShadowOpacity + ')',
+	      boxShadow: '0 0 1px rgba(' + defaultColors.warning.rgb + ',' + defaultShadowOpacity + ')'
+	    },
+
+	    info: {
+	      borderTop: '2px solid ' + defaultColors.info.hex,
+	      backgroundColor: '#e8f0f4',
+	      color: '#41555d',
+	      WebkitBoxShadow: '0 0 1px rgba(' + defaultColors.info.rgb + ',' + defaultShadowOpacity + ')',
+	      MozBoxShadow: '0 0 1px rgba(' + defaultColors.info.rgb + ',' + defaultShadowOpacity + ')',
+	      boxShadow: '0 0 1px rgba(' + defaultColors.info.rgb + ',' + defaultShadowOpacity + ')'
+	    }
+	  },
+
+	  Title: {
+	    DefaultStyle: {
+	      fontSize: '14px',
+	      margin: '0 0 5px 0',
+	      padding: 0,
+	      fontWeight: 'bold'
+	    },
+
+	    success: {
+	      color: defaultColors.success.hex
+	    },
+
+	    error: {
+	      color: defaultColors.error.hex
+	    },
+
+	    warning: {
+	      color: defaultColors.warning.hex
+	    },
+
+	    info: {
+	      color: defaultColors.info.hex
+	    }
+
+	  },
+
+	  MessageWrapper: {
+	    DefaultStyle: {
+	      margin: 0,
+	      padding: 0
+	    }
+	  },
+
+	  Dismiss: {
+	    DefaultStyle: {
+	      fontFamily: 'Arial',
+	      fontSize: '17px',
+	      position: 'absolute',
+	      top: '4px',
+	      right: '5px',
+	      lineHeight: '15px',
+	      backgroundColor: '#dededf',
+	      color: '#ffffff',
+	      borderRadius: '50%',
+	      width: '14px',
+	      height: '14px',
+	      fontWeight: 'bold',
+	      textAlign: 'center'
+	    },
+
+	    success: {
+	      color: '#f0f5ea',
+	      backgroundColor: '#b0ca92'
+	    },
+
+	    error: {
+	      color: '#f4e9e9',
+	      backgroundColor: '#e4bebe'
+	    },
+
+	    warning: {
+	      color: '#f9f6f0',
+	      backgroundColor: '#e1cfac'
+	    },
+
+	    info: {
+	      color: '#e8f0f4',
+	      backgroundColor: '#a4becb'
+	    }
+	  },
+
+	  Action: {
+	    DefaultStyle: {
+	      background: '#ffffff',
+	      borderRadius: '2px',
+	      padding: '6px 20px',
+	      fontWeight: 'bold',
+	      margin: '10px 0 0 0',
+	      border: 0
+	    },
+
+	    success: {
+	      backgroundColor: defaultColors.success.hex,
+	      color: '#ffffff'
+	    },
+
+	    error: {
+	      backgroundColor: defaultColors.error.hex,
+	      color: '#ffffff'
+	    },
+
+	    warning: {
+	      backgroundColor: defaultColors.warning.hex,
+	      color: '#ffffff'
+	    },
+
+	    info: {
+	      backgroundColor: defaultColors.info.hex,
+	      color: '#ffffff'
+	    }
+	  },
+
+	  ActionWrapper: {
+	    DefaultStyle: {
+	      margin: 0,
+	      padding: 0
+	    }
+	  }
+	};
+
+	module.exports = STYLES;
+
+
+/***/ },
+/* 192 */
 /***/ function(module, exports) {
 
 	(function(self) {
@@ -23048,1246 +24283,6 @@
 	  }
 	  self.fetch.polyfill = true
 	})(typeof self !== 'undefined' ? self : this);
-
-
-/***/ },
-/* 190 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Message = function (_React$Component) {
-	  _inherits(Message, _React$Component);
-
-	  function Message(props) {
-	    _classCallCheck(this, Message);
-
-	    return _possibleConstructorReturn(this, (Message.__proto__ || Object.getPrototypeOf(Message)).call(this, props));
-	  }
-
-	  _createClass(Message, [{
-	    key: 'render',
-	    value: function render() {
-	      var messages = this.props.messages;
-	      var selectedUser = this.props.name;
-	      var currentUser = this.props.currentUser;
-	      var media = function media() {
-	        if (messages.length > 130 && messages.slice(0, 33) === 'https://scontent.cdninstagram.com') {
-	          var img = _react2.default.createElement('img', { src: messages });
-	          if (selectedUser !== currentUser) {
-	            return _react2.default.createElement(
-	              'div',
-	              { className: 'friendMessenger' },
-	              img
-	            );
-	          } else {
-	            return _react2.default.createElement(
-	              'div',
-	              { className: 'Me' },
-	              img
-	            );
-	          }
-	        } else {
-	          if (selectedUser !== currentUser) {
-	            return _react2.default.createElement(
-	              'div',
-	              { className: 'friendMessenger' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'letter' },
-	                selectedUser.slice(0, 1).toUpperCase()
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'message' },
-	                messages
-	              )
-	            );
-	          } else {
-	            return _react2.default.createElement(
-	              'div',
-	              { className: 'Me' },
-	              messages
-	            );
-	          }
-	        }
-	      };
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        media()
-	      );
-	    }
-	  }]);
-
-	  return Message;
-	}(_react2.default.Component);
-
-	exports.default = Message;
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "Message.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ },
-/* 191 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/Derek/project/ChatList/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(2);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(35);
-
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-
-	var _Messages = __webpack_require__(174);
-
-	var _Messages2 = _interopRequireDefault(_Messages);
-
-	var _ReceivedMessages = __webpack_require__(175);
-
-	var _ReceivedMessages2 = _interopRequireDefault(_ReceivedMessages);
-
-	var _IgFeed = __webpack_require__(176);
-
-	var _IgFeed2 = _interopRequireDefault(_IgFeed);
-
-	var _reactAddonsUpdate = __webpack_require__(178);
-
-	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var socket = io.connect('http://localhost:3000');
-
-	var FriendInput = function (_React$Component) {
-	  _inherits(FriendInput, _React$Component);
-
-	  function FriendInput(props) {
-	    _classCallCheck(this, FriendInput);
-
-	    var _this = _possibleConstructorReturn(this, (FriendInput.__proto__ || Object.getPrototypeOf(FriendInput)).call(this, props));
-
-	    _this.state = {
-	      messages: '',
-	      // send: [{receiver: [], sender: []}],
-	      // send eeds to be updated with the image val and then passed on to Messages component for renderi
-	      displayIg: false,
-	      image: null
-	    };
-	    return _this;
-	  }
-
-	  // figure out how to render messages in order
-	  //
-	  // componentWillReceiveProps(nextProps) {
-	  //   if (nextProps.messageContainer !== this.state.send[0].receiver) {
-	  //     console.log('fuihtgl hg', nextProps.messageContainer)
-	  //     this.setState({
-	  //       send: update(this.state.send, {0: {receiver: {$set: nextProps.messageContainer}}})
-	  //     })
-	  //
-	  //   }
-	  // }
-
-	  _createClass(FriendInput, [{
-	    key: 'handleChange',
-	    value: function handleChange(e) {
-	      e.preventDefault();
-	      this.setState({ messages: e.target.value });
-	    }
-	  }, {
-	    key: 'handleSubmit',
-	    value: function handleSubmit(e) {
-	      e.preventDefault();
-
-	      // socket.emit('new message', {id: this.props.conversationId, friend:this.props.user, text: this.state.messages});
-	      // this.props.sentMessageTo(this.props.user);
-	      // fetch('http://localhost:3000/postMessages', {
-	      //   method: 'POST',
-	      //   credentials: 'include',
-	      //   mode: 'cors',
-	      //   headers: {
-	      //     'Content-Type': 'application/json'
-	      //   },
-	      //   body: JSON.stringify(userInput)
-	      // })
-	      // .then(res =>
-	      //   res.json())
-	      //   .then(data => {
-	      //     console.log('received message', data);
-	      //   })
-	      //   .catch(err => {
-	      //     console.log('did not save messages', err );
-	      //   });
-	      // socket.emit('getMsg', {
-	      //   toid: this.props.socketId,
-	      //   msg: this.state.messages,
-	      //   name: this.props.currentUser
-	      // })
-
-	      // this.setState({
-	      //   send: update(this.state.send, {0: {sender: {$push: [this.state.messages]}}})
-	      // })
-
-	      this.props.send(this.state.messages);
-	      this.setState({
-	        messages: ''
-	      });
-	      // this.props.notify();
-	    }
-	  }, {
-	    key: 'displayIg',
-	    value: function displayIg() {
-	      this.setState({
-	        displayIg: !this.state.displayIg
-	      });
-	    }
-	  }, {
-	    key: 'handleImg',
-	    value: function handleImg(val) {
-	      this.props.send(val);
-	      // socket.emit('new message', {id: this.props.conversationId, friend: this.props.user, text: val});
-	      // this.setState({
-	      //   send: this.state.send.concat([img])
-	      // });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var showIg = _react2.default.createElement(_IgFeed2.default, { handleImg: this.handleImg.bind(this) });
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'input' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'selectedUser' },
-	          this.props.selectedUser
-	        ),
-	        _react2.default.createElement(_Messages2.default, { currentUser: this.props.currentUser, messages: this.props.messageContainer }),
-	        this.state.displayIg ? showIg : null,
-	        _react2.default.createElement(
-	          'form',
-	          { className: 'form', onSubmit: this.handleSubmit.bind(this) },
-	          _react2.default.createElement('img', { src: './assets/igicon.png', className: 'option', onClick: this.displayIg.bind(this) }),
-	          _react2.default.createElement('input', { className: 'input-box', type: 'text',
-	            value: this.state.messages,
-	            onChange: this.handleChange.bind(this) })
-	        )
-	      );
-	    }
-	  }]);
-
-	  return FriendInput;
-	}(_react2.default.Component);
-
-	exports.default = FriendInput;
-
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/Derek/project/ChatList/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot not apply hot update to " + "FriendInput.jsx" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
-
-/***/ },
-/* 192 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(2);
-	var merge = __webpack_require__(5);
-	var NotificationContainer = __webpack_require__(193);
-	var Constants = __webpack_require__(195);
-	var Styles = __webpack_require__(197);
-
-	var NotificationSystem = React.createClass({displayName: "NotificationSystem",
-
-	  uid: 3400,
-
-	  _isMounted: false,
-
-	  _getStyles: {
-	    overrideStyle: {},
-
-	    overrideWidth: null,
-
-	    setOverrideStyle: function(style) {
-	      this.overrideStyle = style;
-	    },
-
-	    wrapper: function() {
-	      if (!this.overrideStyle) return {};
-	      return merge({}, Styles.Wrapper, this.overrideStyle.Wrapper);
-	    },
-
-	    container: function(position) {
-	      var override = this.overrideStyle.Containers || {};
-	      if (!this.overrideStyle) return {};
-
-	      this.overrideWidth = Styles.Containers.DefaultStyle.width;
-
-	      if (override.DefaultStyle && override.DefaultStyle.width) {
-	        this.overrideWidth = override.DefaultStyle.width;
-	      }
-
-	      if (override[position] && override[position].width) {
-	        this.overrideWidth = override[position].width;
-	      }
-
-	      return merge({}, Styles.Containers.DefaultStyle, Styles.Containers[position], override.DefaultStyle, override[position]);
-	    },
-
-	    elements: {
-	      notification: 'NotificationItem',
-	      title: 'Title',
-	      messageWrapper: 'MessageWrapper',
-	      dismiss: 'Dismiss',
-	      action: 'Action',
-	      actionWrapper: 'ActionWrapper'
-	    },
-
-	    byElement: function(element) {
-	      var self = this;
-	      return function(level) {
-	        var _element = self.elements[element];
-	        var override = self.overrideStyle[_element] || {};
-	        if (!self.overrideStyle) return {};
-	        return merge({}, Styles[_element].DefaultStyle, Styles[_element][level], override.DefaultStyle, override[level]);
-	      };
-	    }
-	  },
-
-	  _didNotificationRemoved: function(uid) {
-	    var notification;
-	    var notifications = this.state.notifications.filter(function(toCheck) {
-	      if (toCheck.uid === uid) {
-	        notification = toCheck;
-	      }
-	      return toCheck.uid !== uid;
-	    });
-
-	    if (notification && notification.onRemove) {
-	      notification.onRemove(notification);
-	    }
-
-	    if (this._isMounted) {
-	      this.setState({ notifications: notifications });
-	    }
-	  },
-
-	  getInitialState: function() {
-	    return {
-	      notifications: []
-	    };
-	  },
-
-	  propTypes: {
-	    style: React.PropTypes.oneOfType([
-	      React.PropTypes.bool,
-	      React.PropTypes.object
-	    ]),
-	    noAnimation: React.PropTypes.bool,
-	    allowHTML: React.PropTypes.bool
-	  },
-
-	  getDefaultProps: function() {
-	    return {
-	      style: {},
-	      noAnimation: false,
-	      allowHTML: false
-	    };
-	  },
-
-	  addNotification: function(notification) {
-	    var _notification = merge({}, Constants.notification, notification);
-	    var notifications = this.state.notifications;
-	    var i;
-
-	    if (!_notification.level) {
-	      throw new Error('notification level is required.');
-	    }
-
-	    if (Object.keys(Constants.levels).indexOf(_notification.level) === -1) {
-	      throw new Error('\'' + _notification.level + '\' is not a valid level.');
-	    }
-
-	    if (isNaN(_notification.autoDismiss)) {
-	      throw new Error('\'autoDismiss\' must be a number.');
-	    }
-
-	    if (Object.keys(Constants.positions).indexOf(_notification.position) === -1) {
-	      throw new Error('\'' + _notification.position + '\' is not a valid position.');
-	    }
-
-	    // Some preparations
-	    _notification.position = _notification.position.toLowerCase();
-	    _notification.level = _notification.level.toLowerCase();
-	    _notification.autoDismiss = parseInt(_notification.autoDismiss, 10);
-
-	    _notification.uid = _notification.uid || this.uid;
-	    _notification.ref = 'notification-' + _notification.uid;
-	    this.uid += 1;
-
-	    // do not add if the notification already exists based on supplied uid
-	    for (i = 0; i < notifications.length; i++) {
-	      if (notifications[i].uid === _notification.uid) {
-	        return false;
-	      }
-	    }
-
-	    notifications.push(_notification);
-
-	    if (typeof _notification.onAdd === 'function') {
-	      notification.onAdd(_notification);
-	    }
-
-	    this.setState({
-	      notifications: notifications
-	    });
-
-	    return _notification;
-	  },
-
-	  removeNotification: function(notification) {
-	    var self = this;
-	    Object.keys(this.refs).forEach(function(container) {
-	      if (container.indexOf('container') > -1) {
-	        Object.keys(self.refs[container].refs).forEach(function(_notification) {
-	          var uid = notification.uid ? notification.uid : notification;
-	          if (_notification === 'notification-' + uid) {
-	            self.refs[container].refs[_notification]._hideNotification();
-	          }
-	        });
-	      }
-	    });
-	  },
-
-	  clearNotifications: function() {
-	    var self = this;
-	    Object.keys(this.refs).forEach(function(container) {
-	      if (container.indexOf('container') > -1) {
-	        Object.keys(self.refs[container].refs).forEach(function(_notification) {
-	          self.refs[container].refs[_notification]._hideNotification();
-	        });
-	      }
-	    });
-	  },
-
-	  componentDidMount: function() {
-	    this._getStyles.setOverrideStyle(this.props.style);
-	    this._isMounted = true;
-	  },
-
-	  componentWillUnmount: function() {
-	    this._isMounted = false;
-	  },
-
-	  render: function() {
-	    var self = this;
-	    var containers = null;
-	    var notifications = this.state.notifications;
-
-	    if (notifications.length) {
-	      containers = Object.keys(Constants.positions).map(function(position) {
-	        var _notifications = notifications.filter(function(notification) {
-	          return position === notification.position;
-	        });
-
-	        if (!_notifications.length) {
-	          return null;
-	        }
-
-	        return (
-	          React.createElement(NotificationContainer, {
-	            ref:  'container-' + position, 
-	            key:  position, 
-	            position:  position, 
-	            notifications:  _notifications, 
-	            getStyles:  self._getStyles, 
-	            onRemove:  self._didNotificationRemoved, 
-	            noAnimation:  self.props.noAnimation, 
-	            allowHTML:  self.props.allowHTML}
-	          )
-	        );
-	      });
-	    }
-
-
-	    return (
-	      React.createElement("div", {className: "notifications-wrapper", style:  this._getStyles.wrapper() }, 
-	         containers 
-	      )
-
-	    );
-	  }
-	});
-
-	module.exports = NotificationSystem;
-
-
-/***/ },
-/* 193 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(2);
-	var NotificationItem = __webpack_require__(194);
-	var Constants = __webpack_require__(195);
-
-	var NotificationContainer = React.createClass({displayName: "NotificationContainer",
-
-	  propTypes: {
-	    position: React.PropTypes.string.isRequired,
-	    notifications: React.PropTypes.array.isRequired,
-	    getStyles: React.PropTypes.object
-	  },
-
-	  _style: {},
-
-	  componentWillMount: function() {
-	    // Fix position if width is overrided
-	    this._style = this.props.getStyles.container(this.props.position);
-
-	    if (this.props.getStyles.overrideWidth && (this.props.position === Constants.positions.tc || this.props.position === Constants.positions.bc)) {
-	      this._style.marginLeft = -(this.props.getStyles.overrideWidth / 2);
-	    }
-	  },
-
-	  render: function() {
-	    var self = this;
-	    var notifications;
-
-	    if ([Constants.positions.bl, Constants.positions.br, Constants.positions.bc].indexOf(this.props.position) > -1) {
-	      this.props.notifications.reverse();
-	    }
-
-	    notifications = this.props.notifications.map(function(notification) {
-	      return (
-	        React.createElement(NotificationItem, {
-	          ref:  'notification-' + notification.uid, 
-	          key:  notification.uid, 
-	          notification:  notification, 
-	          getStyles:  self.props.getStyles, 
-	          onRemove:  self.props.onRemove, 
-	          noAnimation:  self.props.noAnimation, 
-	          allowHTML:  self.props.allowHTML, 
-	          children:  self.props.children}
-	        )
-	      );
-	    });
-
-	    return (
-	      React.createElement("div", {className:  'notifications-' + this.props.position, style:  this._style}, 
-	         notifications 
-	      )
-	    );
-	  }
-	});
-
-
-	module.exports = NotificationContainer;
-
-
-/***/ },
-/* 194 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(2);
-	var ReactDOM = __webpack_require__(35);
-	var Constants = __webpack_require__(195);
-	var Helpers = __webpack_require__(196);
-	var merge = __webpack_require__(5);
-
-	/* From Modernizr */
-	var whichTransitionEvent = function() {
-	  var el = document.createElement('fakeelement');
-	  var transition;
-	  var transitions = {
-	    transition: 'transitionend',
-	    OTransition: 'oTransitionEnd',
-	    MozTransition: 'transitionend',
-	    WebkitTransition: 'webkitTransitionEnd'
-	  };
-
-	  Object.keys(transitions).forEach(function(transitionKey) {
-	    if (el.style[transitionKey] !== undefined) {
-	      transition = transitions[transitionKey];
-	    }
-	  });
-
-	  return transition;
-	};
-
-	var NotificationItem = React.createClass({displayName: "NotificationItem",
-
-	  propTypes: {
-	    notification: React.PropTypes.object,
-	    getStyles: React.PropTypes.object,
-	    onRemove: React.PropTypes.func,
-	    allowHTML: React.PropTypes.bool,
-	    noAnimation: React.PropTypes.bool,
-	    children: React.PropTypes.oneOfType([
-	      React.PropTypes.string,
-	      React.PropTypes.element
-	    ])
-	  },
-
-	  getDefaultProps: function() {
-	    return {
-	      noAnimation: false,
-	      onRemove: function() {},
-	      allowHTML: false
-	    };
-	  },
-
-	  getInitialState: function() {
-	    return {
-	      visible: false,
-	      removed: false
-	    };
-	  },
-
-	  componentWillMount: function() {
-	    var getStyles = this.props.getStyles;
-	    var level = this.props.notification.level;
-
-	    this._noAnimation = this.props.noAnimation;
-
-	    this._styles = {
-	      notification: getStyles.byElement('notification')(level),
-	      title: getStyles.byElement('title')(level),
-	      dismiss: getStyles.byElement('dismiss')(level),
-	      messageWrapper: getStyles.byElement('messageWrapper')(level),
-	      actionWrapper: getStyles.byElement('actionWrapper')(level),
-	      action: getStyles.byElement('action')(level)
-	    };
-
-	    if (!this.props.notification.dismissible) {
-	      this._styles.notification.cursor = 'default';
-	    }
-	  },
-
-	  _styles: {},
-
-	  _notificationTimer: null,
-
-	  _height: 0,
-
-	  _noAnimation: null,
-
-	  _isMounted: false,
-
-	  _removeCount: 0,
-
-	  _getCssPropertyByPosition: function() {
-	    var position = this.props.notification.position;
-	    var css = {};
-
-	    switch (position) {
-	    case Constants.positions.tl:
-	    case Constants.positions.bl:
-	      css = {
-	        property: 'left',
-	        value: -200
-	      };
-	      break;
-
-	    case Constants.positions.tr:
-	    case Constants.positions.br:
-	      css = {
-	        property: 'right',
-	        value: -200
-	      };
-	      break;
-
-	    case Constants.positions.tc:
-	      css = {
-	        property: 'top',
-	        value: -100
-	      };
-	      break;
-
-	    case Constants.positions.bc:
-	      css = {
-	        property: 'bottom',
-	        value: -100
-	      };
-	      break;
-
-	    default:
-	    }
-
-	    return css;
-	  },
-
-	  _defaultAction: function(event) {
-	    var notification = this.props.notification;
-
-	    event.preventDefault();
-	    this._hideNotification();
-	    if (typeof notification.action.callback === 'function') {
-	      notification.action.callback();
-	    }
-	  },
-
-	  _hideNotification: function() {
-	    if (this._notificationTimer) {
-	      this._notificationTimer.clear();
-	    }
-
-	    if (this._isMounted) {
-	      this.setState({
-	        visible: false,
-	        removed: true
-	      });
-	    }
-
-	    if (this._noAnimation) {
-	      this._removeNotification();
-	    }
-	  },
-
-	  _removeNotification: function() {
-	    this.props.onRemove(this.props.notification.uid);
-	  },
-
-	  _dismiss: function() {
-	    if (!this.props.notification.dismissible) {
-	      return;
-	    }
-
-	    this._hideNotification();
-	  },
-
-	  _showNotification: function() {
-	    var self = this;
-	    setTimeout(function() {
-	      if (self._isMounted) {
-	        self.setState({
-	          visible: true
-	        });
-	      }
-	    }, 50);
-	  },
-
-	  _onTransitionEnd: function() {
-	    if (this._removeCount > 0) return;
-	    if (this.state.removed) {
-	      this._removeCount++;
-	      this._removeNotification();
-	    }
-	  },
-
-	  componentDidMount: function() {
-	    var self = this;
-	    var transitionEvent = whichTransitionEvent();
-	    var notification = this.props.notification;
-	    var element = ReactDOM.findDOMNode(this);
-
-	    this._height = element.offsetHeight;
-
-	    this._isMounted = true;
-
-	    // Watch for transition end
-	    if (!this._noAnimation) {
-	      if (transitionEvent) {
-	        element.addEventListener(transitionEvent, this._onTransitionEnd);
-	      } else {
-	        this._noAnimation = true;
-	      }
-	    }
-
-
-	    if (notification.autoDismiss) {
-	      this._notificationTimer = new Helpers.Timer(function() {
-	        self._hideNotification();
-	      }, notification.autoDismiss * 1000);
-	    }
-
-	    this._showNotification();
-	  },
-
-	  _handleMouseEnter: function() {
-	    var notification = this.props.notification;
-	    if (notification.autoDismiss) {
-	      this._notificationTimer.pause();
-	    }
-	  },
-
-	  _handleMouseLeave: function() {
-	    var notification = this.props.notification;
-	    if (notification.autoDismiss) {
-	      this._notificationTimer.resume();
-	    }
-	  },
-
-	  componentWillUnmount: function() {
-	    var element = ReactDOM.findDOMNode(this);
-	    var transitionEvent = whichTransitionEvent();
-	    element.removeEventListener(transitionEvent, this._onTransitionEnd);
-	    this._isMounted = false;
-	  },
-
-	  _allowHTML: function(string) {
-	    return { __html: string };
-	  },
-
-	  render: function() {
-	    var notification = this.props.notification;
-	    var className = 'notification notification-' + notification.level;
-	    var notificationStyle = merge({}, this._styles.notification);
-	    var cssByPos = this._getCssPropertyByPosition();
-	    var dismiss = null;
-	    var actionButton = null;
-	    var title = null;
-	    var message = null;
-
-	    if (this.state.visible) {
-	      className += ' notification-visible';
-	    } else {
-	      className += ' notification-hidden';
-	    }
-
-	    if (!notification.dismissible) {
-	      className += ' notification-not-dismissible';
-	    }
-
-	    if (this.props.getStyles.overrideStyle) {
-	      if (!this.state.visible && !this.state.removed) {
-	        notificationStyle[cssByPos.property] = cssByPos.value;
-	      }
-
-	      if (this.state.visible && !this.state.removed) {
-	        notificationStyle.height = this._height;
-	        notificationStyle[cssByPos.property] = 0;
-	      }
-
-	      if (this.state.removed) {
-	        notificationStyle.overlay = 'hidden';
-	        notificationStyle.height = 0;
-	        notificationStyle.marginTop = 0;
-	        notificationStyle.paddingTop = 0;
-	        notificationStyle.paddingBottom = 0;
-	      }
-	      notificationStyle.opacity = this.state.visible ? this._styles.notification.isVisible.opacity : this._styles.notification.isHidden.opacity;
-	    }
-
-	    if (notification.title) {
-	      title = React.createElement("h4", {className: "notification-title", style:  this._styles.title},  notification.title);
-	    }
-
-	    if (notification.message) {
-	      if (this.props.allowHTML) {
-	        message = (
-	          React.createElement("div", {className: "notification-message", style:  this._styles.messageWrapper, dangerouslySetInnerHTML:  this._allowHTML(notification.message) })
-	        );
-	      } else {
-	        message = (
-	          React.createElement("div", {className: "notification-message", style:  this._styles.messageWrapper},  notification.message)
-	        );
-	      }
-	    }
-
-	    if (notification.dismissible) {
-	      dismiss = React.createElement("span", {className: "notification-dismiss", style:  this._styles.dismiss}, "×");
-	    }
-
-	    if (notification.action) {
-	      actionButton = (
-	        React.createElement("div", {className: "notification-action-wrapper", style:  this._styles.actionWrapper}, 
-	          React.createElement("button", {className: "notification-action-button", 
-	            onClick:  this._defaultAction, 
-	            style:  this._styles.action}, 
-	               notification.action.label
-	          )
-	        )
-	      );
-	    }
-
-	    if (notification.children) {
-	      actionButton = notification.children;
-	    }
-
-	    return (
-	      React.createElement("div", {className:  className, onClick:  this._dismiss, onMouseEnter:  this._handleMouseEnter, onMouseLeave:  this._handleMouseLeave, style:  notificationStyle }, 
-	         title, 
-	         message, 
-	         dismiss, 
-	         actionButton 
-	      )
-	    );
-	  }
-
-	});
-
-	module.exports = NotificationItem;
-
-
-/***/ },
-/* 195 */
-/***/ function(module, exports) {
-
-	var CONSTANTS = {
-
-	  // Positions
-	  positions: {
-	    tl: 'tl',
-	    tr: 'tr',
-	    tc: 'tc',
-	    bl: 'bl',
-	    br: 'br',
-	    bc: 'bc'
-	  },
-
-	  // Levels
-	  levels: {
-	    success: 'success',
-	    error: 'error',
-	    warning: 'warning',
-	    info: 'info'
-	  },
-
-	  // Notification defaults
-	  notification: {
-	    title: null,
-	    message: null,
-	    level: null,
-	    position: 'tr',
-	    autoDismiss: 5,
-	    dismissible: true,
-	    action: null
-	  }
-	};
-
-
-	module.exports = CONSTANTS;
-
-
-/***/ },
-/* 196 */
-/***/ function(module, exports) {
-
-	var Helpers = {
-	  Timer: function(callback, delay) {
-	    var timerId;
-	    var start;
-	    var remaining = delay;
-
-	    this.pause = function() {
-	      clearTimeout(timerId);
-	      remaining -= new Date() - start;
-	    };
-
-	    this.resume = function() {
-	      start = new Date();
-	      clearTimeout(timerId);
-	      timerId = setTimeout(callback, remaining);
-	    };
-
-	    this.clear = function() {
-	      clearTimeout(timerId);
-	    };
-
-	    this.resume();
-	  }
-	};
-
-	module.exports = Helpers;
-
-
-/***/ },
-/* 197 */
-/***/ function(module, exports) {
-
-	// Used for calculations
-	var defaultWidth = 320;
-	var defaultColors = {
-	  success: {
-	    rgb: '94, 164, 0',
-	    hex: '#5ea400'
-	  },
-	  error: {
-	    rgb: '236, 61, 61',
-	    hex: '#ec3d3d'
-	  },
-	  warning: {
-	    rgb: '235, 173, 23',
-	    hex: '#ebad1a'
-	  },
-	  info: {
-	    rgb: '54, 156, 199',
-	    hex: '#369cc7'
-	  }
-	};
-	var defaultShadowOpacity = '0.9';
-
-	var STYLES = {
-
-	  Wrapper: {},
-	  Containers: {
-	    DefaultStyle: {
-	      fontFamily: 'inherit',
-	      position: 'fixed',
-	      width: defaultWidth,
-	      padding: '0 10px 10px 10px',
-	      zIndex: 9998,
-	      WebkitBoxSizing: 'border-box',
-	      MozBoxSizing: 'border-box',
-	      boxSizing: 'border-box',
-	      height: 'auto'
-	    },
-
-	    tl: {
-	      top: '0px',
-	      bottom: 'auto',
-	      left: '0px',
-	      right: 'auto'
-	    },
-
-	    tr: {
-	      top: '0px',
-	      bottom: 'auto',
-	      left: 'auto',
-	      right: '0px'
-	    },
-
-	    tc: {
-	      top: '0px',
-	      bottom: 'auto',
-	      margin: '0 auto',
-	      left: '50%',
-	      marginLeft: -(defaultWidth / 2)
-	    },
-
-	    bl: {
-	      top: 'auto',
-	      bottom: '0px',
-	      left: '0px',
-	      right: 'auto'
-	    },
-
-	    br: {
-	      top: 'auto',
-	      bottom: '0px',
-	      left: 'auto',
-	      right: '0px'
-	    },
-
-	    bc: {
-	      top: 'auto',
-	      bottom: '0px',
-	      margin: '0 auto',
-	      left: '50%',
-	      marginLeft: -(defaultWidth / 2)
-	    }
-
-	  },
-
-	  NotificationItem: {
-	    DefaultStyle: {
-	      position: 'relative',
-	      width: '100%',
-	      cursor: 'pointer',
-	      borderRadius: '2px',
-	      fontSize: '13px',
-	      margin: '10px 0 0',
-	      padding: '10px',
-	      display: 'block',
-	      WebkitBoxSizing: 'border-box',
-	      MozBoxSizing: 'border-box',
-	      boxSizing: 'border-box',
-	      opacity: 0,
-	      transition: '0.3s ease-in-out',
-	      WebkitTransform: 'translate3d(0, 0, 0)',
-	      transform: 'translate3d(0, 0, 0)',
-	      willChange: 'transform, opacity',
-
-	      isHidden: {
-	        opacity: 0
-	      },
-
-	      isVisible: {
-	        opacity: 1
-	      }
-	    },
-
-	    success: {
-	      borderTop: '2px solid ' + defaultColors.success.hex,
-	      backgroundColor: '#f0f5ea',
-	      color: '#4b583a',
-	      WebkitBoxShadow: '0 0 1px rgba(' + defaultColors.success.rgb + ',' + defaultShadowOpacity + ')',
-	      MozBoxShadow: '0 0 1px rgba(' + defaultColors.success.rgb + ',' + defaultShadowOpacity + ')',
-	      boxShadow: '0 0 1px rgba(' + defaultColors.success.rgb + ',' + defaultShadowOpacity + ')'
-	    },
-
-	    error: {
-	      borderTop: '2px solid ' + defaultColors.error.hex,
-	      backgroundColor: '#f4e9e9',
-	      color: '#412f2f',
-	      WebkitBoxShadow: '0 0 1px rgba(' + defaultColors.error.rgb + ',' + defaultShadowOpacity + ')',
-	      MozBoxShadow: '0 0 1px rgba(' + defaultColors.error.rgb + ',' + defaultShadowOpacity + ')',
-	      boxShadow: '0 0 1px rgba(' + defaultColors.error.rgb + ',' + defaultShadowOpacity + ')'
-	    },
-
-	    warning: {
-	      borderTop: '2px solid ' + defaultColors.warning.hex,
-	      backgroundColor: '#f9f6f0',
-	      color: '#5a5343',
-	      WebkitBoxShadow: '0 0 1px rgba(' + defaultColors.warning.rgb + ',' + defaultShadowOpacity + ')',
-	      MozBoxShadow: '0 0 1px rgba(' + defaultColors.warning.rgb + ',' + defaultShadowOpacity + ')',
-	      boxShadow: '0 0 1px rgba(' + defaultColors.warning.rgb + ',' + defaultShadowOpacity + ')'
-	    },
-
-	    info: {
-	      borderTop: '2px solid ' + defaultColors.info.hex,
-	      backgroundColor: '#e8f0f4',
-	      color: '#41555d',
-	      WebkitBoxShadow: '0 0 1px rgba(' + defaultColors.info.rgb + ',' + defaultShadowOpacity + ')',
-	      MozBoxShadow: '0 0 1px rgba(' + defaultColors.info.rgb + ',' + defaultShadowOpacity + ')',
-	      boxShadow: '0 0 1px rgba(' + defaultColors.info.rgb + ',' + defaultShadowOpacity + ')'
-	    }
-	  },
-
-	  Title: {
-	    DefaultStyle: {
-	      fontSize: '14px',
-	      margin: '0 0 5px 0',
-	      padding: 0,
-	      fontWeight: 'bold'
-	    },
-
-	    success: {
-	      color: defaultColors.success.hex
-	    },
-
-	    error: {
-	      color: defaultColors.error.hex
-	    },
-
-	    warning: {
-	      color: defaultColors.warning.hex
-	    },
-
-	    info: {
-	      color: defaultColors.info.hex
-	    }
-
-	  },
-
-	  MessageWrapper: {
-	    DefaultStyle: {
-	      margin: 0,
-	      padding: 0
-	    }
-	  },
-
-	  Dismiss: {
-	    DefaultStyle: {
-	      fontFamily: 'Arial',
-	      fontSize: '17px',
-	      position: 'absolute',
-	      top: '4px',
-	      right: '5px',
-	      lineHeight: '15px',
-	      backgroundColor: '#dededf',
-	      color: '#ffffff',
-	      borderRadius: '50%',
-	      width: '14px',
-	      height: '14px',
-	      fontWeight: 'bold',
-	      textAlign: 'center'
-	    },
-
-	    success: {
-	      color: '#f0f5ea',
-	      backgroundColor: '#b0ca92'
-	    },
-
-	    error: {
-	      color: '#f4e9e9',
-	      backgroundColor: '#e4bebe'
-	    },
-
-	    warning: {
-	      color: '#f9f6f0',
-	      backgroundColor: '#e1cfac'
-	    },
-
-	    info: {
-	      color: '#e8f0f4',
-	      backgroundColor: '#a4becb'
-	    }
-	  },
-
-	  Action: {
-	    DefaultStyle: {
-	      background: '#ffffff',
-	      borderRadius: '2px',
-	      padding: '6px 20px',
-	      fontWeight: 'bold',
-	      margin: '10px 0 0 0',
-	      border: 0
-	    },
-
-	    success: {
-	      backgroundColor: defaultColors.success.hex,
-	      color: '#ffffff'
-	    },
-
-	    error: {
-	      backgroundColor: defaultColors.error.hex,
-	      color: '#ffffff'
-	    },
-
-	    warning: {
-	      backgroundColor: defaultColors.warning.hex,
-	      color: '#ffffff'
-	    },
-
-	    info: {
-	      backgroundColor: defaultColors.info.hex,
-	      color: '#ffffff'
-	    }
-	  },
-
-	  ActionWrapper: {
-	    DefaultStyle: {
-	      margin: 0,
-	      padding: 0
-	    }
-	  }
-	};
-
-	module.exports = STYLES;
 
 
 /***/ }
