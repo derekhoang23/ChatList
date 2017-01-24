@@ -20,9 +20,9 @@ class Message extends React.Component {
         }
       } else {
         if (selectedUser !== currentUser) {
-          return <div className='friendMessenger' ><div className='letter'>{selectedUser.slice(0, 1).toUpperCase()}</div><div className='message'>{messages}</div></div>
+          return <div className='friendMessenger' ><span className='letter'>{selectedUser.slice(0, 1).toUpperCase()}</span>{messages}</div>
         } else {
-          return <div className='Me' >{messages}</div>
+          return <div className='Me' >{messages}<span>{currentUser.slice(0, 1).toUpperCase()}</span></div>
         }
       }
     };

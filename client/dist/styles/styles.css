@@ -5,14 +5,16 @@ body {
 }
 
 .friends {
+  background-color: #1aa3ff;
   border: 1px solid;
-  position: fixed;
+  position: relative;
   width: 250px;
   height: 100vh;
 }
 
 .friend {
-  width: 50%;
+  background-color: #ccffff;
+  /*width: 50%;*/
   margin: auto;
   text-align: center;
   padding: 5px;
@@ -86,6 +88,7 @@ body {
 }
 
 .selectedUser {
+  background-color: #1AA3FF;
   text-align: center;
   padding: 5px;
   border-bottom: 1px solid;

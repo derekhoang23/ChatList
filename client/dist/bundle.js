@@ -22021,21 +22021,22 @@
 	              'div',
 	              { className: 'friendMessenger' },
 	              _react2.default.createElement(
-	                'div',
+	                'span',
 	                { className: 'letter' },
 	                selectedUser.slice(0, 1).toUpperCase()
 	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'message' },
-	                messages
-	              )
+	              messages
 	            );
 	          } else {
 	            return _react2.default.createElement(
 	              'div',
 	              { className: 'Me' },
-	              messages
+	              messages,
+	              _react2.default.createElement(
+	                'span',
+	                null,
+	                currentUser.slice(0, 1).toUpperCase()
+	              )
 	            );
 	          }
 	        }
@@ -22729,12 +22730,8 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'friend', onClick: this.showUserAndInput.bind(this) },
-	          this.props.friend
-	        )
+	        { className: 'friend', onClick: this.showUserAndInput.bind(this) },
+	        this.props.friend
 	      );
 	    }
 	  }]);
